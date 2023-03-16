@@ -51,4 +51,15 @@ public class Cliente {
 		this.endereco = endereco;
 	}
 	
+	// Metodos especificos
+	public String toString() {
+		String x = new String();
+		return x;
+	}
+	
+	public boolean validarCPF(String cpf) {
+		boolean x = false;
+		return x;
+	}
+	
 }
