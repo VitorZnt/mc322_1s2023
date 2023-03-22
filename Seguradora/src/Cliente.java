@@ -62,9 +62,11 @@ public class Cliente {
 	private boolean verificarDigitosIguais(String cpf) {
 		boolean flag = true;
 		int i = 0;
-		while (flag && i < 10)
+		while (flag && i < 10) {
 			if (cpf.charAt(i) - '0' != cpf.charAt(i+1) - '0')
 				flag = false;
+			i++;
+		}
 		return flag;
 	}
 	
@@ -102,7 +104,8 @@ public class Cliente {
 	}
 	
 	public boolean validarCPF(String cpf) {
-		cpf = cpf.replaceAll(".", "");
+		cpf = cpf.replaceAll("\\.", "");
+		cpf = cpf.replaceAll("-", "");
 		// Verifica o tamanho
 		if (cpf.length() != 11 || verificarDigitosIguais(cpf)) {
 			return false;
