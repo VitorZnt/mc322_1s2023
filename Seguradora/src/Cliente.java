@@ -53,8 +53,9 @@ public class Cliente {
 	
 	// Metodos especificos
 	public String toString() {
-		String x = new String();
-		return x;
+		String str = String.format("Nome: %s\nCpf: %s\nData de nascimento: %s\nIdade: %d\nEndereco: %s\n",
+				nome, cpf, dataNascimento, idade, endereco);
+		return str;
 	}
 	
 	/* Recebe uma string numerica de tamanho 11. Verifica se o cpf eh

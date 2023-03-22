@@ -3,20 +3,20 @@ public class Sinistro {
 	private int id;
 	private String data;
 	private String endereco;
+	// Contador de sinistros (e gerador de Id's)
+	private static int contadorId = 0;
 	
 	// Construtor
-	public Sinistro(int id, String data, String endereco) {
-		this.id = id;
+	public Sinistro(String data, String endereco) {
 		this.data = data;
 		this.endereco = endereco;
+		this.id = gerarId();
 	}
 	
 	// Metodos de Get e Set
+	// Obs: o Id eh gerado internamente e nao esta disponivel para alteracao via set()
 	public int getId() {
 		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
 	}
 	
 	public String getData() {
@@ -31,5 +31,11 @@ public class Sinistro {
 	}
 	public void setEndereco(String endereco) {
 		this.endereco = endereco;
+	}
+	
+	/* Retorna um Id proprio e unico, numerando por contagem cada sinistro registrado*/
+	private int gerarId() {
+		contadorId++;
+		return contadorId;
 	}
 }

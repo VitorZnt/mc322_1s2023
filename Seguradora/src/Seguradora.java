@@ -40,11 +40,5 @@ public class Seguradora {
 	}
 	public void setEndereco(String endereco) {
 		this.endereco = endereco;
-	}
-	
-	// Metodo main
-	public static void main(String[] args) {
-		System.out.println("Hello World!");
-	}
-	
+	}	
 }
