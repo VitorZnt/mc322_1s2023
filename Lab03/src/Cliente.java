@@ -52,9 +52,10 @@ public class Cliente {
     }
 
     // Metodos especificos
+    @Override
     public String toString() {
         String str = String.format("Nome: %s\nCpf: %s\nData de nascimento: %s\nIdade: %d\nEndereco: %s\n",
-                nome, cpf, dataNascimento, idade, endereco);
+                                    nome, cpf, dataNascimento, idade, endereco);
         return str;
     }
 

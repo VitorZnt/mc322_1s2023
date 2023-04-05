@@ -1,8 +1,12 @@
 public class Sinistro {
     // Atributos de instancia
-    private int id;
+    private final int id;
     private String data;
     private String endereco;
+    private Seguradora seguradora;
+    private Veiculo veiculo;
+    private Cliente cliente;
+    
     // Contador de sinistros (e gerador de Id's)
     private static int contadorId = 0;
 
@@ -32,10 +36,38 @@ public class Sinistro {
     public void setEndereco(String endereco) {
         this.endereco = endereco;
     }
-
+    
+    public Seguradora getSeguradora() {
+        return seguradora;
+    }
+    public void setSeguradora(Seguradora seguradora) {
+        this.seguradora = seguradora;
+    }
+    
+    public Veiculo getVeiculo() {
+        return veiculo;
+    }
+    public void setVeiculo(Veiculo veiculo) {
+        this.veiculo = veiculo;
+    }
+    
+    public Cliente getCliente() {
+        return cliente;
+    }
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+    
     /* Retorna um Id proprio e unico, numerando por contagem cada sinistro registrado*/
     private int gerarId() {
         contadorId++;
         return contadorId;
+    }
+    
+    @Override
+    public String toString() {
+        String str = String.format("Id: %d\nData: %s\nEndereco: %s\nSeguradora: %s\nVeiculo: %s\nCliente: %s Cpf: %s\n",
+                                    id, data, endereco, seguradora.getNome(), veiculo.getPlaca(), cliente.getNome(), cliente.getCpf());
+        return str;
     }
 }
