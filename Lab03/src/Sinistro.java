@@ -66,8 +66,8 @@ public class Sinistro {
     
     @Override
     public String toString() {
-        String str = String.format("Id: %d\nData: %s\nEndereco: %s\nSeguradora: %s\nVeiculo: %s\nCliente: %s Cpf: %s\n",
-                                    id, data, endereco, seguradora.getNome(), veiculo.getPlaca(), cliente.getNome(), cliente.getCpf());
+        String str = String.format("Id: %d\nData: %s\nEndereco: %s\nSeguradora: %s\nVeiculo: %s\nCliente: %s\n",
+                                    id, data, endereco, seguradora.getNome(), veiculo.getPlaca(), cliente.getNome());
         return str;
     }
 }

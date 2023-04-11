@@ -44,7 +44,7 @@ public class Veiculo {
     
     @Override
     public String toString() {
-        String str = String.format("Placa: %s\nMarca: %s\nModelo: %s\nAno de fabricacao: %s\n",
+        String str = String.format("Placa: %s\nMarca: %s\nModelo: %s\nAno de fabricacao: %d\n",
                                     placa, marca, modelo, anoFabricacao);
         return str;
     }
