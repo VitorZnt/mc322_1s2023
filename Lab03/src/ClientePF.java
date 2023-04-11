@@ -1,23 +1,22 @@
 public class ClientePF extends Cliente {
     //Atributos de instancia proprios da subclasse
-    private String cpf;
+    private final String CPF;
     private Date dataNascimento;
+    
     
     //Construtor
     public ClientePF(String nome, String endereco, Date dataLicenca, String educacao, 
-                     String genero, String classeEconomica, String cpf, Date dataNascimento) {
+                     String genero, String classeEconomica, String CPF, Date dataNascimento) {
         super(nome, endereco, dataLicenca, educacao, genero, classeEconomica);
-        this.cpf = cpf;
+        this.CPF = CPF;
         this.dataNascimento = dataNascimento;
     }
 
 
+    
     //Metodos Get e Set da subclasse
-    public String getCpf() {
-        return cpf;
-    }
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
+    public String getCPF() {
+        return CPF;
     }
 
     public Date getDataNascimento() {
@@ -76,7 +75,7 @@ public class ClientePF extends Cliente {
             return false;
     }
 
-    public boolean validarCPF(String cpf) {
+    public boolean validarcpf(String cpf) {
         cpf = cpf.replaceAll("\\.", "");
         cpf = cpf.replaceAll("-", "");
         // Verifica o tamanho
@@ -89,6 +88,6 @@ public class ClientePF extends Cliente {
 
     @Override
     public String toString() {
-        String str = super.toString() + String.format("CPF: %s\nData de nascimento: %s\n", cpf, dataNascimento);
+        String str = super.toString() + String.format("CPF: %s\nData de nascimento: %s\n", CPF, dataNascimento);
     }
 }
