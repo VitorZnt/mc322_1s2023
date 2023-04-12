@@ -49,10 +49,40 @@ public class ClientePJ extends Cliente {
         int digito1, digito2;
 
         // Calculo do digito1
-        for (int i = 0; i < 8; i++) {
-            
+        for (int i = 0; i < 4; i++) {
+            soma += (cnpj.charAt(i) - '0') * (5-i);
         }
-    
+        for (int i = 4; i < 12; i++) {
+            soma += (cnpj.charAt(i) - '0') * (13-i);
+        }
+        soma = soma % 11;
+        if (11 - soma < 10)
+            digito1 = 11 - soma;
+        else
+            digito1 = 0;
+        
+        // Calculo do digito2
+        soma = 0;
+        for (int i = 0; i < 5; i++) {
+            soma += (cnpj.charAt(i) - '0') * (6-i);
+        }
+        for (int i = 5; i < 12; i++) {
+            soma += (cnpj.charAt(i) - '0') * (14-i);
+        }
+        soma += digito1 * 2;
+        soma = soma % 11;
+        if (11 - soma < 10)
+            digito2 = 11 - soma;
+        else
+            digito2 = 0;
+        
+        // Comparacao dos digitos esperados e dos recebidos
+        if (digito1 == cnpj.charAt(12) - '0' && digito2 == cnpj.charAt(13) - '0')
+            return true;
+        else
+            return false;
+    }
+        
     public boolean validarCNPJ(String cnpj) {
         cnpj = cnpj.replaceAll("\\.", "");
         cnpj = cnpj.replaceAll("-", "");
@@ -68,7 +98,7 @@ public class ClientePJ extends Cliente {
     
     @Override
     public String toString() {
-        String str = super.toString() + String.format("CNPJ: %s\nData de fundacao: %s\n", CNPJ, dataFundacao);
+        String str = super.toString() + String.format("CNPJ: %s\nData de fundacao: %s\n", CNPJ, dataFundacao.toString());
         return str;
     }
     

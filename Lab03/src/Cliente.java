@@ -34,7 +34,7 @@ public class Cliente {
     // Metodos especificos
     @Override
     public String toString() {
-        String str = String.format("Nome: %s\nEndereco: %s\nData licenca: %s\n", nome, endereco);
+        String str = String.format("Nome: %s\nEndereco: %s\n", nome, endereco);
         //COLOCAR CARROS AQUI TAMBEM
         return str;
     }
