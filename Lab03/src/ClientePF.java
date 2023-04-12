@@ -1,15 +1,24 @@
+import java.time.LocalDate;
+
 public class ClientePF extends Cliente {
     //Atributos de instancia proprios da subclasse
     private final String CPF;
-    private Date dataNascimento;
-    
+    private LocalDate dataNascimento;
+    private String educacao;
+    private String genero;
+    private String classeEconomica;
+    private LocalDate dataLicenca;
     
     //Construtor
-    public ClientePF(String nome, String endereco, Date dataLicenca, String educacao, 
-                     String genero, String classeEconomica, String CPF, Date dataNascimento) {
-        super(nome, endereco, dataLicenca, educacao, genero, classeEconomica);
+    public ClientePF(String nome, String endereco, String educacao, String genero,
+                     String classeEconomica, String CPF, LocalDate dataNascimento, LocalDate dataLicenca) {
+        super(nome, endereco);
         this.CPF = CPF;
         this.dataNascimento = dataNascimento;
+        this.educacao = educacao;
+        this.genero = genero;
+        this.classeEconomica = classeEconomica;
+        this.dataLicenca = dataLicenca;
     }
 
 
@@ -19,13 +28,44 @@ public class ClientePF extends Cliente {
         return CPF;
     }
 
-    public Date getDataNascimento() {
+    public LocalDate getDataNascimento() {
         return dataNascimento;
     }
-    public void setDataNascimento(Date dataNascimento) {
+    public void setDataNascimento(LocalDate dataNascimento) {
         this.dataNascimento = dataNascimento;
     }
 
+    public String getEducacao() {
+        return educacao;
+    }
+
+    public void setEducacao(String educacao) {
+        this.educacao = educacao;
+    }
+
+    public String getGenero() {
+        return genero;
+    }
+
+    public void setGenero(String genero) {
+        this.genero = genero;
+    }
+
+    public String getClasseEconomica() {
+        return classeEconomica;
+    }
+
+    public void setClasseEconomica(String classeEconomica) {
+        this.classeEconomica = classeEconomica;
+    }
+    
+    public LocalDate getDataLicenca() {
+        return dataLicenca;
+    }
+
+    public void setDataLicenca(LocalDate dataLicenca) {
+        this.dataLicenca = dataLicenca;
+    }
 
     //Metodos especificos
 
@@ -88,6 +128,9 @@ public class ClientePF extends Cliente {
 
     @Override
     public String toString() {
-        String str = super.toString() + String.format("CPF: %s\nData de nascimento: %s\n", CPF, dataNascimento);
+        String str = super.toString() + 
+                     String.format("CPF: %s\nData de nascimento: %s\nEducacao: %s\nGenero: %s\nClasse economica: %s\n"
+                                 + "Data licenca: %s\n", CPF, dataNascimento, educacao, genero, classeEconomica, dataLicenca);
+        return str;
     }
 }

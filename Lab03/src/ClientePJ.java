@@ -1,13 +1,14 @@
+import java.time.LocalDate;
+
 public class ClientePJ extends Cliente {
     //Atributos de instancia proprios da subclasse
     private final String CNPJ;
-    private Date dataFundacao;
+    private LocalDate dataFundacao;
     
     
     //Construtor
-    public ClientePJ(String nome, String endereco, Date dataLicenca, String educacao, 
-                     String genero, String classeEconomica, String CNPJ, Date dataFundacao) {
-        super(nome, endereco, dataLicenca, educacao, genero, classeEconomica);
+    public ClientePJ(String nome, String endereco, String CNPJ, LocalDate dataFundacao) {
+        super(nome, endereco);
         this.CNPJ = CNPJ;
         this.dataFundacao = dataFundacao;
 }
@@ -18,10 +19,10 @@ public class ClientePJ extends Cliente {
         return CNPJ;
     }
 
-    public Date getDataFundacao() {
+    public LocalDate getDataFundacao() {
         return dataFundacao;
     }
-    public void setDataFundacao(Date dataFundacao) {
+    public void setDataFundacao(LocalDate dataFundacao) {
         this.dataFundacao = dataFundacao;
     }
     
@@ -68,6 +69,7 @@ public class ClientePJ extends Cliente {
     @Override
     public String toString() {
         String str = super.toString() + String.format("CNPJ: %s\nData de fundacao: %s\n", CNPJ, dataFundacao);
+        return str;
     }
     
 
