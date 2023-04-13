@@ -6,8 +6,6 @@ public class Cliente {
     private String endereco;
     private ArrayList<Veiculo> listaVeiculos;
 
-    //IMPLEMENTAR LISTA CARROS
-
     // Construtor
     public Cliente(String nome, String endereco) {
         this.nome = nome;
@@ -31,6 +29,8 @@ public class Cliente {
     }
 
     
+    // Metodos especificos
+    
     //Recebe os dados de um veiculo a ser criado e o adiciona a um cliente.
     public void cadastrarVeiculo(String placa, String marca, String modelo, int anoFabricacao) {
         Veiculo novo = new Veiculo(placa, marca, modelo, anoFabricacao);
@@ -42,7 +42,7 @@ public class Cliente {
     /*Busca um veiculo de placa fornecida. Se existir, retorna sua posicao na ArrayList.
      * Caso contrario, retorna -1 
      */
-    public int buscarVeiculo(String placa) {
+    private int buscarVeiculo(String placa) {
         Veiculo veic;
         for (int i = 0; i < listaVeiculos.size(); i++) {
             veic = listaVeiculos.get(i);
@@ -63,14 +63,20 @@ public class Cliente {
         }
     }
 
+    
+    public String listarVeiculos() {
+        String str = new String();
+        for (Veiculo i:listaVeiculos) {
+            str = str + i.toString() + "\n";
+        }
+        return str;
+    }
 
 
-
-    // Metodos especificos
     @Override
     public String toString() {
-        String str = String.format("Nome: %s\nEndereco: %s\n", nome, endereco);
-        //COLOCAR CARROS AQUI TAMBEM
+        String str = String.format("Nome: %s\nEndereco: %s\nVeiculos:\n\n", nome, endereco);
+        str = str + listarVeiculos();
         return str;
     }
 

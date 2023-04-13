@@ -71,7 +71,7 @@ public class ClientePF extends Cliente {
 
     /* Recebe uma string numerica de tamanho 11. Verifica se o cpf eh
      * composto de 11 digitos iguais e retorna true caso sim.*/
-    private boolean verificarDigitosIguais(String cpf) {
+    private static boolean verificarDigitosIguais(String cpf) {
         boolean flag = true;
         int i = 0;
         while (flag && i < 10) {
@@ -84,7 +84,7 @@ public class ClientePF extends Cliente {
 
     /* Recebe um cpf em forma de string e checa se seus digitos verificadores
      * sao correspondentes. Caso seja um cpf valido, retorna true.*/
-    private boolean verificarDigitos(String cpf) {
+    private static boolean verificarDigitos(String cpf) {
         int soma = 0;
         int digito1, digito2;
 
@@ -114,8 +114,10 @@ public class ClientePF extends Cliente {
         else
             return false;
     }
-
-    public boolean validarcpf(String cpf) {
+    
+    
+    //Funcao de classe (static) para verificar se um CPF eh valido. Retorna true caso sim.
+    public static boolean validarCPF(String cpf) {
         cpf = cpf.replaceAll("\\.", "");
         cpf = cpf.replaceAll("-", "");
         // Verifica o tamanho

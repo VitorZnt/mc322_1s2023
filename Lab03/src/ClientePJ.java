@@ -31,7 +31,7 @@ public class ClientePJ extends Cliente {
     
     /* Recebe uma string numerica de tamanho 14. Verifica se o cnpj eh
      * composto de 14 digitos iguais e retorna true caso sim.*/
-    private boolean verificarDigitosIguais(String cnpj) {
+    private static boolean verificarDigitosIguais(String cnpj) {
         boolean flag = true;
         int i = 0;
         while (flag && i < 13) {
@@ -44,7 +44,7 @@ public class ClientePJ extends Cliente {
     
     /* Recebe um cnpj em forma de string e checa se seus digitos verificadores
      * sao correspondentes. Caso seja um cnpj valido, retorna true.*/
-    private boolean verificarDigitos(String cnpj) {
+    private static boolean verificarDigitos(String cnpj) {
         int soma = 0;
         int digito1, digito2;
 
@@ -83,7 +83,7 @@ public class ClientePJ extends Cliente {
             return false;
     }
         
-    public boolean validarCNPJ(String cnpj) {
+    public static boolean validarCNPJ(String cnpj) {
         cnpj = cnpj.replaceAll("\\.", "");
         cnpj = cnpj.replaceAll("-", "");
         cnpj = cnpj.replaceAll("/", "");
