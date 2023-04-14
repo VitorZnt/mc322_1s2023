@@ -1,6 +1,7 @@
 import java.time.LocalDate;
 
 public class ClientePJ extends Cliente {
+    
     //Atributos de instancia proprios da subclasse
     private final String CNPJ;
     private LocalDate dataFundacao;
@@ -8,6 +9,7 @@ public class ClientePJ extends Cliente {
     
     //Construtor
     public ClientePJ(String nome, String endereco, String CNPJ, LocalDate dataFundacao) {
+        
         super(nome, endereco);
         this.CNPJ = CNPJ;
         this.dataFundacao = dataFundacao;
@@ -32,6 +34,7 @@ public class ClientePJ extends Cliente {
     /* Recebe uma string numerica de tamanho 14. Verifica se o cnpj eh
      * composto de 14 digitos iguais e retorna true caso sim.*/
     private static boolean verificarDigitosIguais(String cnpj) {
+        
         boolean flag = true;
         int i = 0;
         while (flag && i < 13) {
@@ -45,6 +48,7 @@ public class ClientePJ extends Cliente {
     /* Recebe um cnpj em forma de string e checa se seus digitos verificadores
      * sao correspondentes. Caso seja um cnpj valido, retorna true.*/
     private static boolean verificarDigitos(String cnpj) {
+        
         int soma = 0;
         int digito1, digito2;
 
@@ -84,6 +88,7 @@ public class ClientePJ extends Cliente {
     }
         
     public static boolean validarCNPJ(String cnpj) {
+        
         cnpj = cnpj.replaceAll("\\.", "");
         cnpj = cnpj.replaceAll("-", "");
         cnpj = cnpj.replaceAll("/", "");
@@ -98,6 +103,7 @@ public class ClientePJ extends Cliente {
     
     @Override
     public String toString() {
+        
         String str = super.toString() + String.format("CNPJ: %s\nData de fundacao: %s\n", CNPJ, dataFundacao.toString());
         return str;
     }

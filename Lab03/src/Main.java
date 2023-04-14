@@ -2,8 +2,10 @@ import java.time.LocalDate;
 import java.util.Scanner;
 
 class Main {
+    
     /*main com objetivo de teste das classes e seus metodos*/
     public static void main(String[] args) {
+        
         ClientePJ meu_cliente = new ClientePJ("a", "a", "a", LocalDate.parse("2000-03-02"));
         Scanner entrada = new Scanner(System.in);
         System.out.println("Escreva um CNPJ: ");

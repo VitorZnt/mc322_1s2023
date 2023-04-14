@@ -2,6 +2,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Seguradora {
+    
     // Atributos de instancia
     private String nome;
     private String telefone;
@@ -13,6 +14,7 @@ public class Seguradora {
     
     // Construtor
     public Seguradora(String nome, String telefone, String email, String endereco) {
+        
         this.nome = nome;
         this.telefone = telefone;
         this.email = email;
@@ -52,10 +54,30 @@ public class Seguradora {
     //Metodos especificos
     
     
-    /*Busca um cliente de nome e num CPF/CNPJ fornecidos. Se existir, retorna sua posicao na ArrayList.
+    /*Busca um cliente de num CPF/CNPJ fornecidos. Se existir, retorna sua posicao na ArrayList.
      * Caso contrario, retorna -1 
      */
-    private int buscarCliente(String nome, String num) {
+    public int buscarCliente(String num) {
+        
+        int num_len = num.length();
+        Cliente aux;
+        
+        
+        for (int i = 0; i < listaClientes.size(); i++) {
+            aux = listaClientes.get(i);
+            
+            if (num_len == 12 && (aux instanceof ClientePF) && 
+               ((ClientePF)aux).getCPF().equals(num)) { //usa casting para acessar atributos da subclasse
+                
+                return i;
+            } else if (num_len == 14 && (aux instanceof ClientePJ) && 
+               ((ClientePJ)aux).getCNPJ().equals(num)){
+                
+                return i;
+            }
+        }
+        
+        return -1;
     }
     
     //Cadastra um cliente PF. Caso ja exista um mesmo cliente ja cadastrado, ou se o CPF for invalido, retorna false.
@@ -63,7 +85,7 @@ public class Seguradora {
                                       String CPF, LocalDate dataNascimento, LocalDate dataLicenca) {
         
         //Cliente ja existente ou CPF invalido
-        if ((ClientePF.validarCPF(CPF) == false) || (buscarCliente(nome, CPF) != -1))
+        if ((ClientePF.validarCPF(CPF) == false) || (buscarCliente(CPF) != -1))
             return false;
 
         else {
@@ -77,13 +99,100 @@ public class Seguradora {
     public boolean cadastrarCliente(String nome, String endereco, String CNPJ, LocalDate dataFundacao) {
         
         //Cliente ja existente ou CNPJ invalido
-        if ((ClientePJ.validarCNPJ(CNPJ) == false) || (buscarCliente(nome, CNPJ) != -1))
+        if ((ClientePJ.validarCNPJ(CNPJ) == false) || (buscarCliente(CNPJ) != -1))
             return false;
         
         else {
             ClientePJ novo = new ClientePJ(nome, endereco, CNPJ, dataFundacao);
             listaClientes.add(novo);
             return true;
+        }
+    }
+    
+    
+    //Recebe o CPF/CNPJ do cliente a ser removido. Retorna true caso haja sucesso, ou false se ele nao existir
+    public boolean removerCliente(String num) {
+        
+        int i = buscarCliente(num);
+        if (i != -1) {
+            listaClientes.remove(i);
+            return true;
+        } else
+            return false;
+    }
+    
+    //Imprime todos os clientes e suas informacoes
+    public void listarClientes() {
+        
+        int i = 0;
+        for (Cliente aux: listaClientes) {
+            i++;
+            System.out.println(String.format("Cliente &d:", i));
+            if (aux instanceof ClientePF)
+                System.out.println(((ClientePF)aux).toString());
+            else
+                System.out.println(((ClientePJ)aux).toString());
+            System.out.println();
+        }
+    }
+    
+    /*A partir de uma data, endereco, placa do veiculo e CPF/CNPJ, cria um sinistro e o adiciona na lista.
+     *Caso o veiculo nao pertenca ao cliente, ou cliente nao existe, retorna false.
+     */
+    public boolean gerarSinistro(String data, String endereco, String placa, String num) {
+        
+        int indice_clien = buscarCliente(num);
+        if (indice_clien == -1) //cliente nao existe
+            return false;
+        Cliente clien = listaClientes.get(indice_clien);
+        int indice_veic = clien.buscarVeiculo(placa);
+        if (indice_veic == -1) //veiculo nao pertence ao cliente
+            return false;
+        Veiculo veic = clien.getVeiculo(indice_veic);
+        Sinistro sini = new Sinistro(data, endereco, this, veic, clien);
+        listaSinistros.add(sini);
+        return true;
+    }
+    
+    
+    /*Recebe o CPF/CNPJ de um cliente e mostra seus sinistros na tela. Caso
+     * nao haja esse cliente ou nao tenha sinistros, imprime essas mensagens.
+     */
+    public boolean visualizarSinistro(String num) {
+        
+        int indice_clien = buscarCliente(num);
+        if (indice_clien == -1) { //cliente nao existe
+            System.out.println("Cliente inexistente.");
+            return false;
+        }
+        Cliente clien = listaClientes.get(indice_clien);
+        
+        int i = 0;
+        for (Sinistro sini: listaSinistros) {
+            if (sini.getCliente().equals(clien)) {
+                i++;
+                System.out.println(String.format("Sinistro &d:", i));
+                System.out.println(sini.toString());
+            }
+            System.out.println();
+        }
+        if (i == 0) {
+            System.out.println("Nao ha sinistros vinculados a esse cliente.");
+            return false;
+        }
+        return true;
+    }
+    
+    
+    //Imprime os sinistros e suas informacoes na tela
+    public void listarSinistros() {
+        
+        int i = 0;
+        for (Sinistro aux: listaSinistros) {
+            i++;
+            System.out.println(String.format("Sinistro &d:", i));
+            System.out.println(aux.toString());
+            System.out.println();
         }
     }
     

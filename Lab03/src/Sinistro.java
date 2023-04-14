@@ -1,4 +1,5 @@
 public class Sinistro {
+    
     // Atributos de instancia
     private final int id;
     private String data;
@@ -11,9 +12,13 @@ public class Sinistro {
     private static int contadorId = 0;
 
     // Construtor
-    public Sinistro(String data, String endereco) {
+    public Sinistro(String data, String endereco, Seguradora seguradora, Veiculo veiculo, Cliente cliente) {
+        
         this.data = data;
         this.endereco = endereco;
+        this.seguradora = seguradora;
+        this.veiculo = veiculo;
+        this.cliente = cliente;
         this.id = gerarId();
     }
 
@@ -66,6 +71,7 @@ public class Sinistro {
     
     @Override
     public String toString() {
+        
         String str = String.format("Id: %d\nData: %s\nEndereco: %s\nSeguradora: %s\nVeiculo: %s\nCliente: %s\n",
                                     id, data, endereco, seguradora.getNome(), veiculo.getPlaca(), cliente.getNome());
         return str;

@@ -1,6 +1,7 @@
 import java.time.LocalDate;
 
 public class ClientePF extends Cliente {
+    
     //Atributos de instancia proprios da subclasse
     private final String CPF;
     private LocalDate dataNascimento;
@@ -12,6 +13,7 @@ public class ClientePF extends Cliente {
     //Construtor
     public ClientePF(String nome, String endereco, String educacao, String genero,
                      String classeEconomica, String CPF, LocalDate dataNascimento, LocalDate dataLicenca) {
+        
         super(nome, endereco);
         this.CPF = CPF;
         this.dataNascimento = dataNascimento;
@@ -72,6 +74,7 @@ public class ClientePF extends Cliente {
     /* Recebe uma string numerica de tamanho 11. Verifica se o cpf eh
      * composto de 11 digitos iguais e retorna true caso sim.*/
     private static boolean verificarDigitosIguais(String cpf) {
+        
         boolean flag = true;
         int i = 0;
         while (flag && i < 10) {
@@ -85,6 +88,7 @@ public class ClientePF extends Cliente {
     /* Recebe um cpf em forma de string e checa se seus digitos verificadores
      * sao correspondentes. Caso seja um cpf valido, retorna true.*/
     private static boolean verificarDigitos(String cpf) {
+        
         int soma = 0;
         int digito1, digito2;
 
@@ -118,6 +122,7 @@ public class ClientePF extends Cliente {
     
     //Funcao de classe (static) para verificar se um CPF eh valido. Retorna true caso sim.
     public static boolean validarCPF(String cpf) {
+        
         cpf = cpf.replaceAll("\\.", "");
         cpf = cpf.replaceAll("-", "");
         // Verifica o tamanho
@@ -130,6 +135,7 @@ public class ClientePF extends Cliente {
 
     @Override
     public String toString() {
+        
         String str = super.toString() + 
                      String.format("CPF: %s\nData de nascimento: %s\nEducacao: %s\nGenero: %s\nClasse economica: %s\n"
                                  + "Data licenca: %s\n", CPF, dataNascimento, educacao, genero, classeEconomica, dataLicenca);
