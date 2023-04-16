@@ -78,11 +78,11 @@ public class Seguradora {
         for (int i = 0; i < listaClientes.size(); i++) {
             aux = listaClientes.get(i);
             
-            if (num_len == 12 && (aux instanceof ClientePF) && 
+            if (num_len == 14 && (aux instanceof ClientePF) && 
                ((ClientePF)aux).getCPF().equals(num)) { //usa casting para acessar atributos da subclasse
                 
                 return i;
-            } else if (num_len == 14 && (aux instanceof ClientePJ) && 
+            } else if (num_len == 18 && (aux instanceof ClientePJ) && 
                ((ClientePJ)aux).getCNPJ().equals(num)){
                 
                 return i;
@@ -139,7 +139,7 @@ public class Seguradora {
         int i = 0;
         for (Cliente aux: listaClientes) {
             i++;
-            System.out.println(String.format("Cliente &d:", i));
+            System.out.println(String.format("Cliente %d:", i));
             if (aux instanceof ClientePF)
                 System.out.println(((ClientePF)aux).toString());
             else
@@ -153,13 +153,14 @@ public class Seguradora {
      */
     public boolean gerarSinistro(LocalDate data, String endereco, String placa, String num) {
         
-        int indice_clien = buscarCliente(num);
-        if (indice_clien == -1) //cliente nao existe
+        Cliente clien = getCliente(num);
+        if (clien == null) //cliente nao existe
             return false;
-        Cliente clien = listaClientes.get(indice_clien);
+        
         int indice_veic = clien.buscarVeiculo(placa);
         if (indice_veic == -1) //veiculo nao pertence ao cliente
             return false;
+        
         Veiculo veic = clien.getVeiculo(indice_veic);
         Sinistro sini = new Sinistro(data, endereco, this, veic, clien);
         listaSinistros.add(sini);
@@ -183,7 +184,7 @@ public class Seguradora {
         for (Sinistro sini: listaSinistros) {
             if (sini.getCliente().equals(clien)) {
                 i++;
-                System.out.println(String.format("Sinistro &d:", i));
+                System.out.println(String.format("Sinistro %d:", i));
                 System.out.println(sini.toString());
             }
             System.out.println();
@@ -202,10 +203,18 @@ public class Seguradora {
         int i = 0;
         for (Sinistro aux: listaSinistros) {
             i++;
-            System.out.println(String.format("Sinistro &d:", i));
+            System.out.println(String.format("Sinistro %d:", i));
             System.out.println(aux.toString());
             System.out.println();
         }
+    }
+    
+    @Override
+    public String toString() {
+        
+        String str = String.format("Nome: %s\nTelefone: %s\nEmail: %s\nEndereco: %s\n", 
+                                   nome, telefone, email, endereco);
+        return str;
     }
     
 }

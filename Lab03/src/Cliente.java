@@ -38,7 +38,7 @@ public class Cliente {
      */
     public boolean cadastrarVeiculo(String placa, String marca, String modelo, int anoFabricacao) {
         
-        if (buscarVeiculo(placa) == -1)
+        if (buscarVeiculo(placa) != -1)
             return false;
         Veiculo novo = new Veiculo(placa, marca, modelo, anoFabricacao);
         listaVeiculos.add(novo);

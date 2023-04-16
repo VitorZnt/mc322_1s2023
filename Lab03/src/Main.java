@@ -9,33 +9,60 @@ class Main {
         
         Scanner entrada = new Scanner(System.in);
         
+        /*Instanciacoes e testes iniciais*/
+        //CPF e CNPJ validos gerados aleatoriamente para teste
+        
+        System.out.println("------Testes do programa------");
         Seguradora minha_seguradora = new Seguradora("HiperSegura.com", "(11)91234-5678",
-                "hiper@seguros.com", "Av. Erico Verissimo, 50");
+                "hiper@seguros.com", "Av._Erico_Verissimo,50");
+
+        minha_seguradora.cadastrarCliente("Vitor", "Rua_legal", "Ensino_superior", "Masculino", "Classe_media",
+                "668.467.025-47", LocalDate.parse("2004-01-01"), LocalDate.parse("2028-09-09"));
+        minha_seguradora.cadastrarCliente("Empresa1", "Rua_dinheiro", "82.846.568/0001-92", LocalDate.parse("2010-07-07"));
+        minha_seguradora.cadastrarCliente("Empresa2", "Rua_arvores","17.398.731/0001-30", LocalDate.parse("2009-01-01"));;
         
         
+        minha_seguradora.listarClientes();
+        System.out.println(ClientePF.validarCPF(((ClientePF)minha_seguradora.getCliente("668.467.025-47")).getCPF()));
+        System.out.println(ClientePF.validarCPF("111.111.111-11"));
+        System.out.println(ClientePJ.validarCNPJ("11.111.111/1111-11"));
         
+        minha_seguradora.getCliente("668.467.025-47").cadastrarVeiculo("123546", "fiat", "argo", 2010);
+        minha_seguradora.getCliente("82.846.568/0001-92").cadastrarVeiculo("165498", "tesla", "truck", 2009);
+        minha_seguradora.getCliente("17.398.731/0001-30").cadastrarVeiculo("165892", "fiat", "mobi", 2020);
         
+        minha_seguradora.removerCliente("17.398.731/0001-30");
         
+        minha_seguradora.gerarSinistro(LocalDate.parse("2021-02-02"), "Rua_do_acidente", "123546", "668.467.025-47");
         
+        /* toString dos carros esta contido no toString do clientePF e clientePJ
+         * e o toString dos sinistros esta contido em Seguradora.listarSinistros.
+         */
+        System.out.println();
+        System.out.println(minha_seguradora.toString());
+        System.out.println(((ClientePF)minha_seguradora.getCliente("668.467.025-47")).toString());
         
-        
-        
-        
-        
+        minha_seguradora.listarSinistros();
+        minha_seguradora.visualizarSinistro("668.467.025-47");
+        minha_seguradora.listarClientes();
         
         /*Informacoes usadas no loop do programa*/
+        
+        System.out.println();
+        System.out.println("------Inicio da entrada de dados do programa------");
+        System.out.println();
         
         boolean flag = true;
         int comando;
         ArrayList<String> param;
-        String comandos_principais = "1 - Cadastrar ou remover cliente PF\n2 - Cadastrar ou remover cliente PJ\\n"
-                              + "3 - Cadastrar ou remover veiculo\n4 - Gerar ou visualizar sinistro\\n"
+        String comandos_principais = "1 - Cadastrar ou remover cliente PF\n2 - Cadastrar ou remover cliente PJ\n"
+                              + "3 - Cadastrar ou remover veiculo\n4 - Gerar ou visualizar sinistro\n"
                               + "5 - Listar clientes/sinistros/veiculos\n6 - Sair\n";
         String comando2 = "1 - Cadastrar\n2 - Remover";
         String comando3 = "1 - Gerar\n2 - Visualizar";
         String comando4 = "Listar:\n1 - Clientes\n2 - Sinistros\n3 - Veiculos";
         String aviso = "Todos os campos devem ser compostos de apenas uma palavra. Use Underlines '_' para separar "
-                     + "nomes, como em 'Joao_da_Silva'.";
+                     + "nomes, como em 'Joao_da_Silva'. Datas sao no formato AAAA-MM-DD";
         
         /*Loop do programa com comandos*/
         while (flag) {
@@ -219,7 +246,7 @@ class Main {
                 } else if (param.get(0).equals("3")) { //Listar veiculos
                     
                     System.out.println("Digite o CPF/CNPJ");
-                    Cliente clien = minha_seguradora.getCliente(param.get(1));
+                    Cliente clien = minha_seguradora.getCliente(entrada.next());
                     
                     if (clien == null) {
                         System.out.println("Cliente nao existente ou CPF/CNPJ invalido");
@@ -227,10 +254,15 @@ class Main {
                     }
                     
                     clien.listarVeiculos();
+                } else {
+                    System.out.println("Comando invalido.");
                 }
+                
+                break;
             
             case 6: //Sair
                 flag = false;
+                break;
                 
             default:
                 System.out.println("Comando invalido.");
