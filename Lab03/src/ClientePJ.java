@@ -104,7 +104,8 @@ public class ClientePJ extends Cliente {
     @Override
     public String toString() {
         
-        String str = super.toString() + String.format("CNPJ: %s\nData de fundacao: %s\n", CNPJ, dataFundacao.toString());
+        String str = super.toString() + String.format("CNPJ: %s\nData de fundacao: %s\n\n", CNPJ, dataFundacao.toString())
+                     + "Veiculos:\n" + listarVeiculos();
         return str;
     }
     

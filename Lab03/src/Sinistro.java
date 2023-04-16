@@ -1,8 +1,10 @@
+import java.time.LocalDate;
+
 public class Sinistro {
     
     // Atributos de instancia
     private final int id;
-    private String data;
+    private LocalDate data;
     private String endereco;
     private Seguradora seguradora;
     private Veiculo veiculo;
@@ -12,7 +14,7 @@ public class Sinistro {
     private static int contadorId = 0;
 
     // Construtor
-    public Sinistro(String data, String endereco, Seguradora seguradora, Veiculo veiculo, Cliente cliente) {
+    public Sinistro(LocalDate data, String endereco, Seguradora seguradora, Veiculo veiculo, Cliente cliente) {
         
         this.data = data;
         this.endereco = endereco;
@@ -29,9 +31,9 @@ public class Sinistro {
     }
 
     public String getData() {
-        return data;
+        return data.toString();
     }
-    public void setData(String data) {
+    public void setData(LocalDate data) {
         this.data = data;
     }
 
@@ -73,7 +75,7 @@ public class Sinistro {
     public String toString() {
         
         String str = String.format("Id: %d\nData: %s\nEndereco: %s\nSeguradora: %s\nVeiculo: %s\nCliente: %s\n",
-                                    id, data, endereco, seguradora.getNome(), veiculo.getPlaca(), cliente.getNome());
+                                    id, data.toString(), endereco, seguradora.getNome(), veiculo.getPlaca(), cliente.getNome());
         return str;
     }
 }

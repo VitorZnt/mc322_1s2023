@@ -33,12 +33,16 @@ public class Cliente {
     
     // Metodos especificos
     
-    //Recebe os dados de um veiculo a ser criado e o adiciona a um cliente.
-    public void cadastrarVeiculo(String placa, String marca, String modelo, int anoFabricacao) {
+    /* Recebe os dados de um veiculo a ser criado e o adiciona a um cliente, retornando true.
+     * Se o veiculo de placa dada ja existir nesse cliente, retorna false e nao o adiciona.
+     */
+    public boolean cadastrarVeiculo(String placa, String marca, String modelo, int anoFabricacao) {
         
+        if (buscarVeiculo(placa) == -1)
+            return false;
         Veiculo novo = new Veiculo(placa, marca, modelo, anoFabricacao);
         listaVeiculos.add(novo);
-        return;
+        return true;
     }
     
     
@@ -90,8 +94,7 @@ public class Cliente {
     @Override
     public String toString() {
         
-        String str = String.format("Nome: %s\nEndereco: %s\nVeiculos:\n\n", nome, endereco);
-        str = str + listarVeiculos();
+        String str = String.format("Nome: %s\nEndereco: %s\n", nome, endereco);
         return str;
     }
 

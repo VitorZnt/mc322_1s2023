@@ -19,6 +19,8 @@ public class Seguradora {
         this.telefone = telefone;
         this.email = email;
         this.endereco = endereco;
+        listaSinistros = new ArrayList<Sinistro>();
+        listaClientes = new ArrayList<Cliente>();
     }
 
     // Metodos de Get e Set
@@ -39,7 +41,7 @@ public class Seguradora {
     public String getEmail() {
         return email;
     }
-    public void set(String email) {
+    public void setEmail(String email) {
         this.email = email;
     }
 
@@ -50,6 +52,16 @@ public class Seguradora {
         this.endereco = endereco;
     }
     
+    //Recebe um CPF/CNPJ e retorna o objeto Cliente procurado. Retorna NULL caso nao encontrado.
+    public Cliente getCliente(String num) {
+        int i_cliente = buscarCliente(num);
+        boolean flag_sucesso = (i_cliente == -1? false : true);
+        
+        if (!flag_sucesso) 
+            return null;
+        
+        return listaClientes.get(i_cliente);
+    }
     
     //Metodos especificos
     
@@ -139,7 +151,7 @@ public class Seguradora {
     /*A partir de uma data, endereco, placa do veiculo e CPF/CNPJ, cria um sinistro e o adiciona na lista.
      *Caso o veiculo nao pertenca ao cliente, ou cliente nao existe, retorna false.
      */
-    public boolean gerarSinistro(String data, String endereco, String placa, String num) {
+    public boolean gerarSinistro(LocalDate data, String endereco, String placa, String num) {
         
         int indice_clien = buscarCliente(num);
         if (indice_clien == -1) //cliente nao existe

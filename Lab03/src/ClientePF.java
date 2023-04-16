@@ -138,7 +138,8 @@ public class ClientePF extends Cliente {
         
         String str = super.toString() + 
                      String.format("CPF: %s\nData de nascimento: %s\nEducacao: %s\nGenero: %s\nClasse economica: %s\n"
-                                 + "Data licenca: %s\n", CPF, dataNascimento, educacao, genero, classeEconomica, dataLicenca);
+                                 + "Data licenca: %s\n\n", CPF, dataNascimento, educacao, genero, classeEconomica, dataLicenca)
+                     + "Veiculos:\n" + listarVeiculos();
         return str;
     }
 }
