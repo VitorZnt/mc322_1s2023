@@ -69,7 +69,7 @@ public class Seguradora {
     /*Busca um cliente de num CPF/CNPJ fornecidos. Se existir, retorna sua posicao na ArrayList.
      * Caso contrario, retorna -1 
      */
-    public int buscarCliente(String num) {
+    private int buscarCliente(String num) {
         
         int num_len = num.length();
         Cliente aux;
@@ -121,13 +121,27 @@ public class Seguradora {
         }
     }
     
+    //Recebe um cliente existente e remove todos os seus sinistros da lista.
+    private void removerSinistrosCliente(Cliente clien) {
+        Sinistro sini;
+        for (int i = listaSinistros.size() - 1; i >= 0; i--) {
+            sini = listaSinistros.get(i);
+            if (sini.getCliente().equals(clien)) {
+                listaSinistros.remove(i);
+            }
+        }
+        return;
+    }
+    
     
     //Recebe o CPF/CNPJ do cliente a ser removido. Retorna true caso haja sucesso, ou false se ele nao existir
     public boolean removerCliente(String num) {
         
-        int i = buscarCliente(num);
-        if (i != -1) {
-            listaClientes.remove(i);
+        int i_clien = buscarCliente(num);
+        if (i_clien != -1) {
+            Cliente clien = listaClientes.get(i_clien);
+            removerSinistrosCliente(clien);
+            listaClientes.remove(i_clien);
             return true;
         } else
             return false;

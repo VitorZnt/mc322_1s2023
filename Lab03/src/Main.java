@@ -21,29 +21,39 @@ class Main {
         minha_seguradora.cadastrarCliente("Empresa1", "Rua_dinheiro", "82.846.568/0001-92", LocalDate.parse("2010-07-07"));
         minha_seguradora.cadastrarCliente("Empresa2", "Rua_arvores","17.398.731/0001-30", LocalDate.parse("2009-01-01"));;
         
-        
+        System.out.println("Listando clientes:");
         minha_seguradora.listarClientes();
+        System.out.println("Validando CPFs e CNPJs:");
         System.out.println(ClientePF.validarCPF(((ClientePF)minha_seguradora.getCliente("668.467.025-47")).getCPF()));
         System.out.println(ClientePF.validarCPF("111.111.111-11"));
         System.out.println(ClientePJ.validarCNPJ("11.111.111/1111-11"));
         
+        System.out.println("Cadastrando veiculos, gerando sinistros e removendo cliente...");
         minha_seguradora.getCliente("668.467.025-47").cadastrarVeiculo("123546", "fiat", "argo", 2010);
         minha_seguradora.getCliente("82.846.568/0001-92").cadastrarVeiculo("165498", "tesla", "truck", 2009);
         minha_seguradora.getCliente("17.398.731/0001-30").cadastrarVeiculo("165892", "fiat", "mobi", 2020);
         
+        minha_seguradora.gerarSinistro(LocalDate.parse("2021-02-02"), "Rua_do_acidente", "123546", "668.467.025-47");
+        minha_seguradora.gerarSinistro(LocalDate.parse("2019-08-08"), "Rua_do_acidente2", "165892", "17.398.731/0001-30");
+        minha_seguradora.gerarSinistro(LocalDate.parse("2017-09-09"), "Rua_do_acidente3", "165498", "82.846.568/0001-92");
+        
         minha_seguradora.removerCliente("17.398.731/0001-30");
         
-        minha_seguradora.gerarSinistro(LocalDate.parse("2021-02-02"), "Rua_do_acidente", "123546", "668.467.025-47");
+
         
         /* toString dos carros esta contido no toString do clientePF e clientePJ
          * e o toString dos sinistros esta contido em Seguradora.listarSinistros.
          */
         System.out.println();
+        System.out.println("toString Seguradora, e toString Clientes (contem toString carros)");
         System.out.println(minha_seguradora.toString());
         System.out.println(((ClientePF)minha_seguradora.getCliente("668.467.025-47")).toString());
         
+        System.out.println("Listando sinistros (contem toString sinistro)");
         minha_seguradora.listarSinistros();
+        System.out.println("Visualizando um sinistro");
         minha_seguradora.visualizarSinistro("668.467.025-47");
+        System.out.println("Listando clientes apos remocao");
         minha_seguradora.listarClientes();
         
         /*Informacoes usadas no loop do programa*/
