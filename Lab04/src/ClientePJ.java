@@ -34,7 +34,7 @@ public class ClientePJ extends Cliente {
     }
     
     
-    
+    @Override
     public double calculaScore() {
         double valorBase = CalcSeguro.VALOR_BASE.getValor();
         return valorBase * (1 + (this.getQtdFuncionarios())/100) * this.getQtdCarros();

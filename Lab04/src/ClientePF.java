@@ -70,7 +70,7 @@ public class ClientePF extends Cliente {
         this.dataLicenca = dataLicenca;
     }  
     
-    
+    @Override
     public double calculaScore() {
         
         double valorBase = CalcSeguro.VALOR_BASE.getValor();

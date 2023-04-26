@@ -7,7 +7,8 @@ public abstract class Cliente {
     private String endereco;
     private ArrayList<Veiculo> listaVeiculos;
     private int qtdCarros;
-    
+    private int qtdSinistros;
+    private double valorSeguro;
     
     // Construtor
     public Cliente(String nome, String endereco) {
@@ -16,6 +17,7 @@ public abstract class Cliente {
         this.endereco = endereco;
         listaVeiculos = new ArrayList<Veiculo>();
         qtdCarros = 0;
+        qtdSinistros = 0;
     }
 
     // Metodos de Get e Set
@@ -37,6 +39,31 @@ public abstract class Cliente {
         return qtdCarros;
     }
     
+    public int getQtdSinistros() {
+        return qtdSinistros;
+    }
+    
+    public double getValorSeguro() {
+        return valorSeguro;
+    }
+    public void setValorSeguro(double valor) {
+        valorSeguro = valor;
+        return;
+    }
+
+    
+    //Adiciona 1 ao contador de sinistros
+    public void addSinistro() {
+        qtdSinistros++;
+        return;
+    }
+
+    //Subtrai 1 do contador de sinistros
+    public void removerSinistro() {
+        qtdSinistros--;
+        return;
+    }
+    
     // Metodos especificos
     
     /* Recebe os dados de um veiculo a ser criado e o adiciona a um cliente, retornando true.
@@ -52,6 +79,14 @@ public abstract class Cliente {
         return true;
     }
     
+    
+    public boolean cadastrarVeiculo(Veiculo veic) {
+        if (buscarVeiculo(veic.getPlaca()) != -1)
+            return false;
+        listaVeiculos.add(veic);
+        qtdCarros++;
+        return true;
+    }
     
     /*Busca um veiculo de placa fornecida. Se existir, retorna sua posicao na ArrayList.
      * Caso contrario, retorna -1 
@@ -97,9 +132,8 @@ public abstract class Cliente {
     public Veiculo getVeiculo(int i) {
         return listaVeiculos.get(i);
     }
-
-    public abstract double calculaScore();
     
+    public abstract double calculaScore();
     
     @Override
     public String toString() {

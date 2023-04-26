@@ -66,7 +66,7 @@ public class Seguradora {
     //Metodos especificos
     
     
-    /*Busca um cliente de num CPF/CNPJ fornecidos. Se existir, retorna sua posicao na ArrayList.
+    /* Busca um cliente de num CPF/CNPJ fornecidos. Se existir, retorna sua posicao na ArrayList.
      * Caso contrario, retorna -1 
      */
     private int buscarCliente(String num) {
@@ -97,7 +97,7 @@ public class Seguradora {
                                       String CPF, LocalDate dataNascimento, LocalDate dataLicenca) {
         
         //Cliente ja existente ou CPF invalido
-        if ((ClientePF.validarCPF(CPF) == false) || (buscarCliente(CPF) != -1))
+        if ((Validacao.validarCPF(CPF) == false) || (buscarCliente(CPF) != -1))
             return false;
 
         else {
@@ -108,14 +108,14 @@ public class Seguradora {
     }
     
     //Cadastra um cliente PJ. Caso ja exista um mesmo cliente ja cadastrado, ou se o CNPJ for invalido, retorna false.
-    public boolean cadastrarCliente(String nome, String endereco, String CNPJ, LocalDate dataFundacao) {
+    public boolean cadastrarCliente(String nome, String endereco, String CNPJ, LocalDate dataFundacao, int qtdFuncionarios) {
         
         //Cliente ja existente ou CNPJ invalido
-        if ((ClientePJ.validarCNPJ(CNPJ) == false) || (buscarCliente(CNPJ) != -1))
+        if ((Validacao.validarCNPJ(CNPJ) == false) || (buscarCliente(CNPJ) != -1))
             return false;
         
         else {
-            ClientePJ novo = new ClientePJ(nome, endereco, CNPJ, dataFundacao);
+            ClientePJ novo = new ClientePJ(nome, endereco, CNPJ, dataFundacao, qtdFuncionarios);
             listaClientes.add(novo);
             return true;
         }
@@ -178,6 +178,8 @@ public class Seguradora {
         Veiculo veic = clien.getVeiculo(indice_veic);
         Sinistro sini = new Sinistro(data, endereco, this, veic, clien);
         listaSinistros.add(sini);
+        clien.addSinistro();
+        clien.atualizarPrecoSeguro();
         return true;
     }
     
@@ -222,6 +224,59 @@ public class Seguradora {
             System.out.println();
         }
     }
+    
+    //Imprime os veiculos da seguradora e suas informacoes na tela
+    public void listarVeiculos() {
+        
+        for (Cliente aux : listaClientes)
+            System.out.println(aux.listarVeiculos());
+    }
+    
+    //Recebe o ID de um sinistro e tenta remove-lo, retornando true em caso de sucesso.
+    public boolean removerSinistro(int id) {
+        
+        for (int i = 0; i < listaSinistros.size(); i++) {
+            Sinistro aux = listaSinistros.get(i);
+            if (aux.getId() == id) {
+                listaSinistros.remove(i);
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public double calcularReceita() {
+        
+        double receita = 0.0;
+        for (Cliente aux : listaClientes)
+            receita += aux.getValorSeguro();
+        return receita;
+    }
+    
+    
+    /* Recebe um CPF/CNPJ do cliente origem e um CPF/CNPJ do cliente destinatario.
+     * Transfere todos os carros segurados da origem para o destinatario. Retorna
+     * true caso sucesso, false caso um deles nao existir
+     */
+    public boolean transferirSeguro(String num1, String num2) {
+        Cliente origem = getCliente(num1);
+        Cliente destino = getCliente(num2);
+        if (origem == null || destino == null)
+            return false;
+        Veiculo aux;
+        for (int i_carro = origem.getQtdCarros(); i_carro >= 0; i_carro--) {
+           aux = origem.getVeiculo(i_carro);
+           destino.cadastrarVeiculo(aux);
+           origem.removerVeiculo(aux.getPlaca());
+       }
+       return true;
+    }
+    
+    //Calcula e retorna o preco do seguro de um cliente.
+    public double calcularPrecoSeguroCliente(Cliente clien) {
+        return clien.calculaScore() * (1 + clien.getQtdSinistros());
+    }
+    
     
     @Override
     public String toString() {
