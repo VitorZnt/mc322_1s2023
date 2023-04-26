@@ -32,7 +32,7 @@ public enum MenuOperacoes {
     private final int codigo;
     
     MenuOperacoes(int codigo) {
-        codigo = this.codigo;
+        this.codigo = codigo;
     }
     
 }

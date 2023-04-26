@@ -1,18 +1,21 @@
 import java.util.ArrayList;
 
-public class Cliente {
+public abstract class Cliente {
     
     // Atributos de instancia
     private String nome;
     private String endereco;
     private ArrayList<Veiculo> listaVeiculos;
-
+    private int qtdCarros;
+    
+    
     // Construtor
     public Cliente(String nome, String endereco) {
         
         this.nome = nome;
         this.endereco = endereco;
         listaVeiculos = new ArrayList<Veiculo>();
+        qtdCarros = 0;
     }
 
     // Metodos de Get e Set
@@ -30,6 +33,9 @@ public class Cliente {
         this.endereco = endereco;
     }
 
+    public int getQtdCarros() {
+        return qtdCarros;
+    }
     
     // Metodos especificos
     
@@ -42,6 +48,7 @@ public class Cliente {
             return false;
         Veiculo novo = new Veiculo(placa, marca, modelo, anoFabricacao);
         listaVeiculos.add(novo);
+        qtdCarros++;
         return true;
     }
     
@@ -68,6 +75,7 @@ public class Cliente {
             return false;
         else {
             listaVeiculos.remove(i);
+            qtdCarros--;
             return true;
         }
     }
@@ -90,7 +98,9 @@ public class Cliente {
         return listaVeiculos.get(i);
     }
 
-
+    public abstract double calculaScore();
+    
+    
     @Override
     public String toString() {
         
