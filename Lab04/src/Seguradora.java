@@ -63,7 +63,9 @@ public class Seguradora {
         return listaClientes.get(i_cliente);
     }
     
+    
     //Metodos especificos
+    
     
     
     /* Busca um cliente de num CPF/CNPJ fornecidos. Se existir, retorna sua posicao na ArrayList.
@@ -91,6 +93,70 @@ public class Seguradora {
         
         return -1;
     }
+    
+    /*Recebe o CPF/CNPJ de um cliente e mostra seus sinistros na tela. Caso
+     * nao haja esse cliente ou nao tenha sinistros, imprime essas mensagens.
+     */
+    public boolean visualizarSinistro(String num) {
+        
+        int indice_clien = buscarCliente(num);
+        if (indice_clien == -1) { //cliente nao existe
+            System.out.println("Cliente inexistente.");
+            return false;
+        }
+        Cliente clien = listaClientes.get(indice_clien);
+        
+        int i = 0;
+        for (Sinistro sini: listaSinistros) {
+            if (sini.getCliente().equals(clien)) {
+                i++;
+                System.out.println(String.format("Sinistro %d:", i));
+                System.out.println(sini.toString());
+            }
+            System.out.println();
+        }
+        if (i == 0) {
+            System.out.println("Nao ha sinistros vinculados a esse cliente.");
+            return false;
+        }
+        return true;
+    }
+    
+    //Imprime os sinistros e suas informacoes na tela
+    public void listarSinistros() {
+        
+        int i = 0;
+        for (Sinistro aux: listaSinistros) {
+            i++;
+            System.out.println(String.format("Sinistro %d:", i));
+            System.out.println(aux.toString());
+            System.out.println();
+        }
+    }
+    
+    //Imprime todos os clientes e suas informacoes
+    public void listarClientes() {
+        
+        int i = 0;
+        for (Cliente aux: listaClientes) {
+            i++;
+            System.out.println(String.format("Cliente %d:", i));
+            if (aux instanceof ClientePF)
+                System.out.println(((ClientePF)aux).toString());
+            else
+                System.out.println(((ClientePJ)aux).toString());
+            System.out.println();
+        }
+    }
+    
+    //Imprime os veiculos da seguradora e suas informacoes na tela
+    public void listarVeiculos() {
+        
+        for (Cliente aux : listaClientes)
+            System.out.println(aux.listarVeiculos());
+    }
+    
+    
     
     //Cadastra um cliente PF. Caso ja exista um mesmo cliente ja cadastrado, ou se o CPF for invalido, retorna false.
     public boolean cadastrarCliente(String nome, String endereco, String educacao, String genero, String classeEconomica,
@@ -121,47 +187,6 @@ public class Seguradora {
         }
     }
     
-    //Recebe um cliente existente e remove todos os seus sinistros da lista.
-    private void removerSinistrosCliente(Cliente clien) {
-        Sinistro sini;
-        for (int i = listaSinistros.size() - 1; i >= 0; i--) {
-            sini = listaSinistros.get(i);
-            if (sini.getCliente().equals(clien)) {
-                listaSinistros.remove(i);
-            }
-        }
-        return;
-    }
-    
-    
-    //Recebe o CPF/CNPJ do cliente a ser removido. Retorna true caso haja sucesso, ou false se ele nao existir
-    public boolean removerCliente(String num) {
-        
-        int i_clien = buscarCliente(num);
-        if (i_clien != -1) {
-            Cliente clien = listaClientes.get(i_clien);
-            removerSinistrosCliente(clien);
-            listaClientes.remove(i_clien);
-            return true;
-        } else
-            return false;
-    }
-    
-    //Imprime todos os clientes e suas informacoes
-    public void listarClientes() {
-        
-        int i = 0;
-        for (Cliente aux: listaClientes) {
-            i++;
-            System.out.println(String.format("Cliente %d:", i));
-            if (aux instanceof ClientePF)
-                System.out.println(((ClientePF)aux).toString());
-            else
-                System.out.println(((ClientePJ)aux).toString());
-            System.out.println();
-        }
-    }
-    
     /*A partir de uma data, endereco, placa do veiculo e CPF/CNPJ, cria um sinistro e o adiciona na lista.
      *Caso o veiculo nao pertenca ao cliente, ou cliente nao existe, retorna false.
      */
@@ -179,58 +204,10 @@ public class Seguradora {
         Sinistro sini = new Sinistro(data, endereco, this, veic, clien);
         listaSinistros.add(sini);
         clien.addSinistro();
-        clien.atualizarPrecoSeguro();
         return true;
     }
     
     
-    /*Recebe o CPF/CNPJ de um cliente e mostra seus sinistros na tela. Caso
-     * nao haja esse cliente ou nao tenha sinistros, imprime essas mensagens.
-     */
-    public boolean visualizarSinistro(String num) {
-        
-        int indice_clien = buscarCliente(num);
-        if (indice_clien == -1) { //cliente nao existe
-            System.out.println("Cliente inexistente.");
-            return false;
-        }
-        Cliente clien = listaClientes.get(indice_clien);
-        
-        int i = 0;
-        for (Sinistro sini: listaSinistros) {
-            if (sini.getCliente().equals(clien)) {
-                i++;
-                System.out.println(String.format("Sinistro %d:", i));
-                System.out.println(sini.toString());
-            }
-            System.out.println();
-        }
-        if (i == 0) {
-            System.out.println("Nao ha sinistros vinculados a esse cliente.");
-            return false;
-        }
-        return true;
-    }
-    
-    
-    //Imprime os sinistros e suas informacoes na tela
-    public void listarSinistros() {
-        
-        int i = 0;
-        for (Sinistro aux: listaSinistros) {
-            i++;
-            System.out.println(String.format("Sinistro %d:", i));
-            System.out.println(aux.toString());
-            System.out.println();
-        }
-    }
-    
-    //Imprime os veiculos da seguradora e suas informacoes na tela
-    public void listarVeiculos() {
-        
-        for (Cliente aux : listaClientes)
-            System.out.println(aux.listarVeiculos());
-    }
     
     //Recebe o ID de um sinistro e tenta remove-lo, retornando true em caso de sucesso.
     public boolean removerSinistro(int id) {
@@ -238,12 +215,41 @@ public class Seguradora {
         for (int i = 0; i < listaSinistros.size(); i++) {
             Sinistro aux = listaSinistros.get(i);
             if (aux.getId() == id) {
+                listaSinistros.get(i).getCliente().remSinistro();
                 listaSinistros.remove(i);
                 return true;
             }
         }
         return false;
     }
+    
+    //Recebe um cliente existente e remove todos os seus sinistros da lista.
+    private void removerSinistrosCliente(Cliente clien) {
+        Sinistro sini;
+        for (int i = listaSinistros.size() - 1; i >= 0; i--) {
+            sini = listaSinistros.get(i);
+            if (sini.getCliente().equals(clien)) {
+                listaSinistros.remove(i);
+                clien.remSinistro();
+            }
+        }
+        return;
+    }
+    
+    //Recebe o CPF/CNPJ do cliente a ser removido. Retorna true caso haja sucesso, ou false se ele nao existir
+    public boolean removerCliente(String num) {
+        
+        int i_clien = buscarCliente(num);
+        if (i_clien != -1) {
+            Cliente clien = listaClientes.get(i_clien);
+            removerSinistrosCliente(clien);
+            listaClientes.remove(i_clien);
+            return true;
+        } else
+            return false;
+    }
+    
+    
     
     public double calcularReceita() {
         
@@ -252,6 +258,12 @@ public class Seguradora {
             receita += aux.getValorSeguro();
         return receita;
     }
+    
+    //Calcula e retorna o preco do seguro de um cliente.
+    public double calcularPrecoSeguroCliente(Cliente clien) {
+        return clien.calculaScore() * (1 + clien.getQtdSinistros());
+    }
+    
     
     
     /* Recebe um CPF/CNPJ do cliente origem e um CPF/CNPJ do cliente destinatario.
@@ -264,20 +276,18 @@ public class Seguradora {
         if (origem == null || destino == null)
             return false;
         Veiculo aux;
-        for (int i_carro = origem.getQtdCarros(); i_carro >= 0; i_carro--) {
+        for (int i_carro = origem.getQtdCarros() - 1; i_carro >= 0; i_carro--) {
            aux = origem.getVeiculo(i_carro);
            destino.cadastrarVeiculo(aux);
+           destino.addVeiculo();
            origem.removerVeiculo(aux.getPlaca());
+           origem.remVeiculo();
        }
        return true;
     }
     
-    //Calcula e retorna o preco do seguro de um cliente.
-    public double calcularPrecoSeguroCliente(Cliente clien) {
-        return clien.calculaScore() * (1 + clien.getQtdSinistros());
-    }
     
-    
+
     @Override
     public String toString() {
         

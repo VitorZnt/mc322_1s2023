@@ -6,7 +6,7 @@ public abstract class Cliente {
     private String nome;
     private String endereco;
     private ArrayList<Veiculo> listaVeiculos;
-    private int qtdCarros;
+    private int qtdVeiculos;
     private int qtdSinistros;
     private double valorSeguro;
     
@@ -16,7 +16,7 @@ public abstract class Cliente {
         this.nome = nome;
         this.endereco = endereco;
         listaVeiculos = new ArrayList<Veiculo>();
-        qtdCarros = 0;
+        qtdVeiculos = 0;
         qtdSinistros = 0;
     }
 
@@ -36,7 +36,7 @@ public abstract class Cliente {
     }
 
     public int getQtdCarros() {
-        return qtdCarros;
+        return qtdVeiculos;
     }
     
     public int getQtdSinistros() {
@@ -57,11 +57,19 @@ public abstract class Cliente {
         qtdSinistros++;
         return;
     }
-
     //Subtrai 1 do contador de sinistros
-    public void removerSinistro() {
+    public void remSinistro() {
         qtdSinistros--;
         return;
+    }
+    
+    //Adiciona 1 ao contador de veiculos
+    public void addVeiculo() {
+        qtdVeiculos++;
+    }
+    //Subtrai 1 do contador de veiculos
+    public void remVeiculo() {
+        qtdVeiculos--;
     }
     
     // Metodos especificos
@@ -75,18 +83,19 @@ public abstract class Cliente {
             return false;
         Veiculo novo = new Veiculo(placa, marca, modelo, anoFabricacao);
         listaVeiculos.add(novo);
-        qtdCarros++;
+        addVeiculo();
         return true;
     }
-    
     
     public boolean cadastrarVeiculo(Veiculo veic) {
         if (buscarVeiculo(veic.getPlaca()) != -1)
             return false;
         listaVeiculos.add(veic);
-        qtdCarros++;
+        addVeiculo();
         return true;
     }
+    
+    
     
     /*Busca um veiculo de placa fornecida. Se existir, retorna sua posicao na ArrayList.
      * Caso contrario, retorna -1 
@@ -102,20 +111,6 @@ public abstract class Cliente {
         return -1;
     }
     
-    //Tenta remover um veiculo de dada placa. Retorna true caso bem sucedido.
-    public boolean removerVeiculo(String placa) {
-        
-        int i = buscarVeiculo(placa);
-        if (i == -1)
-            return false;
-        else {
-            listaVeiculos.remove(i);
-            qtdCarros--;
-            return true;
-        }
-    }
-
-    
     public String listarVeiculos() {
         
         String str = new String();
@@ -124,7 +119,6 @@ public abstract class Cliente {
         }
         return str;
     }
-
     
     /*Recebe um indice de veiculo do cliente e o retorna. Assume que a existencia desse
      *veiculo e seu indice ja foram verificados por buscarVeiculo
@@ -132,6 +126,24 @@ public abstract class Cliente {
     public Veiculo getVeiculo(int i) {
         return listaVeiculos.get(i);
     }
+    
+    
+    
+    
+    //Tenta remover um veiculo de dada placa. Retorna true caso bem sucedido.
+    public boolean removerVeiculo(String placa) {
+        
+        int i = buscarVeiculo(placa);
+        if (i == -1)
+            return false;
+        else {
+            listaVeiculos.remove(i);
+            remVeiculo();
+            return true;
+        }
+    }
+
+    
     
     public abstract double calculaScore();
     

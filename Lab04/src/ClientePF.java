@@ -70,6 +70,8 @@ public class ClientePF extends Cliente {
         this.dataLicenca = dataLicenca;
     }  
     
+    
+    
     @Override
     public double calculaScore() {
         
