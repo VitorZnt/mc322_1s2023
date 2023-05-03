@@ -77,7 +77,7 @@ public class ClientePF extends Cliente {
         
         double valorBase = CalcSeguro.VALOR_BASE.getValor();
         double valorIdade = CalcSeguro.fatorIdade(dataNascimento);
-        return valorBase * valorIdade * this.getQtdCarros();
+        return valorBase * valorIdade * this.getQtdVeiculos();
     }
     
     

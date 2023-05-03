@@ -35,7 +35,7 @@ public abstract class Cliente {
         this.endereco = endereco;
     }
 
-    public int getQtdCarros() {
+    public int getQtdVeiculos() {
         return qtdVeiculos;
     }
     
@@ -111,6 +111,7 @@ public abstract class Cliente {
         return -1;
     }
     
+    //Retorna uma string com os veiculos do cliente.
     public String listarVeiculos() {
         
         String str = new String();

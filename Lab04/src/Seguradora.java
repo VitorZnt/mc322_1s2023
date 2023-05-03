@@ -97,14 +97,13 @@ public class Seguradora {
     /*Recebe o CPF/CNPJ de um cliente e mostra seus sinistros na tela. Caso
      * nao haja esse cliente ou nao tenha sinistros, imprime essas mensagens.
      */
-    public boolean visualizarSinistro(String num) {
+    public boolean visualizarSinistros(String num) {
         
-        int indice_clien = buscarCliente(num);
-        if (indice_clien == -1) { //cliente nao existe
+        Cliente clien = getCliente(num);
+        if (clien == null) { //cliente nao existe
             System.out.println("Cliente inexistente.");
             return false;
         }
-        Cliente clien = listaClientes.get(indice_clien);
         
         int i = 0;
         for (Sinistro sini: listaSinistros) {
@@ -118,6 +117,24 @@ public class Seguradora {
         if (i == 0) {
             System.out.println("Nao ha sinistros vinculados a esse cliente.");
             return false;
+        }
+        return true;
+    }
+    
+    /*Recebe o CPF/CNPJ de um cliente e mostra seus veiculos na tela. Caso
+     * nao haja esse cliente ou nao tenha veiculos, imprime essas mensagens.
+     */
+    public boolean visualizarVeiculos(String num) {
+        
+        Cliente clien = getCliente(num);
+        if (clien == null) { //cliente nao existe
+            System.out.println("Cliente inexistente.");
+            return false;
+        } else if (clien.getQtdVeiculos() == 0) {
+            System.out.println("Nao ha veiculos vinculados a esse cliente.");
+            return false;
+        } else {
+            System.out.println(clien.listarVeiculos());
         }
         return true;
     }
@@ -250,7 +267,7 @@ public class Seguradora {
     }
     
     
-    
+    //Calcula e devolve a receita total da seguradora
     public double calcularReceita() {
         
         double receita = 0.0;
@@ -276,7 +293,7 @@ public class Seguradora {
         if (origem == null || destino == null)
             return false;
         Veiculo aux;
-        for (int i_carro = origem.getQtdCarros() - 1; i_carro >= 0; i_carro--) {
+        for (int i_carro = origem.getQtdVeiculos() - 1; i_carro >= 0; i_carro--) {
            aux = origem.getVeiculo(i_carro);
            destino.cadastrarVeiculo(aux);
            destino.addVeiculo();
