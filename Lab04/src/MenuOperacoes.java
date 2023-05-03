@@ -1,3 +1,5 @@
+import java.util.Map;
+import java.util.HashMap;
 
 public enum MenuOperacoes {
     
@@ -30,9 +32,15 @@ public enum MenuOperacoes {
     VOLTAR3(34);
     
     private final int codigo;
+    private static Map<Integer, MenuOperacoes> operacaoPorCodigo = new HashMap<Integer, MenuOperacoes>();
     
     MenuOperacoes(int codigo) {
         this.codigo = codigo;
     }
+    
+    public static MenuOperacoes getOperacaoPorCodigo(int i) {
+        return operacaoPorCodigo.get(i);
+    }
+    
     
 }
