@@ -21,9 +21,9 @@ public enum MenuOperacoes {
     
     LISTAR_CLIENTES_SEGURADORA(21),
     LISTAR_SINISTROS_SEGURADORA(22),
-    LISTAR_SINISTROS_CLIENTE(23),
-    LISTAR_VEICULOS_CLIENTE(24),
-    LISTAR_VEICULOS_SEGURADORA(25),
+    LISTAR_VEICULOS_SEGURADORA(23),
+    LISTAR_SINISTROS_CLIENTE(24),
+    LISTAR_VEICULOS_CLIENTE(25),
     VOLTAR2(26),
     
     EXCLUIR_CLIENTE(31),
@@ -39,6 +39,7 @@ public enum MenuOperacoes {
     }
     
     public static MenuOperacoes getOperacaoPorCodigo(int i) {
+        if 
         return operacaoPorCodigo.get(i);
     }
     

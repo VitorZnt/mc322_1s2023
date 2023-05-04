@@ -204,6 +204,32 @@ public class Seguradora {
         }
     }
     
+    public boolean cadastrarCliente(ClientePF clien) {
+        
+        //Cliente ja existente ou CPF invalido
+        if ((Validacao.validarCPF(clien.getCPF()) == false) || (buscarCliente(clien.getCPF()) != -1))
+            return false;
+
+        else {
+            listaClientes.add(clien);
+            return true;
+        }
+    }
+    
+    public boolean cadastrarCliente(ClientePJ clien) {
+        
+        //Cliente ja existente ou CPF invalido
+        if ((Validacao.validarCNPJ(clien.getCNPJ()) == false) || (buscarCliente(clien.getCNPJ()) != -1))
+            return false;
+
+        else {
+            listaClientes.add(clien);
+            return true;
+        }
+    }
+    
+    
+    
     /*A partir de uma data, endereco, placa do veiculo e CPF/CNPJ, cria um sinistro e o adiciona na lista.
      *Caso o veiculo nao pertenca ao cliente, ou cliente nao existe, retorna false.
      */
@@ -281,7 +307,12 @@ public class Seguradora {
         return clien.calculaScore() * (1 + clien.getQtdSinistros());
     }
     
-    
+    //Atualiza o preco do seguro de um cliente
+    public void atualizarPrecoClien(Cliente clien) {
+        double preco = calcularPrecoSeguroCliente(clien);
+        clien.setValorSeguro(preco);
+        return;
+    }
     
     /* Recebe um CPF/CNPJ do cliente origem e um CPF/CNPJ do cliente destinatario.
      * Transfere todos os carros segurados da origem para o destinatario. Retorna
