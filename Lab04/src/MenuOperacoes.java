@@ -39,7 +39,6 @@ public enum MenuOperacoes {
     }
     
     public static MenuOperacoes getOperacaoPorCodigo(int i) {
-        if 
         return operacaoPorCodigo.get(i);
     }
     
