@@ -175,12 +175,12 @@ public class Seguradora {
     
     
     
-    //Cadastra um cliente PF. Caso ja exista um mesmo cliente ja cadastrado, ou se o CPF for invalido, retorna false.
+    //Cadastra um cliente PF. Caso ja exista um mesmo cliente ja cadastrado, retorna false.
     public boolean cadastrarCliente(String nome, String endereco, String educacao, String genero, String classeEconomica,
                                       String CPF, LocalDate dataNascimento, LocalDate dataLicenca) {
         
-        //Cliente ja existente ou CPF invalido
-        if ((Validacao.validarCPF(CPF) == false) || (buscarCliente(CPF) != -1))
+        //Cliente ja existente
+        if (buscarCliente(CPF) != -1)
             return false;
 
         else {
@@ -190,11 +190,11 @@ public class Seguradora {
         }
     }
     
-    //Cadastra um cliente PJ. Caso ja exista um mesmo cliente ja cadastrado, ou se o CNPJ for invalido, retorna false.
+    //Cadastra um cliente PJ. Caso ja exista um mesmo cliente ja cadastrado, retorna false.
     public boolean cadastrarCliente(String nome, String endereco, String CNPJ, LocalDate dataFundacao, int qtdFuncionarios) {
         
-        //Cliente ja existente ou CNPJ invalido
-        if ((Validacao.validarCNPJ(CNPJ) == false) || (buscarCliente(CNPJ) != -1))
+        //Cliente ja existente
+        if (buscarCliente(CNPJ) != -1)
             return false;
         
         else {
@@ -206,8 +206,8 @@ public class Seguradora {
     
     public boolean cadastrarCliente(ClientePF clien) {
         
-        //Cliente ja existente ou CPF invalido
-        if ((Validacao.validarCPF(clien.getCPF()) == false) || (buscarCliente(clien.getCPF()) != -1))
+        //Cliente ja existente
+        if (buscarCliente(clien.getCPF()) != -1)
             return false;
 
         else {
@@ -218,8 +218,8 @@ public class Seguradora {
     
     public boolean cadastrarCliente(ClientePJ clien) {
         
-        //Cliente ja existente ou CPF invalido
-        if ((Validacao.validarCNPJ(clien.getCNPJ()) == false) || (buscarCliente(clien.getCNPJ()) != -1))
+        //Cliente ja existente
+        if (buscarCliente(clien.getCNPJ()) != -1)
             return false;
 
         else {
@@ -252,18 +252,21 @@ public class Seguradora {
     
     
     
-    //Recebe o ID de um sinistro e tenta remove-lo, retornando true em caso de sucesso.
-    public boolean removerSinistro(int id) {
+    /*Recebe o ID de um sinistro e tenta remove-lo, retornando o seu cliente em caso de sucesso.
+     *Caso contrario, retorna NULL.
+     */
+    public Cliente removerSinistro(int id) {
         
         for (int i = 0; i < listaSinistros.size(); i++) {
             Sinistro aux = listaSinistros.get(i);
             if (aux.getId() == id) {
-                listaSinistros.get(i).getCliente().remSinistro();
+                Cliente clien = listaSinistros.get(i).getCliente();
+                clien.remSinistro();
                 listaSinistros.remove(i);
-                return true;
+                return clien;
             }
         }
-        return false;
+        return null;
     }
     
     //Recebe um cliente existente e remove todos os seus sinistros da lista.

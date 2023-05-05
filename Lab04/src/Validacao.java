@@ -53,6 +53,13 @@ public class Validacao {
         return true;
     }
     
+    public static boolean validarDadosPF(String cpf, String nome, LocalDate dataNascimento) {
+        return validarCPF(cpf) && validarNome(nome) && validarIdade(dataNascimento);
+    }
+    
+    public static boolean validarDadosPJ(String cnpj, String nome) {
+        return validarCNPJ(cnpj) && validarNome(nome);
+    }
     
     /* Recebe uma string numerica de tamanho 11. Verifica se o cpf eh
      * composto de 11 digitos iguais e retorna true caso sim.*/
