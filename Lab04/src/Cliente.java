@@ -105,7 +105,7 @@ public abstract class Cliente {
         Veiculo veic;
         for (int i = 0; i < listaVeiculos.size(); i++) {
             veic = listaVeiculos.get(i);
-            if (veic.getPlaca() == placa)
+            if (veic.getPlaca().equals(placa))
                 return i;
         }
         return -1;

@@ -20,9 +20,11 @@ class AppMain {
         return listaSeguradoras.size();
     }
     
-    //Retorna a referencia a uma seguradora com base na sua posicao i.
+    //Retorna a referencia a uma seguradora com base na sua posicao i (indice i - 1).
     private static Seguradora getSeg(int i) {
-        return listaSeguradoras.get(i);
+        if (i > listaSeguradoras.size())
+            return null;
+        return listaSeguradoras.get(i - 1);
     }
     
     /*main com objetivo de teste das classes e seus metodos*/
@@ -86,8 +88,8 @@ class AppMain {
         
         boolean flag = true;
         ArrayList<String> param;
-        String comandos_principais = "1 - Cadastros\n2 - Listar\n3 - Excluir\n4 - Gerar sinistro\n"
-                                   + "5 - Transferir seguro\n6 - Calcular receita seguradora\n0 - Sair";
+        String comandos_principais = "Menu:\n1 - Cadastros\n2 - Listar\n3 - Excluir\n4 - Gerar sinistro\n"
+                                   + "5 - Transferir seguro\n6 - Calcular receita seguradora\n0 - Sair\n";
         String subcomandos_1 = "Cadastrar:\n1 - Cliente PF\n2 - Cliente PJ\n3 - Veiculo\n"
                         + "4 - Seguradora\n5 - Voltar";
         String subcomandos_2 = "Listar:\n1 - Clientes por seguradora\n2 - Sinistros por seguradora\n"
@@ -163,7 +165,7 @@ class AppMain {
                     System.out.println("Digite nessa sequencia: num. da seguradora, nome, endereco, CNPJ, "
                                      + "data de fundacao e qtd funcionarios.");
                     
-                    for (int j = 0; j < 5; j++)
+                    for (int j = 0; j < 6; j++)
                         param.add(entrada.next());
                     seg = getSeg(Integer.parseInt(param.get(0)));
                     
@@ -248,7 +250,7 @@ class AppMain {
                     System.out.println("Comando invalido.");
                     break;
                 }
-                
+                break;
                 
                 
                 
@@ -258,6 +260,9 @@ class AppMain {
                 System.out.println(subcomandos_2);
                 k = entrada.nextInt();
                 comando2 = MenuOperacoes.getOperacaoPorCodigo(10*i + k);
+                
+                if (comando2.equals(MenuOperacoes.VOLTAR2))
+                    break;
                 
                 System.out.println("Digite o num. da seguradora");
                 seg = getSeg(Integer.parseInt(entrada.next()));
@@ -308,19 +313,20 @@ class AppMain {
                     break;
                     
                     
-                case VOLTAR2:
-                    break;
                 default:
                     System.out.println("Comando invalido.");
                     break;
                 }
-            
+                break;
                 
                 
             case EXCLUIR:
                 System.out.println(subcomandos_3);
                 k = entrada.nextInt();
                 comando2 = MenuOperacoes.getOperacaoPorCodigo(10*i + k);
+                
+                if (comando2.equals(MenuOperacoes.VOLTAR3))
+                    break;
                 
                 System.out.println("Digite o num. da seguradora:");
                 seg = getSeg(Integer.parseInt(entrada.next()));
@@ -376,23 +382,21 @@ class AppMain {
                     System.out.println("Digite o id do sinistro.");
                     clien = seg.removerSinistro(Integer.parseInt(entrada.next()));
                     seg.atualizarPrecoClien(clien);
-                    if (!flag_sucesso)
+                    if (clien == null)
                         System.out.println("Sinistro nao existente");
-                    else
+                    else {
                         System.out.println("Sinistro removido com sucesso");
+                        seg.atualizarPrecoClien(clien);
+                    }
                     break;
                     
                     
-                    
-                    
-                case VOLTAR3:
-                    break;
                 default:
                     System.out.println("Comando invalido.");
                     break;
                 
                 }
-            
+                break;
                 
                 
             case GERAR_SINISTRO:

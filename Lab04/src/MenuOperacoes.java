@@ -32,10 +32,16 @@ public enum MenuOperacoes {
     VOLTAR3(34);
     
     private final int codigo;
-    private static Map<Integer, MenuOperacoes> operacaoPorCodigo = new HashMap<Integer, MenuOperacoes>();
+    private static final Map<Integer, MenuOperacoes> operacaoPorCodigo = new HashMap<>();
     
     MenuOperacoes(int codigo) {
         this.codigo = codigo;
+    }
+    
+    static {
+        for (MenuOperacoes op : values()) {
+            operacaoPorCodigo.put(op.codigo, op);
+        }
     }
     
     public static MenuOperacoes getOperacaoPorCodigo(int i) {
