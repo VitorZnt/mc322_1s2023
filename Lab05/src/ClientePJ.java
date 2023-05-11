@@ -8,9 +8,10 @@ public class ClientePJ extends Cliente {
     private int qtdFuncionarios;
     
     //Construtor
-    public ClientePJ(String nome, String endereco, String CNPJ, LocalDate dataFundacao, int qtdFuncionarios) {
+    public ClientePJ(String nome, String telefone,  String endereco, String email,
+            String CNPJ, LocalDate dataFundacao, int qtdFuncionarios) {
         
-        super(nome, endereco);
+        super(nome, telefone, endereco, email);
         this.CNPJ = CNPJ;
         this.dataFundacao = dataFundacao;
         this.qtdFuncionarios = qtdFuncionarios;

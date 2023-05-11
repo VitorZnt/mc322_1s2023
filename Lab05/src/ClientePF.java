@@ -4,24 +4,21 @@ public class ClientePF extends Cliente {
     
     //Atributos de instancia proprios da subclasse
     private final String CPF;
-    private LocalDate dataNascimento;
-    private String educacao;
     private String genero;
-    private String classeEconomica;
-    private LocalDate dataLicenca;
-    
+    private String educacao;
+    private LocalDate dataNascimento;
+    private ListagemVeiculos listaVeic;
     
     //Construtor
-    public ClientePF(String nome, String endereco, String educacao, String genero,
-                     String classeEconomica, String CPF, LocalDate dataNascimento, LocalDate dataLicenca) {
+    public ClientePF(String nome, String telefone,  String endereco, String email,
+            String CPF, String genero, String educacao, LocalDate dataNascimento) {
         
-        super(nome, endereco);
+        super(nome, telefone, endereco, email);
         this.CPF = CPF;
         this.dataNascimento = dataNascimento;
         this.educacao = educacao;
         this.genero = genero;
-        this.classeEconomica = classeEconomica;
-        this.dataLicenca = dataLicenca;
+        listaVeic = new ListagemVeiculos();
     }
 
 
@@ -31,45 +28,27 @@ public class ClientePF extends Cliente {
         return CPF;
     }
 
-    public LocalDate getDataNascimento() {
-        return dataNascimento;
+    public String getGenero() {
+        return genero;
     }
-    public void setDataNascimento(LocalDate dataNascimento) {
-        this.dataNascimento = dataNascimento;
+    public void setGenero(String genero) {
+        this.genero = genero;
     }
 
     public String getEducacao() {
         return educacao;
     }
-
     public void setEducacao(String educacao) {
         this.educacao = educacao;
     }
 
-    public String getGenero() {
-        return genero;
-    }
-
-    public void setGenero(String genero) {
-        this.genero = genero;
-    }
-
-    public String getClasseEconomica() {
-        return classeEconomica;
-    }
-
-    public void setClasseEconomica(String classeEconomica) {
-        this.classeEconomica = classeEconomica;
+    public LocalDate getDataNascimento() {
+        return dataNascimento;
     }
     
-    public LocalDate getDataLicenca() {
-        return dataLicenca;
+    public ListagemVeiculos getListaVeic() {
+        return listaVeic;
     }
-
-    public void setDataLicenca(LocalDate dataLicenca) {
-        this.dataLicenca = dataLicenca;
-    }  
-    
     
     
     @Override
@@ -77,7 +56,7 @@ public class ClientePF extends Cliente {
         
         double valorBase = CalcSeguro.VALOR_BASE.getValor();
         double valorIdade = CalcSeguro.fatorIdade(dataNascimento);
-        return valorBase * valorIdade * this.getQtdVeiculos();
+        return valorBase * valorIdade * listaVeic.getQtdVeiculos();
     }
     
     
