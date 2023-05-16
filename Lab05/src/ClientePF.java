@@ -64,9 +64,9 @@ public class ClientePF extends Cliente {
     public String toString() {
         
         String str = super.toString() + 
-                     String.format("CPF: %s\nData de nascimento: %s\nEducacao: %s\nGenero: %s\nClasse economica: %s\n"
-                                 + "Data licenca: %s\n", CPF, dataNascimento, educacao, genero, classeEconomica, dataLicenca)
-                     + "Veiculos:\n" + listarVeiculos();
+                     String.format("CPF: %s\nGenero: %s\nEducacao: %s\nData de nascimento: %s\n",
+                                   CPF, genero, educacao, dataNascimento)
+                     + "Veiculos:\n" + listaVeic.toString();
         return str;
     }
 }

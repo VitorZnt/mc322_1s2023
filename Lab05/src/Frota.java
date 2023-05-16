@@ -3,11 +3,12 @@ public class Frota {
     private String codigo;
     private ListagemVeiculos listaVeic;
     
-    public Frota (String codigo, Veiculo veic) {
+    public Frota (String codigo, Veiculo[] listaV) {
         
         this.codigo = codigo;
         listaVeic = new ListagemVeiculos();
-        listaVeic.cadastrarVeiculo(veic);
+        for (Veiculo v : listaV)
+            listaVeic.cadastrarVeiculo(v);
     }
 
     public String getCodigo() {
@@ -19,9 +20,10 @@ public class Frota {
     }
     
     
-    public boolean addVeiculo(Veiculo veic) {
+    public boolean adicionaVeiculo(Veiculo veic) {
         return listaVeic.cadastrarVeiculo(veic);
     }
+    
     
     public boolean removeVeiculo(String placa) {
         return listaVeic.removerVeiculo(placa);

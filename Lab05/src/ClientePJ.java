@@ -6,6 +6,7 @@ public class ClientePJ extends Cliente {
     private final String CNPJ;
     private LocalDate dataFundacao;
     private int qtdFuncionarios;
+    private ListagemFrotas listaFrotas;
     
     //Construtor
     public ClientePJ(String nome, String telefone,  String endereco, String email,
@@ -15,6 +16,7 @@ public class ClientePJ extends Cliente {
         this.CNPJ = CNPJ;
         this.dataFundacao = dataFundacao;
         this.qtdFuncionarios = qtdFuncionarios;
+        listaFrotas = new ListagemFrotas();
     }
     
     
@@ -34,6 +36,10 @@ public class ClientePJ extends Cliente {
         return qtdFuncionarios;
     }
     
+    public ListagemFrotas getListaFrotas() {
+        return listaFrotas;
+    }
+    
     
     @Override
     public double calculaScore() {
@@ -46,7 +52,7 @@ public class ClientePJ extends Cliente {
     public String toString() {
         
         String str = super.toString() + String.format("CNPJ: %s\nData de fundacao: %s\n", CNPJ, dataFundacao.toString())
-                     + "Veiculos:\n" + listarVeiculos();
+                     + "Veiculos nas frotas:\n" + listaFrotas.toString();
         return str;
     }
     

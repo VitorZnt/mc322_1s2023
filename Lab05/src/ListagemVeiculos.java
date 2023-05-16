@@ -27,11 +27,6 @@ public class ListagemVeiculos {
     }
     
     
-    
-    
-    
-    //Metodos especificos da classe
-    
     //Adiciona 1 ao contador de veiculos
     public void addVeiculo() {
         qtdVeiculos++;
@@ -77,17 +72,6 @@ public class ListagemVeiculos {
         return -1;
     }
     
-    //Retorna uma string com os veiculos da lista.
-    public String listarVeiculos() {
-        
-        String str = new String();
-        for (Veiculo i:listaVeiculos) {
-            str = str + i.toString() + "\n";
-        }
-        return str;
-    }
-    
-
 
     //Tenta remover um veiculo de dada placa. Retorna true caso bem sucedido.
     public boolean removerVeiculo(String placa) {
@@ -106,6 +90,11 @@ public class ListagemVeiculos {
     
     @Override
     public String toString() {
-        return ;
+        
+        String str = new String();
+        for (Veiculo i : listaVeiculos) {
+            str = str + i.toString() + "\n";
+        }
+        return str;
     }
 }
