@@ -75,7 +75,6 @@ public abstract class Cliente {
         return;
     }
     
-    public abstract double calculaScore();
     
     @Override
     public String toString() {

@@ -118,9 +118,31 @@ public abstract class Seguro {
         return false;
     }
     
+    /* Gera um sinistro com as informacoes dadas e o CPF do condutor. Se o condutor nao
+     * estiver na lista de condutores do seguro, nao cria e retorna false
+     */
+    
+    public boolean gerarSinistro(LocalDate data, String endereco, String CPF) {
+        
+        boolean flag = false;
+        Condutor condutor = null;
+        
+        for (int i = 0; i < listaCondutores.size(); i++) {
+            condutor = listaCondutores.get(i);
+            if (condutor.getCPF().equals(CPF)) {
+                flag = true;
+                break;
+            }
+        }
+        
+        if (!flag)
+            return false; //Condutor nao autorizado
+
+        Sinistro sini = new Sinistro(data, endereco, condutor, this);
+        listaSinistros.add(sini);
+        return true;
+    }
+    
     
     public abstract double calcularValor();
-    
-    public abstract boolean gerarSinistro(LocalDate data, String endereco, Condutor condutor);
-    
 }
