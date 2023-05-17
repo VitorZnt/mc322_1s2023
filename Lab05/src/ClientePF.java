@@ -7,7 +7,8 @@ public class ClientePF extends Cliente {
     private String genero;
     private String educacao;
     private LocalDate dataNascimento;
-    private ListagemVeiculos listaVeic;
+    private ListagemVeiculos listaVeic; //metodos cadastrar e remover veiculos estao nessa classe
+    private SeguroPF seguro;
     
     //Construtor
     public ClientePF(String nome, String telefone,  String endereco, String email,
@@ -19,6 +20,7 @@ public class ClientePF extends Cliente {
         this.educacao = educacao;
         this.genero = genero;
         listaVeic = new ListagemVeiculos();
+        seguro = null;
     }
 
 
@@ -48,6 +50,13 @@ public class ClientePF extends Cliente {
     
     public ListagemVeiculos getListaVeic() {
         return listaVeic;
+    }
+    
+    public SeguroPF getSeguro() {
+        return seguro; //Retorna null caso nao haja seguro
+    }
+    public void setSeguro(SeguroPF seguro) {
+        this.seguro = seguro;
     }
     
     

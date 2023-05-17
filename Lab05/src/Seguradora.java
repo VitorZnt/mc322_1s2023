@@ -4,26 +4,32 @@ import java.util.ArrayList;
 public class Seguradora {
     
     // Atributos de instancia
+    private final String CNPJ;
     private String nome;
     private String telefone;
     private String email;
     private String endereco;
-    private ArrayList<Sinistro> listaSinistros;
+    private ArrayList<Seguro> listaSeguros;
     private ArrayList<Cliente> listaClientes;
     
     
     // Construtor
-    public Seguradora(String nome, String telefone, String email, String endereco) {
+    public Seguradora(String CNPJ, String nome, String telefone, String email, String endereco) {
         
+        this.CNPJ = CNPJ;
         this.nome = nome;
         this.telefone = telefone;
         this.email = email;
         this.endereco = endereco;
-        listaSinistros = new ArrayList<Sinistro>();
+        listaSeguros = new ArrayList<Seguro>();
         listaClientes = new ArrayList<Cliente>();
     }
 
     // Metodos de Get e Set
+    public String getCNPJ() {
+        return CNPJ;
+    }
+    
     public String getNome() {
         return nome;
     }

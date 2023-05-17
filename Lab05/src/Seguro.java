@@ -145,6 +145,10 @@ public abstract class Seguro {
     }
     
     
+    public void atualizarValorMensal() {
+        valorMensal = calcularValor();
+    }
+    
     public abstract double calcularValor();
     
     
