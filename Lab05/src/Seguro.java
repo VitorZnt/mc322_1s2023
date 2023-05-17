@@ -64,6 +64,7 @@ public abstract class Seguro {
     }
 
     public double getValorMensal() {
+        atualizarValorMensal();
         return valorMensal;
     }
     public void setValorMensal(int valorMensal) {
@@ -155,6 +156,6 @@ public abstract class Seguro {
     @Override
     public String toString() {
         return String.format("Id: %d\nDataInicio: %s\nDataFim: %s\nSeguradora: %s\nValor mensal: %f\n",
-                id, dataInicio.toString(), dataFim.toString(), Seguradora.getNome(), valorMensal);
+                id, dataInicio.toString(), dataFim.toString(), seguradora.getNome(), valorMensal);
     } 
 }

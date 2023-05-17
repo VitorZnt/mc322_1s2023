@@ -46,8 +46,6 @@ public abstract class Cliente {
     public void setEmail(String email) {
         this.email = email;
     }
-    
-    
 
     public int getQtdSinistros() {
         return qtdSinistros;
@@ -58,11 +56,9 @@ public abstract class Cliente {
     }
     public void setValorSeguro(double valor) {
         valorSeguro = valor;
-        return;
     }
-
     
-    // Metodos especificos
+    public abstract void atualizarValorSeguro();
     
     //Adiciona 1 ao contador de sinistros
     public void addSinistro() {

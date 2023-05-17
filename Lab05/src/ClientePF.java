@@ -59,13 +59,16 @@ public class ClientePF extends Cliente {
         this.seguro = seguro;
     }
     
+    public void atualizarValorSeguro() {
+        setValorSeguro(seguro.getValorMensal());
+    }
     
     @Override
     public String toString() {
         
         String str = super.toString() + 
-                     String.format("CPF: %s\nGenero: %s\nEducacao: %s\nData de nascimento: %s\n",
-                                   CPF, genero, educacao, dataNascimento)
+                     String.format("CPF: %s\nGenero: %s\nEducacao: %s\nData de nascimento: %s\nId seguro: %d\n",
+                                   CPF, genero, educacao, dataNascimento, seguro.getId())
                      + "Veiculos:\n" + listaVeic.toString();
         return str;
     }

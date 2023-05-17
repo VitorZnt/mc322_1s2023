@@ -65,6 +65,14 @@ public class ClientePJ extends Cliente {
         return false; //nao encontrado
     }
     
+    public void atualizarValorSeguro() {
+        
+        double i = 0;
+        for (SeguroPJ seguro : listaSeguros) {
+            i += seguro.getValorMensal();
+        }
+        setValorSeguro(i);
+    }
 
     @Override
     public String toString() {
