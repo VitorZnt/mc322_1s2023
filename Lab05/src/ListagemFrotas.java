@@ -12,6 +12,16 @@ public class ListagemFrotas {
         return listaFrotas.get(i);
     }
     
+    //Busca e retorna o indice da frota com codigo dado
+    public int buscarFrota(String codigo) {
+        
+        for (int i = 0; i < listaFrotas.size(); i++) {
+            if (listaFrotas.get(i).getCodigo().equals(codigo))
+                return i;
+        }
+        return -1;
+    }
+    
     /* Adiciona uma serie de veiculos como uma frota na listagem. Retorna false e nao cria
      * caso algum veiculo do parametro ja existe em alguma frota da mesma listagem.
      */
@@ -43,15 +53,6 @@ public class ListagemFrotas {
         return getFrota(i).adicionaVeiculo(veic);
     }
     
-    //Busca e retorna o indice da frota com codigo dado
-    public int buscarFrota(String codigo) {
-        
-        for (int i = 0; i < listaFrotas.size(); i++) {
-            if (listaFrotas.get(i).getCodigo().equals(codigo))
-                return i;
-        }
-        return -1;
-    }
     
     public boolean removerFrota(String codigo) {
         
@@ -70,6 +71,7 @@ public class ListagemFrotas {
         return getFrota(i).removeVeiculo(veic.getPlaca());
     }
 
+    
     @Override
     public String toString() {
         

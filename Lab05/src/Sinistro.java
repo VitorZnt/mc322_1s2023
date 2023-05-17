@@ -6,21 +6,19 @@ public class Sinistro {
     private final int id;
     private LocalDate data;
     private String endereco;
-    private Seguradora seguradora;
-    private Veiculo veiculo;
-    private Cliente cliente;
+    private Condutor condutor;
+    private Seguro seguro;
     
     // Contador de sinistros (e gerador de Id's)
     private static int contadorId = 0;
 
     // Construtor
-    public Sinistro(LocalDate data, String endereco, Seguradora seguradora, Veiculo veiculo, Cliente cliente) {
+    public Sinistro(LocalDate data, String endereco, Condutor condutor, Seguro seguro) {
         
         this.data = data;
         this.endereco = endereco;
-        this.seguradora = seguradora;
-        this.veiculo = veiculo;
-        this.cliente = cliente;
+        this.condutor = condutor;
+        this.seguro = seguro;
         this.id = gerarId();
     }
 
@@ -44,27 +42,20 @@ public class Sinistro {
         this.endereco = endereco;
     }
     
-    public Seguradora getSeguradora() {
-        return seguradora;
+    public Condutor getCondutor() {
+        return condutor;
     }
-    public void setSeguradora(Seguradora seguradora) {
-        this.seguradora = seguradora;
+    public void setCondutor(Condutor condutor) {
+        this.condutor = condutor;
     }
-    
-    public Veiculo getVeiculo() {
-        return veiculo;
+
+    public Seguro getSeguro() {
+        return seguro;
     }
-    public void setVeiculo(Veiculo veiculo) {
-        this.veiculo = veiculo;
+    public void setSeguro(Seguro seguro) {
+        this.seguro = seguro;
     }
-    
-    public Cliente getCliente() {
-        return cliente;
-    }
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
-    }
-    
+
     /* Retorna um Id proprio e unico, numerando por contagem cada sinistro registrado*/
     private int gerarId() {
         contadorId++;
@@ -74,8 +65,8 @@ public class Sinistro {
     @Override
     public String toString() {
         
-        String str = String.format("Id: %d\nData: %s\nEndereco: %s\nSeguradora: %s\nVeiculo: %s\nCliente: %s\n",
-                                    id, data.toString(), endereco, seguradora.getNome(), veiculo.getPlaca(), cliente.getNome());
+        String str = String.format("Id: %d\nData: %s\nEndereco: %s\nCondutor: %s\nId do seguro: %s\n",
+                                    id, data.toString(), endereco, condutor.getNome(), seguro.getId());
         return str;
     }
 }
