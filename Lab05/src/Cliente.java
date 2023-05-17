@@ -82,8 +82,4 @@ public abstract class Cliente {
         String str = String.format("Nome: %s\nEndereco: %s\n", nome, endereco);
         return str;
     }
-
-
-
-
 }

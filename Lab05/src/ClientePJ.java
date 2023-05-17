@@ -35,16 +35,12 @@ public class ClientePJ extends Cliente {
     public int getQtdFuncionarios() {
         return qtdFuncionarios;
     }
+    public void setQtdFuncionarios(int num) {
+        qtdFuncionarios = num;
+    }
     
     public ListagemFrotas getListaFrotas() {
         return listaFrotas;
-    }
-    
-    
-    @Override
-    public double calculaScore() {
-        double valorBase = CalcSeguro.VALOR_BASE.getValor();
-        return valorBase * (1 + (this.getQtdFuncionarios())/100) * this.getQtdVeiculos();
     }
     
     

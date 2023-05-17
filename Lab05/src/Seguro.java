@@ -9,7 +9,7 @@ public abstract class Seguro {
     private Seguradora seguradora;
     private ArrayList<Sinistro> listaSinistros;
     private ArrayList<Condutor> listaCondutores;
-    private int valorMensal;
+    private double valorMensal;
     
     // Contador de seguros (e gerador de Id's)
     private static int contadorId = 0;
@@ -23,6 +23,7 @@ public abstract class Seguro {
         listaSinistros = new ArrayList<Sinistro>();
         listaCondutores = new ArrayList<Condutor>();
         id = gerarId();
+        valorMensal = calcularValor();
     }
     
     
@@ -62,7 +63,7 @@ public abstract class Seguro {
         this.listaCondutores = listaCondutores;
     }
 
-    public int getValorMensal() {
+    public double getValorMensal() {
         return valorMensal;
     }
     public void setValorMensal(int valorMensal) {
@@ -121,7 +122,6 @@ public abstract class Seguro {
     /* Gera um sinistro com as informacoes dadas e o CPF do condutor. Se o condutor nao
      * estiver na lista de condutores do seguro, nao cria e retorna false
      */
-    
     public boolean gerarSinistro(LocalDate data, String endereco, String CPF) {
         
         boolean flag = false;
@@ -140,9 +140,17 @@ public abstract class Seguro {
 
         Sinistro sini = new Sinistro(data, endereco, condutor, this);
         listaSinistros.add(sini);
+        condutor.adicionarSinistro(sini);
         return true;
     }
     
     
     public abstract double calcularValor();
+    
+    
+    @Override
+    public String toString() {
+        return String.format("Id: %d\nDataInicio: %s\nDataFim: %s\nSeguradora: %s\nValor mensal: %f\n",
+                id, dataInicio.toString(), dataFim.toString(), Seguradora.getNome(), valorMensal);
+    } 
 }

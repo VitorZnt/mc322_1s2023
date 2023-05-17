@@ -52,15 +52,6 @@ public class ClientePF extends Cliente {
     
     
     @Override
-    public double calculaScore() {
-        
-        double valorBase = CalcSeguro.VALOR_BASE.getValor();
-        double valorIdade = CalcSeguro.fatorIdade(dataNascimento);
-        return valorBase * valorIdade * listaVeic.getQtdVeiculos();
-    }
-    
-    
-    @Override
     public String toString() {
         
         String str = super.toString() + 

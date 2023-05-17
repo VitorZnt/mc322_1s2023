@@ -11,6 +11,7 @@ public class Condutor {
     private String email;
     private LocalDate dataNascimento;
     private ArrayList<Sinistro> listaSinistros;
+    private int qtdSinistros;
     
     public Condutor(String CPF, String nome, String telefone,  String endereco,
                     String email, LocalDate dataNascimento) {
@@ -21,6 +22,7 @@ public class Condutor {
         this.endereco = endereco;
         this.email = email;
         listaSinistros = new ArrayList<Sinistro>();
+        qtdSinistros = 0;
     }
     
     // Metodos de Get e Set
@@ -64,10 +66,13 @@ public class Condutor {
         return listaSinistros;
     }
     
+    public int getQtdSinistros() {
+        return qtdSinistros;
+    }
     
     public void adicionarSinistro(Sinistro sini) {
         listaSinistros.add(sini);
+        qtdSinistros++;
         return;
     }
-    
 }

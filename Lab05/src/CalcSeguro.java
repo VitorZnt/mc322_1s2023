@@ -28,5 +28,4 @@ public enum CalcSeguro {
         else
             return FATOR_60_90.getValor();
     }
-    
 }

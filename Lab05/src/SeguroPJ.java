@@ -1,4 +1,5 @@
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class SeguroPJ extends Seguro {
     
@@ -27,7 +28,32 @@ public class SeguroPJ extends Seguro {
         this.cliente = cliente;
     }
     
+    @Override
+    public boolean gerarSinistro(LocalDate data, String endereco, String CPF) {
+        
+        if (super.gerarSinistro(data, endereco, CPF)) {
+            cliente.addSinistro();
+            return true;
+        } else
+            return false;
+    }
+    
     public double calcularValor() {
         
+        int qtdFunc = cliente.getQtdFuncionarios();
+        int qtdSinistrosClien = cliente.getQtdSinistros();
+        int qtdVeiculos = frota.getListaVeic().getQtdVeiculos();
+        double valorBase = CalcSeguro.VALOR_BASE.getValor();
+        
+        
+        int qtdSinistrosCondut = 0;
+        ArrayList<Condutor> listaCondut = this.getListaCondutores();
+        
+        for (int i = 0; i < listaCondut.size(); i++) {
+            i += listaCondut.get(i).getQtdSinistros();
+        }
+        
+        return valorBase * (10 + qtdFunc/10) * (1 + 1/(qtdVeiculos + 2))
+                * (2 + qtdSinistrosClien/10) * (5 + qtdSinistrosCondut/10);
     }
 }
