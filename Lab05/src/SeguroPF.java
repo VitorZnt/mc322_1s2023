@@ -40,7 +40,7 @@ public class SeguroPF extends Seguro {
     
     public double calcularValor() {
         
-        int qtdVeiculos = 1; //pelo diagrama, cada seguroPF tem apenas 1 veiculo
+        int qtdVeiculos = cliente.getListaVeic().getQtdVeiculos();
         int qtdSinistrosClien = cliente.getQtdSinistros();
         int qtdSinistrosCondut = 0;
         double valorBase = CalcSeguro.VALOR_BASE.getValor();

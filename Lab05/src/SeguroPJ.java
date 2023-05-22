@@ -1,4 +1,5 @@
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
 
 public class SeguroPJ extends Seguro {
@@ -44,7 +45,7 @@ public class SeguroPJ extends Seguro {
         int qtdSinistrosClien = cliente.getQtdSinistros();
         int qtdVeiculos = frota.getListaVeic().getQtdVeiculos();
         double valorBase = CalcSeguro.VALOR_BASE.getValor();
-        
+        int anosPosFundacao = Period.between(cliente.getDataFundacao(), LocalDate.now()).getYears();
         
         int qtdSinistrosCondut = 0;
         ArrayList<Condutor> listaCondut = this.getListaCondutores();
@@ -53,7 +54,7 @@ public class SeguroPJ extends Seguro {
             i += listaCondut.get(i).getQtdSinistros();
         }
         
-        return valorBase * (10 + qtdFunc/10) * (1 + 1/(qtdVeiculos + 2))
+        return valorBase * (10 + qtdFunc/10) * (1 + 1/(qtdVeiculos + 2)) * (1 + 1/(anosPosFundacao + 2))
                 * (2 + qtdSinistrosClien/10) * (5 + qtdSinistrosCondut/10);
     }
 }

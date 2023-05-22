@@ -119,42 +119,95 @@ public class Seguradora {
     }
     
     
-    
-    /*Recebe o CPF/CNPJ de um cliente e mostra seus sinistros na tela. Caso
-     * nao haja esse cliente, imprime essa mensagem e retorna null.
+    /*Recebe o CPF/CNPJ de um cliente e retorna uma lista com seus seguros. Caso
+     * nao haja esse cliente, retorna null.
      */
-     public boolean visualizarSinistrosCliente(String num) {
+    public ArrayList<Seguro> getSegurosCliente(String num) {
+        
+        ArrayList<Seguro> listaSeg = new ArrayList<Seguro>();
         
         Cliente clien = getCliente(num);
         if (clien == null) { //cliente nao existe
-            System.out.println("Cliente inexistente.");
-            return false;
+            return null;
         }
         
         if (clien instanceof ClientePF) {
             
             if (((ClientePF) clien).getSeguro().equals(null))
-                return true;
+                return listaSeg;
             
-            ArrayList<Sinistro> listaSini = ((ClientePF) clien).getSeguro().getListaSinistros();
-            for (Sinistro sini : listaSini)
-                System.out.println(String.format("Sinistro: %s\n", sini.toString()));
+            listaSeg.add(((ClientePF) clien).getSeguro());
+            return listaSeg;
             
         } else {
             
             for (SeguroPJ seg : ((ClientePJ) clien).getListaSeguros()) {
-                ArrayList<Sinistro> listaSini = seg.getListaSinistros();
-                for (Sinistro sini : listaSini)
-                    System.out.println(String.format("Sinistro: %s\n", sini.toString()));
+                listaSeg.add(seg);
             }
+            return listaSeg;
+        }
+    }
+    
+    /*Recebe o CPF/CNPJ de um cliente e retorna uma lista com seus sinistros. Caso
+     * nao haja esse cliente, retorna null.
+     */
+    public ArrayList<Sinistro> getSinistrosCliente(String num) {
+        
+        ArrayList<Sinistro> listaSini = new ArrayList<Sinistro>();
+        
+        Cliente clien = getCliente(num);
+        if (clien == null) { //cliente nao existe
+            return null;
         }
         
-        return true;
+        if (clien instanceof ClientePF) {
+            
+            if (((ClientePF) clien).getSeguro().equals(null))
+                return listaSini;
+            
+            return listaSini = ((ClientePF) clien).getSeguro().getListaSinistros();
+            
+        } else {
+            
+            for (SeguroPJ seg : ((ClientePJ) clien).getListaSeguros()) {
+                listaSini.addAll(seg.getListaSinistros());
+            }
+            return listaSini;
+        }
+    }
+    
+     
+    public boolean listarSegurosCliente(String num) {
+        
+        ArrayList<Seguro> listaSeg = getSegurosCliente(num);
+        
+        if (listaSeg == null) {
+            System.out.println("Cliente inexistente.");
+            return false;
+            
+        } else {
+            for (Seguro seg : listaSeg)
+                System.out.println(String.format("Seguro: %s\n", seg.toString()));
+            return true;
+        }
+        
+    }
+    
+    public boolean listarSinistrosCliente(String num) {
+        
+        ArrayList<Sinistro> listaSini = getSinistrosCliente(num);
+        
+        if (listaSini == null) {
+            System.out.println("Cliente inexistente.");
+            return false;
+            
+        } else {
+            for (Sinistro sini : listaSini)
+                System.out.println(String.format("Sinistro: %s\n", sini.toString()));
+            return true;
+        }
     }
      
-     
-     
-    
     //Imprime todos os clientes e suas informacoes
     public void listarClientes() {
         
@@ -226,6 +279,47 @@ public class Seguradora {
     }
     
     
+    /* Gera um seguroPF. Caso o cliente nao exista, ou ja possua 1 seguro, ou a placa nao seja
+     * de um carro seu, retorna false e nao o gera.
+     */
+    public boolean gerarSeguroPF(LocalDate dataInicio, LocalDate dataFim, String CPF, String placa) {
+        
+        Cliente clien = getCliente(CPF);
+        if (clien == null || clien instanceof ClientePJ || ((ClientePF)clien).getSeguro() != null)
+            return false;
+        
+        ListagemVeiculos listaV = ((ClientePF) clien).getListaVeic();
+        int i = listaV.buscarVeiculo(placa);
+        
+        if (i == -1)
+            return false;
+        
+        Veiculo veic = listaV.getVeiculo(i);
+        SeguroPF seg = new SeguroPF(dataInicio, dataFim, this, veic, (ClientePF)clien);
+        ((ClientePF)clien).setSeguro(seg);
+        ((ClientePF)clien).atualizarValorSeguro();
+        return true;
+    }
+    
+    // Gera um seguroPJ. Caso o cliente nao exista, ou a frota nao seja sua, retorna false e nao o gera.
+    public boolean gerarSeguroPJ(LocalDate dataInicio, LocalDate dataFim, String CNPJ, Frota frota) {
+        
+        Cliente clien = getCliente(CNPJ);
+        if (clien == null || clien instanceof ClientePF)
+            return false;
+        
+        ListagemFrotas listaF = ((ClientePJ) clien).getListaFrotas();
+        int i = listaF.buscarFrota(frota.getCodigo());
+        if (i == -1)
+            return false;
+        
+        SeguroPJ seg = new SeguroPJ(dataInicio, dataFim, this, frota, (ClientePJ) clien);
+        ((ClientePJ) clien).adicionarSeguro(seg);
+        ((ClientePJ) clien).atualizarValorSeguro();
+        return true;
+    }
+    
+    
     //Recebe o CPF/CNPJ do cliente a ser removido. Retorna true caso haja sucesso, ou false se ele nao existir
     public boolean removerCliente(String num) {
         
@@ -291,8 +385,9 @@ public class Seguradora {
         return;
     }
     
+    
     //Tenta remover um seguro de dado id, retorna falso se nao existir ou for do cliente
-    public boolean removerSeguro(Cliente clien, int id) {
+    public boolean cancelarSeguro(Cliente clien, int id) {
         
         if (clien instanceof ClientePF) {
             

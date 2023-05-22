@@ -35,6 +35,7 @@ public class ListagemVeiculos {
     public void remVeiculo() {
         qtdVeiculos--;
     }
+    
     /* Recebe os dados de um veiculo a ser criado e o adiciona na lista, retornando true.
      * Se o veiculo de placa dada ja existir na lista, retorna false e nao o adiciona.
      */

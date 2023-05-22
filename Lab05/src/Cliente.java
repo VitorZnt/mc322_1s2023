@@ -57,9 +57,7 @@ public abstract class Cliente {
     public void setValorSeguro(double valor) {
         valorSeguro = valor;
     }
-    
-    public abstract void atualizarValorSeguro();
-    
+
     //Adiciona 1 ao contador de sinistros
     public void addSinistro() {
         qtdSinistros++;

@@ -45,6 +45,8 @@ public class ListagemFrotas {
         return true;
     }
     
+    //Metodos de "atualizarFrota"
+    
     public boolean addVeiculoFrota(String codigo, Veiculo veic) {
         
         int i = buscarFrota(codigo);
@@ -52,7 +54,6 @@ public class ListagemFrotas {
             return false;
         return getFrota(i).adicionaVeiculo(veic);
     }
-    
     
     public boolean removerFrota(String codigo) {
         
