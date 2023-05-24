@@ -2,7 +2,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-class AppMain {
+class Antiga {
     
     private static ArrayList<Seguradora> listaSeguradoras;
     
