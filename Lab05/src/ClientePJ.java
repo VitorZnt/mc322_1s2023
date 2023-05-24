@@ -1,5 +1,4 @@
 import java.time.LocalDate;
-import java.util.ArrayList;
 
 public class ClientePJ extends Cliente {
     
@@ -8,7 +7,6 @@ public class ClientePJ extends Cliente {
     private LocalDate dataFundacao;
     private int qtdFuncionarios;
     private ListagemFrotas listaFrotas;
-    private ArrayList<SeguroPJ> listaSeguros;
     
     //Construtor
     public ClientePJ(String nome, String telefone,  String endereco, String email,
@@ -19,7 +17,6 @@ public class ClientePJ extends Cliente {
         this.dataFundacao = dataFundacao;
         this.qtdFuncionarios = qtdFuncionarios;
         listaFrotas = new ListagemFrotas();
-        listaSeguros = new ArrayList<SeguroPJ>();
     }
     
     
@@ -44,34 +41,6 @@ public class ClientePJ extends Cliente {
     
     public ListagemFrotas getListaFrotas() {
         return listaFrotas;
-    }
-    
-    public ArrayList<SeguroPJ> getListaSeguros() {
-        return listaSeguros;
-    }
-
-    
-    public void adicionarSeguro(SeguroPJ seguro) {
-        listaSeguros.add(seguro);
-    }
-    public boolean removerSeguro(int id) {
-        
-        for (int i = 0; i < listaSeguros.size(); i++) {
-            if (listaSeguros.get(i).getId() == id) {
-                listaSeguros.remove(i);
-                return true;
-            }
-        }
-        return false; //nao encontrado
-    }
-    
-    public void atualizarValorSeguro() {
-        
-        double i = 0;
-        for (SeguroPJ seguro : listaSeguros) {
-            i += seguro.getValorMensal();
-        }
-        setValorSeguro(i);
     }
 
     @Override

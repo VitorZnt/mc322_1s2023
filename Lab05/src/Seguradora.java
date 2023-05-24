@@ -123,29 +123,12 @@ public class Seguradora {
      * nao haja esse cliente, retorna null.
      */
     public ArrayList<Seguro> getSegurosCliente(String num) {
-        
-        ArrayList<Seguro> listaSeg = new ArrayList<Seguro>();
-        
+
         Cliente clien = getCliente(num);
         if (clien == null) { //cliente nao existe
             return null;
         }
-        
-        if (clien instanceof ClientePF) {
-            
-            if (((ClientePF) clien).getSeguro().equals(null))
-                return listaSeg;
-            
-            listaSeg.add(((ClientePF) clien).getSeguro());
-            return listaSeg;
-            
-        } else {
-            
-            for (SeguroPJ seg : ((ClientePJ) clien).getListaSeguros()) {
-                listaSeg.add(seg);
-            }
-            return listaSeg;
-        }
+        return clien.getListaSeguros();
     }
     
     /*Recebe o CPF/CNPJ de um cliente e retorna uma lista com seus sinistros. Caso
@@ -160,20 +143,10 @@ public class Seguradora {
             return null;
         }
         
-        if (clien instanceof ClientePF) {
-            
-            if (((ClientePF) clien).getSeguro().equals(null))
-                return listaSini;
-            
-            return listaSini = ((ClientePF) clien).getSeguro().getListaSinistros();
-            
-        } else {
-            
-            for (SeguroPJ seg : ((ClientePJ) clien).getListaSeguros()) {
-                listaSini.addAll(seg.getListaSinistros());
-            }
-            return listaSini;
+        for (Seguro seg : clien.getListaSeguros()) {
+            listaSini.addAll(seg.getListaSinistros());
         }
+        return listaSini;
     }
     
      
@@ -279,13 +252,13 @@ public class Seguradora {
     }
     
     
-    /* Gera um seguroPF. Caso o cliente nao exista, ou ja possua 1 seguro, ou a placa nao seja
+    /* Gera um seguroPF. Caso o cliente nao exista, ou a placa nao seja
      * de um carro seu, retorna false e nao o gera.
      */
     public boolean gerarSeguroPF(LocalDate dataInicio, LocalDate dataFim, String CPF, String placa) {
         
         Cliente clien = getCliente(CPF);
-        if (clien == null || clien instanceof ClientePJ || ((ClientePF)clien).getSeguro() != null)
+        if (clien == null || clien instanceof ClientePJ)
             return false;
         
         ListagemVeiculos listaV = ((ClientePF) clien).getListaVeic();
@@ -296,8 +269,8 @@ public class Seguradora {
         
         Veiculo veic = listaV.getVeiculo(i);
         SeguroPF seg = new SeguroPF(dataInicio, dataFim, this, veic, (ClientePF)clien);
-        ((ClientePF)clien).setSeguro(seg);
-        ((ClientePF)clien).atualizarValorSeguro();
+        clien.adicionarSeguro(seg);
+        clien.atualizarValorSeguro();
         return true;
     }
     
@@ -336,96 +309,61 @@ public class Seguradora {
     
     //Remove todos os seguros de um cliente e os sinistros relacionados ao seguro
     public void removerSegurosCliente(Cliente clien) {
-        
-        if (clien instanceof ClientePF) {
-            
-            SeguroPF seg = ((ClientePF) clien).getSeguro();
+        ArrayList<Seguro> ListaSeg = clien.getListaSeguros();
+
+        for (Seguro seg : ListaSeg) {
             ArrayList<Condutor> listaCond = seg.getListaCondutores();
-            
+
             //removendo os sinistros desse seguro de cada condutor relacionado
             for (int i = 0; i < listaCond.size(); i++) {
                 Condutor cond = listaCond.get(i);
                 ArrayList<Sinistro> listaSini = cond.getListaSinistros();
-                
+
                 for (Sinistro sini : seg.getListaSinistros()) {
-                    
+
                     for (int j = cond.getQtdSinistros() - 1; j >= 0; j--) {
-                        
+
                         if (sini.getId() == listaSini.get(j).getId())
                             listaSini.remove(j);
                     }
                 }
             }
-            ((ClientePF) clien).setSeguro(null);
-        } else {
-            ArrayList<SeguroPJ> ListaSeg = ((ClientePJ) clien).getListaSeguros();
-            
-            for (SeguroPJ seg : ListaSeg) {
+        }
+        ArrayList<Seguro> listaSeg = clien.getListaSeguros();
+        for (int i = listaSeg.size(); i >= 0; i--)
+            ((ClientePJ) clien).getListaSeguros().remove(i);
+        }
+    
+    
+    //Tenta remover um seguro de dado id, retorna falso se nao existir ou for do cliente
+    public boolean cancelarSeguro(Cliente clien, int id) {
+
+        ArrayList<Seguro> listaSeg = clien.getListaSeguros();
+        for (int i = listaSeg.size(); i <= 0; i--) {
+
+            Seguro seg = listaSeg.get(i);
+            if (seg.getId() == id) { //seguro encontrado
+
                 ArrayList<Condutor> listaCond = seg.getListaCondutores();
-                
+
                 //removendo os sinistros desse seguro de cada condutor relacionado
-                for (int i = 0; i < listaCond.size(); i++) {
-                    Condutor cond = listaCond.get(i);
+                for (int k = 0; k < listaCond.size(); k++) {
+                    Condutor cond = listaCond.get(k);
                     ArrayList<Sinistro> listaSini = cond.getListaSinistros();
-                    
+
                     for (Sinistro sini : seg.getListaSinistros()) {
-                        
+
                         for (int j = cond.getQtdSinistros() - 1; j >= 0; j--) {
-                            
+
                             if (sini.getId() == listaSini.get(j).getId())
                                 listaSini.remove(j);
                         }
                     }
                 }
+                return true;
             }
-            ArrayList<SeguroPJ> listaSeg = ((ClientePJ) clien).getListaSeguros();
-            for (int i = listaSeg.size(); i >= 0; i--)
-                ((ClientePJ) clien).getListaSeguros().remove(i);
         }
-        return;
-    }
-    
-    
-    //Tenta remover um seguro de dado id, retorna falso se nao existir ou for do cliente
-    public boolean cancelarSeguro(Cliente clien, int id) {
-        
-        if (clien instanceof ClientePF) {
-            
-            if (((ClientePF) clien).getSeguro().getId() != id)
-                return false;
-            
-            removerSegurosCliente(clien); //cada clientePF so possui 1 seguro
-            return true;
-            
-        } else {
-            
-            ArrayList<SeguroPJ> listaSeg = ((ClientePJ) clien).getListaSeguros();
-            for (int i = listaSeg.size(); i <= 0; i--) {
-                
-                SeguroPJ seg = listaSeg.get(i);
-                if (seg.getId() == id) { //seguro encontrado
-                    
-                    ArrayList<Condutor> listaCond = seg.getListaCondutores();
-                    
-                    //removendo os sinistros desse seguro de cada condutor relacionado
-                    for (int k = 0; k < listaCond.size(); k++) {
-                        Condutor cond = listaCond.get(k);
-                        ArrayList<Sinistro> listaSini = cond.getListaSinistros();
-                        
-                        for (Sinistro sini : seg.getListaSinistros()) {
-                            
-                            for (int j = cond.getQtdSinistros() - 1; j >= 0; j--) {
-                                
-                                if (sini.getId() == listaSini.get(j).getId())
-                                    listaSini.remove(j);
-                            }
-                        }
-                    }
-                    return true;
-                }
-            }
-            return false;
-        }
+        return false;
     }
     
     

@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public abstract class Cliente {
     
     // Atributos de instancia
@@ -7,6 +9,7 @@ public abstract class Cliente {
     private String email;
     private int qtdSinistros;
     private double valorSeguro;
+    private ArrayList<Seguro> listaSeguros;
     
     // Construtor
     public Cliente(String nome, String telefone, String endereco, String email) {
@@ -16,6 +19,7 @@ public abstract class Cliente {
         this.endereco = endereco;
         this.email = email;
         qtdSinistros = 0;
+        listaSeguros = new ArrayList<Seguro>();
     }
 
     // Metodos de Get e Set
@@ -58,6 +62,34 @@ public abstract class Cliente {
         valorSeguro = valor;
     }
 
+    public ArrayList<Seguro> getListaSeguros() {
+        return listaSeguros;
+    }
+    
+    public void adicionarSeguro(Seguro seguro) {
+        listaSeguros.add(seguro);
+    }
+    
+    public boolean removerSeguro(int id) {
+        
+        for (int i = 0; i < listaSeguros.size(); i++) {
+            if (listaSeguros.get(i).getId() == id) {
+                listaSeguros.remove(i);
+                return true;
+            }
+        }
+        return false; //nao encontrado
+    }
+    
+    public void atualizarValorSeguro() {
+        
+        double i = 0;
+        for (Seguro seguro : listaSeguros) {
+            i += seguro.getValorMensal();
+        }
+        setValorSeguro(i);
+    }
+    
     //Adiciona 1 ao contador de sinistros
     public void addSinistro() {
         qtdSinistros++;

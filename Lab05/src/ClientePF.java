@@ -8,7 +8,6 @@ public class ClientePF extends Cliente {
     private String educacao;
     private LocalDate dataNascimento;
     private ListagemVeiculos listaVeic; //metodos cadastrar e remover veiculos estao nessa classe
-    private SeguroPF seguro;
     
     //Construtor
     public ClientePF(String nome, String telefone,  String endereco, String email,
@@ -20,7 +19,6 @@ public class ClientePF extends Cliente {
         this.educacao = educacao;
         this.genero = genero;
         listaVeic = new ListagemVeiculos();
-        seguro = null;
     }
 
 
@@ -52,23 +50,13 @@ public class ClientePF extends Cliente {
         return listaVeic;
     }
     
-    public SeguroPF getSeguro() {
-        return seguro; //Retorna null caso nao haja seguro
-    }
-    public void setSeguro(SeguroPF seguro) {
-        this.seguro = seguro;
-    }
-    
-    public void atualizarValorSeguro() {
-        setValorSeguro(seguro.getValorMensal());
-    }
     
     @Override
     public String toString() {
         
         String str = super.toString() + 
-                     String.format("CPF: %s\nGenero: %s\nEducacao: %s\nData de nascimento: %s\nId seguro: %d\n",
-                                   CPF, genero, educacao, dataNascimento, seguro.getId())
+                     String.format("CPF: %s\nGenero: %s\nEducacao: %s\nData de nascimento: %s\n",
+                                   CPF, genero, educacao, dataNascimento)
                      + "Veiculos:\n" + listaVeic.toString();
         return str;
     }
