@@ -1,4 +1,5 @@
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class ClientePJ extends Cliente {
     
@@ -41,6 +42,22 @@ public class ClientePJ extends Cliente {
     
     public ListagemFrotas getListaFrotas() {
         return listaFrotas;
+    }
+    
+    public int buscarFrota(String codigo) {
+        return listaFrotas.buscarFrota(codigo);
+    }
+    
+    public Frota getFrota(String codigo) {
+        
+        int i = buscarFrota(codigo);
+        if (i == -1)
+            return null;
+        return listaFrotas.getFrota(i);
+    }
+    
+    public ArrayList<Veiculo> getVeiculosPorFrota(String codigo) {
+        return listaFrotas.getVeiculosPorFrota(codigo);
     }
     
     public boolean cadastrarFrota(String codigo, Veiculo... listaVeic) {

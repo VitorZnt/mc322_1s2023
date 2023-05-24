@@ -22,6 +22,20 @@ public class ListagemFrotas {
         return -1;
     }
     
+    public ArrayList<Veiculo> getVeiculosPorFrota(String codigo) {
+        
+        int i = buscarFrota(codigo);
+        if (i == -1)
+            return null;
+        Frota f = listaFrotas.get(i);
+        ListagemVeiculos v = f.getListaVeic();
+        ArrayList<Veiculo> l = new ArrayList<Veiculo>();
+        for (i = 0; i < v.getQtdVeiculos(); i++) {
+            l.add(v.getVeiculo(i));
+        }
+        return l;
+    }
+    
     /* Adiciona uma serie de veiculos como uma frota na listagem. Retorna false e nao cria
      * caso algum veiculo do parametro ja existe em alguma frota da mesma listagem.
      */

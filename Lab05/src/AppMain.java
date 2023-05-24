@@ -7,14 +7,14 @@ class AppMain {
     private static ArrayList<Seguradora> listaSeguradoras;
     
     //Adiciona uma seguradora na lista de seguradoras do programa e retorna seu numero/posicao.
-    private static int addSeg(String CNPJ, String nome, String telefone, String email, String endereco) {
+    private static int addSeguradora(String CNPJ, String nome, String telefone, String email, String endereco) {
         
         Seguradora seg = new Seguradora(CNPJ, nome, telefone, email, endereco);
         listaSeguradoras.add(seg);
         return listaSeguradoras.size();
     }
     
-    private static int addSeg(Seguradora seg) {
+    private static int addSeguradora(Seguradora seg) {
 
         listaSeguradoras.add(seg);
         return listaSeguradoras.size();
@@ -28,7 +28,7 @@ class AppMain {
     }
     
     /*main com objetivo de teste das classes e seus metodos*/
-    public static void main(String[] args) {
+    private static void TesteMain() {
         
         Scanner entrada = new Scanner(System.in);
         listaSeguradoras = new ArrayList<Seguradora>();
@@ -52,7 +52,7 @@ class AppMain {
         
         //Cadastrando cada um:
         
-        addSeg(minhaSeg);
+        addSeguradora(minhaSeg);
         
         clien1.cadastrarVeiculo(vei1);
         clien2.cadastrarFrota("frota_patrulha", vei2, vei3);
@@ -65,16 +65,13 @@ class AppMain {
         
         //Gerando seguros:
         
-        SeguroPF seg1 = new SeguroPF(LocalDate.parse("2009-01-01"), LocalDate.parse("2027-01-01"),
-                                     minhaSeg, vei1, clien1);
-        SeguroPJ seg2 = new SeguroPJ(LocalDate.parse("2009-01-01"), LocalDate.parse("2027-01-01"),
-                                     minhaSeg, clien2.getListaFrotas().getFrota(0), clien2);
-        SeguroPJ seg3 = new SeguroPJ(LocalDate.parse("2009-01-01"), LocalDate.parse("2027-01-01"),
-                                     minhaSeg, clien3.getListaFrotas().getFrota(0), clien3);
-        
-        clien1.adicionarSeguro(seg1);
-        clien2.adicionarSeguro(seg2);
-        clien3.adicionarSeguro(seg3);
+        minhaSeg.gerarSeguroPF(LocalDate.parse("2009-01-01"), LocalDate.parse("2027-01-01"),
+                               "668.467.025-47", "123546");
+        minhaSeg.gerarSeguroPJ(LocalDate.parse("2009-01-01"), LocalDate.parse("2027-01-01"),
+                               "82.846.568/0001-92", clien2.getFrota("frota_patrulha"));
+        minhaSeg.gerarSeguroPJ(LocalDate.parse("2009-01-01"), LocalDate.parse("2027-01-01"),
+                               "17.398.731/0001-30", clien3.getFrota("frota_manutencao"));
+
         
         //Gerando condutores:
         
@@ -83,13 +80,16 @@ class AppMain {
         Condutor con2 = new Condutor("164.924.730-35", "Maria", "6878-4987", "predio", "antes@gmail.com",
                                      LocalDate.parse("2002-01-01"));
         
+        Seguro seg1 = minhaSeg.getSegurosCliente("668.467.025-47").get(0);
         seg1.autorizarCondutor(con1);
         
+        Seguro seg2 = minhaSeg.getSegurosCliente("82.846.568/0001-92").get(0);
         seg2.autorizarCondutor(con2);
         
+        Seguro seg3 = minhaSeg.getSegurosCliente("17.398.731/0001-30").get(0);
         seg3.autorizarCondutor(con1);
         seg3.autorizarCondutor(con2);
-        
+
         
         //Gerando sinistros:
 
@@ -110,15 +110,41 @@ class AppMain {
         
         System.out.println("Listando clientes:");
         minhaSeg.listarClientes();
+        
         System.out.println("Listando seguros clien1:");
-        minhaSeg.listarSegurosCliente("668.467.025-47");
-        minhaSeg.listarSegurosCliente("82.846.568/0001-92");
-        minhaSeg.listarSegurosCliente("17.398.731/0001-30");
+        minhaSeg.listarSegurosCliente(clien1.getCPF());
+        minhaSeg.listarSegurosCliente(clien2.getCNPJ());
+        minhaSeg.listarSegurosCliente(clien3.getCNPJ());
+        
         System.out.println("Listando sinistros clien1");
-        minhaSeg.listarSinistrosCliente("668.467.025-47");
+        minhaSeg.listarSinistrosCliente(clien1.getCPF());
+        
         System.out.println("Receita da seguradora:");
         System.out.println(minhaSeg.calcularReceita());
         
+        System.out.println("Cancelando seguro do cliente 3:");
+        minhaSeg.cancelarSeguro(clien3, seg3.getId());
+        clien3.atualizarValorSeguro();
+        
+        System.out.println("Nova receita da seguradora:");
+        System.out.println(minhaSeg.calcularReceita());
+        
+        System.out.println("Removendo o cliente 1:");
+        minhaSeg.removerCliente(clien1.getCPF());
+        
+        System.out.println("Nova receita da seguradora:");
+        System.out.println(minhaSeg.calcularReceita());
+        
+        entrada.close();
+        
+    }
+    
+    /*main com objetivo de teste das classes e seus metodos*/
+    public static void main(String[] args) {
+        
+        TesteMain();
+        
+        Scanner entrada = new Scanner(System.in);
         
         /*Informacoes usadas no loop do programa*/
 
@@ -127,6 +153,8 @@ class AppMain {
         System.out.println();
         
         
+        
+        entrada.close();
         
         
     }

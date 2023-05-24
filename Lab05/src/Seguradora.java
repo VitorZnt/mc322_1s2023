@@ -278,7 +278,7 @@ public class Seguradora {
     public boolean gerarSeguroPJ(LocalDate dataInicio, LocalDate dataFim, String CNPJ, Frota frota) {
         
         Cliente clien = getCliente(CNPJ);
-        if (clien == null || clien instanceof ClientePF)
+        if (clien == null || clien instanceof ClientePF || frota == null)
             return false;
         
         ListagemFrotas listaF = ((ClientePJ) clien).getListaFrotas();
@@ -330,8 +330,8 @@ public class Seguradora {
             }
         }
         ArrayList<Seguro> listaSeg = clien.getListaSeguros();
-        for (int i = listaSeg.size(); i >= 0; i--)
-            ((ClientePJ) clien).getListaSeguros().remove(i);
+        for (int i = listaSeg.size() - 1; i >= 0; i--)
+            clien.getListaSeguros().remove(i);
         }
     
     
