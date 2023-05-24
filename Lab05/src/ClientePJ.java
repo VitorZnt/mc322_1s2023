@@ -42,6 +42,33 @@ public class ClientePJ extends Cliente {
     public ListagemFrotas getListaFrotas() {
         return listaFrotas;
     }
+    
+    public boolean cadastrarFrota(String codigo, Veiculo... listaVeic) {
+        return listaFrotas.cadastrarFrota(codigo, listaVeic);
+    }
+    
+    //Caso comando == 1, adiciona o veic. Caso seja 2, remove
+    public boolean atualizarFrota(String codigo, Veiculo veic, int comando) {
+        
+        if (comando == 1) {
+            return listaFrotas.addVeiculoFrota(codigo, veic);
+        } else if (comando == 2) {
+            return listaFrotas.removerVeiculoFrota(codigo, veic);
+        } else {
+            return false;
+        }
+    }
+    
+    //Caso comando == 3, remove a frota inteira
+    public boolean atualizarFrota(String codigo, int comando) {
+        
+        if (comando == 3) {
+            return listaFrotas.removerFrota(codigo);
+        } else {
+            return false;
+        }
+    }
+    
 
     @Override
     public String toString() {

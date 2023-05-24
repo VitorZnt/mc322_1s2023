@@ -19,6 +19,7 @@ public abstract class Cliente {
         this.endereco = endereco;
         this.email = email;
         qtdSinistros = 0;
+        valorSeguro = 0;
         listaSeguros = new ArrayList<Seguro>();
     }
 

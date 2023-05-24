@@ -25,7 +25,7 @@ public class ListagemFrotas {
     /* Adiciona uma serie de veiculos como uma frota na listagem. Retorna false e nao cria
      * caso algum veiculo do parametro ja existe em alguma frota da mesma listagem.
      */
-    public boolean cadastrarFrota(String codigo, Veiculo[] listaVeic) {
+    public boolean cadastrarFrota(String codigo, Veiculo... listaVeic) {
         
         if (listaVeic.length == 0)
             return false;

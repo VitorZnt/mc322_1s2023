@@ -23,7 +23,7 @@ public abstract class Seguro {
         listaSinistros = new ArrayList<Sinistro>();
         listaCondutores = new ArrayList<Condutor>();
         id = gerarId();
-        valorMensal = calcularValor();
+        valorMensal = 0;
     }
     
     

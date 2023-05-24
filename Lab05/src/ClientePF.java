@@ -50,6 +50,17 @@ public class ClientePF extends Cliente {
         return listaVeic;
     }
     
+    public boolean cadastrarVeiculo(String placa, String marca, String modelo, int anoFabricacao) {
+        return listaVeic.cadastrarVeiculo(placa, marca, modelo, anoFabricacao);
+    }
+    
+    public boolean cadastrarVeiculo(Veiculo veic) {
+        return listaVeic.cadastrarVeiculo(veic);
+    }
+    
+    public boolean removerVeiculo(String placa) {
+        return listaVeic.removerVeiculo(placa);
+    }
     
     @Override
     public String toString() {
