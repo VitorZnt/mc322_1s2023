@@ -76,14 +76,28 @@ public class ClientePJ extends Cliente {
         }
     }
     
-    //Caso comando == 3, remove a frota inteira
-    public boolean atualizarFrota(String codigo, int comando) {
+    /*Caso comando == 3, remove a frota inteira. Retorna o id do seguro A SER REMOVIDO
+     * da Seguradora sua. Retorna -1 caso nao haja tal frota
+     */
+    public int atualizarFrota(String codigo, int comando) {
         
         if (comando == 3) {
-            return listaFrotas.removerFrota(codigo);
-        } else {
-            return false;
+            
+            if (listaFrotas.removerFrota(codigo)) {
+                
+                ArrayList<Seguro> listaSeg = this.getListaSeguros();
+                for (int i = listaSeg.size() - 1; i >= 0; i--) {
+                    
+                    SeguroPJ seg = (SeguroPJ)(listaSeg.get(i));
+                    if (seg.getFrota().getCodigo().equals(codigo)) {
+                        listaSeg.remove(i);
+                        return seg.getId(); 
+                    }
+                }
+                
+            }
         }
+        return -1;
     }
     
 

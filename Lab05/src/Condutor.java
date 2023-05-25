@@ -82,4 +82,12 @@ public class Condutor {
         qtdSinistros--;
         return;
     }
+    
+    @Override
+    public String toString() {
+        
+        String str = String.format("Nome: %s\nTelefone: %s\nCPF: %s\nData de nascimento: %s\n",
+                                   nome, telefone, CPF, dataNascimento);
+        return str;
+    }
 }

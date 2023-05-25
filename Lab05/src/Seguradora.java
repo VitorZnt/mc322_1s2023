@@ -361,6 +361,7 @@ public class Seguradora {
                     }
                 }
                 clien.removerSeguro(id);
+                listaSeguros.remove(id);
                 return true;
             }
         }

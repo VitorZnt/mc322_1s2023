@@ -1,4 +1,5 @@
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class ClientePF extends Cliente {
     
@@ -58,8 +59,25 @@ public class ClientePF extends Cliente {
         return listaVeic.cadastrarVeiculo(veic);
     }
     
-    public boolean removerVeiculo(String placa) {
-        return listaVeic.removerVeiculo(placa);
+    
+    /* Remove um veiculo do cliente e seu seguro associado. Retorna o id do seguro
+     * A SER REMOVIDO da Seguradora sua. Retorna -1 caso nao haja tal veiculo
+     */
+    public int removerVeiculo(String placa) {
+        
+        if (listaVeic.removerVeiculo(placa)) {
+            
+            ArrayList<Seguro> listaSeg = this.getListaSeguros();
+            for (int i = listaSeg.size() - 1; i >= 0; i--) {
+                
+                SeguroPF seg = (SeguroPF)(listaSeg.get(i));
+                if (seg.getVeiculo().getPlaca().equals(placa)) {
+                    listaSeg.remove(i);
+                    return seg.getId();
+                }
+            }
+        }
+        return -1;
     }
     
     @Override
