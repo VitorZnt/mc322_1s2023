@@ -153,7 +153,7 @@ class AppMain {
         String subcomandos_2 = "1 - Adicionar veiculo frota\n2 - Remover veiculo frota\n3 - Remover frota\n4 - Voltar\n";
         String subcomandos_3 = "Gerar:\n1 - Sinistro\n2 - Seguro PF\n3 - Seguro PJ\n4 - Voltar\n";
         String subcomandos_4 = "1 - Autorizar\n2 - Desautorizar\n3 - Voltar";
-        String subcomandos_5 = "Listar:\n1 - Cliente\n2 - Seguros do cliente\n3 - Sinistros do cliente\n"
+        String subcomandos_5 = "Listar:\n1 - Infos cliente\n2 - Seguros do cliente\n3 - Sinistros do cliente\n"
                 + "4 - Veiculos do cliente PF\n5 - Frotas do cliente PJ\n6 - Voltar";
         String subcomandos_6 = "";
         String subcomandos_7 = "Remover:\n1 - Cliente\n2 - Veiculo\n3 - Frota\n4 - Voltar";
@@ -209,7 +209,7 @@ class AppMain {
         /*Loop do programa com comandos*/
         while (flag) {
             
-            System.out.println(comandos_principais + aviso);
+            System.out.println(subcomandos(0) + subcomandos(-1));
             param = new ArrayList<String>();
             int i = entrada.nextInt();
             int k;
@@ -226,7 +226,7 @@ class AppMain {
             
             
             case CADASTRAR:
-                System.out.println(subcomandos_1);
+                System.out.println(subcomandos(1));
                 k = entrada.nextInt();
                 comando2 = MenuOperacoes.getOperacaoPorCodigo(10*i + k);
                 
@@ -236,8 +236,8 @@ class AppMain {
                 
                 
                 case CADASTRAR_PF:
-                    System.out.println("Digite nessa sequencia: num. da seguradora, nome, endereco, educacao, genero, "
-                                     + "classe economica, CPF, data de nascimento e data da licenca.");
+                    System.out.println("Digite nessa sequencia: num. da seguradora, nome, telefone, "
+                            + "endereco, email, CPF, genero, educacao e data de nascimento.");
                     for (int j = 0; j < 9; j++)
                         param.add(entrada.next());
                     seg = getSeg(Integer.parseInt(param.get(0)));
@@ -247,7 +247,7 @@ class AppMain {
                         break;
                     }
                     
-                    flag_sucesso = Validacao.validarDadosPF(param.get(6), param.get(1), LocalDate.parse(param.get(7)));
+                    flag_sucesso = Validacao.validarDadosPF(param.get(5), param.get(1), LocalDate.parse(param.get(8)));
                     
                     if (!flag_sucesso) {
                         System.out.println("Nome, CPF ou data de nascimento invalidos");
@@ -255,9 +255,8 @@ class AppMain {
                     }
                     
                     ClientePF clienPf = new ClientePF(param.get(1), param.get(2), param.get(3), param.get(4), param.get(5),
-                                          param.get(6), LocalDate.parse(param.get(7)), LocalDate.parse(param.get(8)));
+                                          param.get(6), (param.get(7)), LocalDate.parse(param.get(8)));
                     flag_sucesso = seg.cadastrarCliente(clienPf);
-                    seg.atualizarPrecoClien(clienPf);
                     
                     if (!flag_sucesso)
                         System.out.println("Cliente ja existente");
@@ -269,10 +268,10 @@ class AppMain {
                     
                     
                 case CADASTRAR_PJ:
-                    System.out.println("Digite nessa sequencia: num. da seguradora, nome, endereco, CNPJ, "
-                                     + "data de fundacao e qtd funcionarios.");
+                    System.out.println("Digite nessa sequencia: num. da seguradora, nome, telefone, endereco, "
+                            + "email, CNPJ, data de fundacao e qtd funcionarios.");
                     
-                    for (int j = 0; j < 6; j++)
+                    for (int j = 0; j < 8; j++)
                         param.add(entrada.next());
                     seg = getSeg(Integer.parseInt(param.get(0)));
                     
@@ -281,17 +280,16 @@ class AppMain {
                         break;
                     }
                     
-                    flag_sucesso = Validacao.validarDadosPJ(param.get(3), param.get(1));
+                    flag_sucesso = Validacao.validarDadosPJ(param.get(5), param.get(1));
                     
                     if (!flag_sucesso) {
                         System.out.println("Nome ou CNPJ invalidos");
                         break;
                     }
                         
-                    ClientePJ clienPj = new ClientePJ(param.get(1), param.get(2), param.get(3),
-                                       LocalDate.parse(param.get(4)), Integer.parseInt(param.get(5)));
+                    ClientePJ clienPj = new ClientePJ(param.get(1), param.get(2), param.get(3), param.get(4),
+                            param.get(5), LocalDate.parse(param.get(6)), Integer.parseInt(param.get(7)));
                     flag_sucesso = seg.cadastrarCliente(clienPj);
-                    seg.atualizarPrecoClien(clienPj);
                     
                     if (!flag_sucesso)
                         System.out.println("Cliente ja existente");
@@ -302,8 +300,8 @@ class AppMain {
                     
                     
                     
-                case CADASTRAR_VEICULO:
-                    System.out.println("Digite nessa sequencia: num. da seguradora, CPF/CNPJ do cliente, placa, marca,"
+                case CADASTRAR_VEICULO_PF:
+                   System.out.println("Digite nessa sequencia: num. da seguradora, CPF do cliente, placa, marca,"
                                      + "modelo e ano de fabricacao do veiculo.");
                    
                    for (int j = 0; j < 6; j++)
@@ -316,36 +314,104 @@ class AppMain {
                    }
                    
                    clien = seg.getCliente(param.get(1));
-                   if (clien == null) {
-                       System.out.println("Cliente nao existente ou CPF/CNPJ invalido");
+                   if (clien == null || clien instanceof ClientePJ) {
+                       System.out.println("Cliente nao existente ou CPF invalido");
                        break;
                    }
-                   flag_sucesso = clien.cadastrarVeiculo(param.get(2), param.get(3), param.get(4),
+                   flag_sucesso = ((ClientePF)clien).cadastrarVeiculo(param.get(2), param.get(3), param.get(4),
                                                          Integer.parseInt(param.get(5)));
-                   seg.atualizarPrecoClien(clien);
+                   clien.atualizarValorSeguro();
                    
                    if (!flag_sucesso)
                        System.out.println("Veiculo ja existente");
                    else
                        System.out.println("Veiculo cadastrado com sucesso");
                    break;
-                
                    
                    
                    
+                   
+
+                case CADASTRAR_FROTA_PJ:
+
+                    System.out.println("Digite o num. da seguradora e CNPJ do cliente");
+
+                    for (int j = 0; j < 2; j++)
+                        param.add(entrada.next());
+                    seg = getSeg(Integer.parseInt(param.get(0)));
+
+                    if (seg == null) {
+                        System.out.println("Seguradora nao encontrada");
+                        break;
+                    }
+
+                    clien = seg.getCliente(param.get(1));
+                    if (clien == null || clien instanceof ClientePF) {
+                        System.out.println("Cliente nao existente ou CNPJ invalido");
+                        break;
+                    }
+                    
+                    System.out.println("Digite o nome que deseja como codigo da frota:");
+                    String codigo = entrada.next();
+                    if (((ClientePJ)clien).buscarFrota(codigo) != -1) {
+                        System.out.println("Nome de frota ja existente");
+                        break;
+                    }
+                    
+                    boolean flag_mais_carros;
+                    
+                    do {
+                        
+                        param.clear();
+                        flag_mais_carros = false;
+                        System.out.println("Cadastrando veiculo. Digite nessa sequencia: placa, marca,"
+                                + "modelo e ano de fabricacao do veiculo.");
+                        for (int j = 0; j < 4; j++)
+                            param.add(entrada.next());
+                        Veiculo veic = new Veiculo(param.get(0), param.get(1), param.get(2),
+                                                   Integer.parseInt(param.get(3)));
+                        if (((ClientePJ)clien).getFrota(codigo) == null)
+                            flag_sucesso = ((ClientePJ)clien).cadastrarFrota(codigo, veic);
+                        else
+                            flag_sucesso = ((ClientePJ)clien).atualizarFrota(codigo, veic, 1);
+                        
+                        if (!flag_sucesso)
+                            System.out.println("Veiculo ja existente em outra frota. Nao foi adicionado");
+                        
+                        System.out.println("Deseja adicionar outro veiculo? 1 - Sim, 2 - Nao");
+                        if (entrada.next().equals("1"))
+                            flag_mais_carros = true;
+                        else
+                            flag_mais_carros = false;
+                        
+                    } while (flag_mais_carros);
+                    
+                    break;
+                   
+                    
+                    
+                    
+                    
                 case CADASTRAR_SEGURADORA:
-                    System.out.println("Digite nessa sequencia: nome, telefone, email e endereco.");
-                    for (int j = 0; j < 4; j++)
+                    System.out.println("Digite nessa sequencia: CNPJ, nome, telefone, email e endereco.");
+                    for (int j = 0; j < 5; j++)
                         param.add(entrada.next());
                     for (Seguradora aux : listaSeguradoras)
-                        if (aux.getNome().equals(param.get(0))) {
+                        if (aux.getCNPJ().equals(param.get(0))) {
                             System.out.println("Seguradora ja existente");
                             flag_sucesso = false;
                         }
                     if (!flag_sucesso)
                         break;
                     
-                    int num = addSeg(param.get(0), param.get(1), param.get(2), param.get(3));
+                    flag_sucesso = Validacao.validarDadosPJ(param.get(0), param.get(1));
+                    
+                    if (!flag_sucesso) {
+                        System.out.println("Nome ou CNPJ invalidos");
+                        break;
+                    }
+                    
+                    int num = addSeguradora(param.get(0), param.get(1), param.get(2), param.get(3), param.get(4));
                     System.out.println(String.format("Seguradora criada na posicao %d", num));
                     break;
                     
@@ -354,7 +420,7 @@ class AppMain {
                 case VOLTAR1:
                     break;
                 default:
-                    System.out.println("Comando invalido.");
+                    System.out.println(subcomandos(9));
                     break;
                 }
                 break;
@@ -421,7 +487,7 @@ class AppMain {
                     
                     
                 default:
-                    System.out.println("Comando invalido.");
+                    System.out.println(subcomandos(9));
                     break;
                 }
                 break;
@@ -499,7 +565,7 @@ class AppMain {
                     
                     
                 default:
-                    System.out.println("Comando invalido.");
+                    System.out.println(subcomandos(9));
                     break;
                 
                 }
@@ -571,7 +637,7 @@ class AppMain {
                 break;
                 
             default:
-                System.out.println("Comando invalido.");
+                System.out.println(subcomandos(9));
                 break;
                 
             }
