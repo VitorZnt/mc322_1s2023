@@ -113,7 +113,9 @@ class AppMain {
         
         System.out.println("Listando seguros clien1:");
         minhaSeg.listarSegurosCliente(clien1.getCPF());
+        System.out.println("Listando seguros clien2:");
         minhaSeg.listarSegurosCliente(clien2.getCNPJ());
+        System.out.println("Listando seguros clien3:");
         minhaSeg.listarSegurosCliente(clien3.getCNPJ());
         
         System.out.println("Listando sinistros clien1");

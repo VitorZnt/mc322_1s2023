@@ -324,7 +324,7 @@ public class Seguradora {
                     for (int j = cond.getQtdSinistros() - 1; j >= 0; j--) {
 
                         if (sini.getId() == listaSini.get(j).getId())
-                            listaSini.remove(j);
+                            cond.removerSinistro(j);
                     }
                 }
             }
@@ -339,7 +339,7 @@ public class Seguradora {
     public boolean cancelarSeguro(Cliente clien, int id) {
 
         ArrayList<Seguro> listaSeg = clien.getListaSeguros();
-        for (int i = listaSeg.size(); i <= 0; i--) {
+        for (int i = listaSeg.size() - 1; i >= 0; i--) {
 
             Seguro seg = listaSeg.get(i);
             if (seg.getId() == id) { //seguro encontrado
@@ -356,10 +356,11 @@ public class Seguradora {
                         for (int j = cond.getQtdSinistros() - 1; j >= 0; j--) {
 
                             if (sini.getId() == listaSini.get(j).getId())
-                                listaSini.remove(j);
+                                cond.removerSinistro(j);
                         }
                     }
                 }
+                clien.removerSeguro(id);
                 return true;
             }
         }

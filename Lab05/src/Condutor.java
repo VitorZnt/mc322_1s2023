@@ -75,4 +75,11 @@ public class Condutor {
         qtdSinistros++;
         return;
     }
+    
+    //Remove o sinistro de indice i. Assume que sua existencia ja foi verificada.
+    public void removerSinistro(int i) {
+        listaSinistros.remove(i);
+        qtdSinistros--;
+        return;
+    }
 }
