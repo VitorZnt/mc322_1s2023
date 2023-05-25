@@ -19,13 +19,21 @@ public class ListagemVeiculos {
         return qtdVeiculos;
     }
     
-    /*Recebe um indice de veiculo e o retorna. Assume que a existencia desse
-     *veiculo e seu indice ja foram verificados por buscarVeiculo
+    /*Recebe uma placa de veiculo e o retorna. Retorna null caso nao encontrado
     */
-    public Veiculo getVeiculo(int i) {
+    public Veiculo getVeiculo(String placa) {
+        int i = buscarVeiculo(placa);
+        if (i == -1)
+            return null;
         return listaVeiculos.get(i);
     }
     
+    /*Recebe um indice na lista de veiculos e o retorna. Assume que sua existencia
+     * ja foi verificada.
+    */
+    public Veiculo getVeiculo(int i) {
+        return listaVeiculos.get(i);
+    }    
     
     //Adiciona 1 ao contador de veiculos
     public void addVeiculo() {

@@ -21,7 +21,7 @@ class AppMain {
     }
     
     //Retorna a referencia a uma seguradora com base na sua posicao i (indice i - 1).
-    private static Seguradora getSeg(int i) {
+    private static Seguradora getSeguradora(int i) {
         if (i > listaSeguradoras.size())
             return null;
         return listaSeguradoras.get(i - 1);
@@ -240,7 +240,7 @@ class AppMain {
                             + "endereco, email, CPF, genero, educacao e data de nascimento.");
                     for (int j = 0; j < 9; j++)
                         param.add(entrada.next());
-                    seg = getSeg(Integer.parseInt(param.get(0)));
+                    seg = getSeguradora(Integer.parseInt(param.get(0)));
                     
                     if (seg == null) {
                         System.out.println("Seguradora nao encontrada");
@@ -273,7 +273,7 @@ class AppMain {
                     
                     for (int j = 0; j < 8; j++)
                         param.add(entrada.next());
-                    seg = getSeg(Integer.parseInt(param.get(0)));
+                    seg = getSeguradora(Integer.parseInt(param.get(0)));
                     
                     if (seg == null) {
                         System.out.println("Seguradora nao encontrada");
@@ -306,7 +306,7 @@ class AppMain {
                    
                    for (int j = 0; j < 6; j++)
                        param.add(entrada.next());
-                   seg = getSeg(Integer.parseInt(param.get(0)));
+                   seg = getSeguradora(Integer.parseInt(param.get(0)));
                    
                    if (seg == null) {
                        System.out.println("Seguradora nao encontrada");
@@ -338,7 +338,7 @@ class AppMain {
 
                     for (int j = 0; j < 2; j++)
                         param.add(entrada.next());
-                    seg = getSeg(Integer.parseInt(param.get(0)));
+                    seg = getSeguradora(Integer.parseInt(param.get(0)));
 
                     if (seg == null) {
                         System.out.println("Seguradora nao encontrada");
@@ -386,6 +386,8 @@ class AppMain {
                         
                     } while (flag_mais_carros);
                     
+                    clien.atualizarValorSeguro();
+                    
                     break;
                    
                     
@@ -428,9 +430,121 @@ class AppMain {
                 
                 
                 
+                
+            case ATUALIZAR_FROTA:
+                
+                System.out.println("Digite o num. da seguradora, o CNPJ do cliente e o codigo da frota");
+
+                for (int j = 0; j < 3; j++)
+                    param.add(entrada.next());
+                seg = getSeguradora(Integer.parseInt(param.get(0)));
+                String codigo = param.get(2);
+                
+                if (seg == null) {
+                    System.out.println("Seguradora nao encontrada");
+                    break;
+                }
+
+                clien = seg.getCliente(param.get(1));
+                if (clien == null || clien instanceof ClientePF) {
+                    System.out.println("Cliente nao existente ou CNPJ invalido");
+                    break;
+                }
+                
+                Frota frota = ((ClientePJ)clien).getFrota(param.get(2));
+                if (frota == null) {
+                    System.out.println("Frota nao encontrada.");
+                    break;
+                }
+                
+                System.out.println(subcomandos(1));
+                k = entrada.nextInt();
+                comando2 = MenuOperacoes.getOperacaoPorCodigo(10*i + k);
+                Veiculo veic;
+                
+                
+                
+                
+                
+                switch (comando2) {
+                
+                
+                
+                
+                case ADD_VEICULO_FROTA:
+                    
+                    param.clear();
+                    System.out.println("Cadastrando veiculo. Digite nessa sequencia: placa, marca,"
+                            + "modelo e ano de fabricacao do veiculo.");
+                    
+                    for (int j = 0; j < 4; j++)
+                        param.add(entrada.next());
+                    
+                    veic = new Veiculo(param.get(0), param.get(1), param.get(2),
+                                               Integer.parseInt(param.get(3)));
+                    flag_sucesso = ((ClientePJ)clien).atualizarFrota(codigo, veic, 1);
+                    
+                    if (!flag_sucesso) {
+                        System.out.println("Veiculo ja existente em outra frota. Nao foi adicionado.");
+                        break;
+                    }
+                    System.out.println("Veiculo adicionado com sucesso");
+                    clien.atualizarValorSeguro();
+                    break;
+                    
+                    
+                    
+                    
+                    
+                    
+                case REM_VEICULO_FROTA:
+                    
+                    System.out.println("Digite a placa do veiculo:");
+                    
+                    veic = ((ClientePJ)clien).getFrota(codigo).getListaVeic().getVeiculo(entrada.next());
+                    flag_sucesso = ((ClientePJ)clien).atualizarFrota(codigo, veic, 2);
+                    
+                    if (!flag_sucesso) {
+                        System.out.println("Veiculo nao encontrado na frota.");
+                        break;
+                    }
+                    System.out.println("Veiculo removido.");
+                    clien.atualizarValorSeguro();
+                    break;
+                
+                    
+                    
+                    
+                    
+                case REMOVER_FROTA:
+                    int id_seguro = ((ClientePJ)clien).atualizarFrota(codigo, 3);
+                    
+                    if (id_seguro == -1) {
+                        System.out.println("Frota nao encontrada.");
+                        break;
+                    }
+                    for (Seguro segur : seg.getSegurosCliente(((ClientePJ)clien).getCNPJ())) {
+                        if (((SeguroPJ) segur).getFrota().getCodigo().equals(codigo)) {
+                            seg.cancelarSeguro(clien, segur.getId());
+                        }
+                    }
+                    clien.atualizarValorSeguro();
+                    System.out.println("Frota e seguro relacionado a ela removidos com sucesso");
+                    break;
+                case VOLTAR2:
+                    break;
+                default:
+                    System.out.println(subcomandos(9));
+                    break;
+                }
+                break;
+                
+                
+                
+                
             
             case LISTAR:
-                System.out.println(subcomandos_2);
+                System.out.println(subcomandos(5));
                 k = entrada.nextInt();
                 comando2 = MenuOperacoes.getOperacaoPorCodigo(10*i + k);
                 
@@ -438,7 +552,7 @@ class AppMain {
                     break;
                 
                 System.out.println("Digite o num. da seguradora");
-                seg = getSeg(Integer.parseInt(entrada.next()));
+                seg = getSeguradora(Integer.parseInt(entrada.next()));
                 if (seg == null) {
                     System.out.println("Seguradora nao encontrada");
                     break;
@@ -448,34 +562,31 @@ class AppMain {
                 
                 
                 
-                case LISTAR_CLIENTES_SEGURADORA:
-                    seg.listarClientes();
+                case LISTAR_INFOS_CLIENTE:
                     break;
                     
                     
                     
                     
-                case LISTAR_SINISTROS_SEGURADORA:
-                    seg.listarSinistros();
+                case LISTAR_SEGUROS:
                     break;
                     
                     
                     
-                case LISTAR_VEICULOS_SEGURADORA:
-                    seg.listarVeiculos();
+                case LISTAR_SINISTROS:
                     break;
                     
                     
                     
                     
-                case LISTAR_SINISTROS_CLIENTE:
+                case LISTAR_VEICULOS_PF:
                     System.out.println("Digite o CPF/CNPJ do cliente");
                     flag_sucesso = seg.visualizarSinistros(entrada.next());
                     break;
                     
                     
                     
-                case LISTAR_VEICULOS_CLIENTE:
+                case LISTAR_FROTAS_PJ:
                     System.out.println("Digite o CPF/CNPJ do cliente");
                     clien = seg.getCliente(entrada.next());
                     if (clien == null) {
@@ -485,7 +596,8 @@ class AppMain {
                     System.out.println(clien.listarVeiculos());
                     break;
                     
-                    
+                case VOLTAR5:
+                    break;
                 default:
                     System.out.println(subcomandos(9));
                     break;
@@ -494,7 +606,7 @@ class AppMain {
                 
                 
             case EXCLUIR:
-                System.out.println(subcomandos_3);
+                System.out.println(subcomandos(3));
                 k = entrada.nextInt();
                 comando2 = MenuOperacoes.getOperacaoPorCodigo(10*i + k);
                 
@@ -502,7 +614,7 @@ class AppMain {
                     break;
                 
                 System.out.println("Digite o num. da seguradora:");
-                seg = getSeg(Integer.parseInt(entrada.next()));
+                seg = getSeguradora(Integer.parseInt(entrada.next()));
                 
                 if (seg == null) {
                     System.out.println("Seguradora nao encontrada");
@@ -575,7 +687,7 @@ class AppMain {
             case GERAR_SINISTRO:
                 
                 System.out.println("Digite o num. da seguradora");
-                seg = getSeg(Integer.parseInt(entrada.next()));
+                seg = getSeguradora(Integer.parseInt(entrada.next()));
                 if (seg == null) {
                     System.out.println("Seguradora nao encontrada");
                     break;
@@ -602,7 +714,7 @@ class AppMain {
                 
             case TRANSFERIR_SEGURO:
                 System.out.println("Digite o num. da seguradora");
-                seg = getSeg(Integer.parseInt(entrada.next()));
+                seg = getSeguradora(Integer.parseInt(entrada.next()));
                 if (seg == null) {
                     System.out.println("Seguradora nao encontrada");
                     break;
@@ -625,7 +737,7 @@ class AppMain {
                 
             case CALCULAR_RECEITA_SEGURADORA:
                 System.out.println("Digite o num. da seguradora");
-                seg = getSeg(Integer.parseInt(entrada.next()));
+                seg = getSeguradora(Integer.parseInt(entrada.next()));
                 if (seg == null) {
                     System.out.println("Seguradora nao encontrada");
                     break;
