@@ -97,6 +97,7 @@ public abstract class Cliente {
         
         double i = 0;
         for (Seguro seguro : listaSeguros) {
+            seguro.atualizarValorMensal();
             i += seguro.getValorMensal();
         }
         setValorSeguro(i);

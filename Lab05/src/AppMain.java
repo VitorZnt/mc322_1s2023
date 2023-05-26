@@ -22,15 +22,14 @@ class AppMain {
     
     //Retorna a referencia a uma seguradora com base na sua posicao i (indice i - 1).
     private static Seguradora getSeguradora(int i) {
-        if (i > listaSeguradoras.size())
+        if (i > listaSeguradoras.size() || i < 0)
             return null;
         return listaSeguradoras.get(i - 1);
     }
     
     /*main com objetivo de teste das classes e seus metodos*/
     private static void TesteMain() {
-        
-        Scanner entrada = new Scanner(System.in);
+
         listaSeguradoras = new ArrayList<Seguradora>();
         
         //Instanciacoes
@@ -68,9 +67,9 @@ class AppMain {
         minhaSeg.gerarSeguroPF(LocalDate.parse("2009-01-01"), LocalDate.parse("2027-01-01"),
                                "668.467.025-47", "123546");
         minhaSeg.gerarSeguroPJ(LocalDate.parse("2009-01-01"), LocalDate.parse("2027-01-01"),
-                               "82.846.568/0001-92", clien2.getFrota("frota_patrulha"));
+                               "82.846.568/0001-92", "frota_patrulha");
         minhaSeg.gerarSeguroPJ(LocalDate.parse("2009-01-01"), LocalDate.parse("2027-01-01"),
-                               "17.398.731/0001-30", clien3.getFrota("frota_manutencao"));
+                               "17.398.731/0001-30", "frota_manutencao");
 
         
         //Gerando condutores:
@@ -137,8 +136,6 @@ class AppMain {
         System.out.println("Nova receita da seguradora:");
         System.out.println(minhaSeg.calcularReceita());
         
-        entrada.close();
-        
     }
     
     private static String subcomandos(int i) {
@@ -156,7 +153,7 @@ class AppMain {
         String subcomandos_5 = "Listar:\n1 - Infos cliente\n2 - Seguros do cliente\n3 - Sinistros do cliente\n"
                 + "4 - Veiculos do cliente PF\n5 - Frotas do cliente PJ\n6 - Voltar";
         String subcomandos_6 = "";
-        String subcomandos_7 = "Remover:\n1 - Cliente\n2 - Veiculo\n3 - Frota\n4 - Voltar";
+        String subcomandos_7 = "Remover:\n1 - Cliente\n2 - Veiculo cliente PF\n3 - Voltar";
         String subcomandos_8 = ""; 
         String comando_invalido = "Comando invalido\n";
         
@@ -235,6 +232,8 @@ class AppMain {
                 
                 
                 
+                
+                
                 case CADASTRAR_PF:
                     System.out.println("Digite nessa sequencia: num. da seguradora, nome, telefone, "
                             + "endereco, email, CPF, genero, educacao e data de nascimento.");
@@ -254,6 +253,7 @@ class AppMain {
                         break;
                     }
                     
+                    
                     ClientePF clienPf = new ClientePF(param.get(1), param.get(2), param.get(3), param.get(4), param.get(5),
                                           param.get(6), (param.get(7)), LocalDate.parse(param.get(8)));
                     flag_sucesso = seg.cadastrarCliente(clienPf);
@@ -264,6 +264,9 @@ class AppMain {
                         System.out.println("Cliente cadastrado com sucesso");
                     break;
                 
+                    
+                    
+                    
                     
                     
                     
@@ -286,6 +289,8 @@ class AppMain {
                         System.out.println("Nome ou CNPJ invalidos");
                         break;
                     }
+                    
+                    
                         
                     ClientePJ clienPj = new ClientePJ(param.get(1), param.get(2), param.get(3), param.get(4),
                             param.get(5), LocalDate.parse(param.get(6)), Integer.parseInt(param.get(7)));
@@ -297,6 +302,8 @@ class AppMain {
                         System.out.println("Cliente cadastrado com sucesso");
                     break;  
                 
+                    
+                    
                     
                     
                     
@@ -318,6 +325,9 @@ class AppMain {
                        System.out.println("Cliente nao existente ou CPF invalido");
                        break;
                    }
+                   
+                   
+                   
                    flag_sucesso = ((ClientePF)clien).cadastrarVeiculo(param.get(2), param.get(3), param.get(4),
                                                          Integer.parseInt(param.get(5)));
                    clien.atualizarValorSeguro();
@@ -351,6 +361,8 @@ class AppMain {
                         break;
                     }
                     
+                    
+                    
                     System.out.println("Digite o nome que deseja como codigo da frota:");
                     String codigo = entrada.next();
                     if (((ClientePJ)clien).buscarFrota(codigo) != -1) {
@@ -360,6 +372,7 @@ class AppMain {
                     
                     boolean flag_mais_carros;
                     
+                    
                     do {
                         
                         param.clear();
@@ -368,6 +381,8 @@ class AppMain {
                                 + "modelo e ano de fabricacao do veiculo.");
                         for (int j = 0; j < 4; j++)
                             param.add(entrada.next());
+                        
+                        
                         Veiculo veic = new Veiculo(param.get(0), param.get(1), param.get(2),
                                                    Integer.parseInt(param.get(3)));
                         if (((ClientePJ)clien).getFrota(codigo) == null)
@@ -378,11 +393,13 @@ class AppMain {
                         if (!flag_sucesso)
                             System.out.println("Veiculo ja existente em outra frota. Nao foi adicionado");
                         
+                        
                         System.out.println("Deseja adicionar outro veiculo? 1 - Sim, 2 - Nao");
                         if (entrada.next().equals("1"))
                             flag_mais_carros = true;
                         else
                             flag_mais_carros = false;
+                        
                         
                     } while (flag_mais_carros);
                     
@@ -395,9 +412,11 @@ class AppMain {
                     
                     
                 case CADASTRAR_SEGURADORA:
+                    
                     System.out.println("Digite nessa sequencia: CNPJ, nome, telefone, email e endereco.");
                     for (int j = 0; j < 5; j++)
                         param.add(entrada.next());
+                    
                     for (Seguradora aux : listaSeguradoras)
                         if (aux.getCNPJ().equals(param.get(0))) {
                             System.out.println("Seguradora ja existente");
@@ -433,6 +452,13 @@ class AppMain {
                 
             case ATUALIZAR_FROTA:
                 
+                System.out.println(subcomandos(2));
+                k = entrada.nextInt();
+                comando2 = MenuOperacoes.getOperacaoPorCodigo(10*i + k);
+                
+                if (comando2.equals(MenuOperacoes.VOLTAR2))
+                    break;
+                
                 System.out.println("Digite o num. da seguradora, o CNPJ do cliente e o codigo da frota");
 
                 for (int j = 0; j < 3; j++)
@@ -457,13 +483,7 @@ class AppMain {
                     break;
                 }
                 
-                System.out.println(subcomandos(1));
-                k = entrada.nextInt();
-                comando2 = MenuOperacoes.getOperacaoPorCodigo(10*i + k);
                 Veiculo veic;
-                
-                
-                
                 
                 
                 switch (comando2) {
@@ -472,6 +492,8 @@ class AppMain {
                 
                 
                 case ADD_VEICULO_FROTA:
+                    
+                    
                     
                     param.clear();
                     System.out.println("Cadastrando veiculo. Digite nessa sequencia: placa, marca,"
@@ -517,6 +539,7 @@ class AppMain {
                     
                     
                 case REMOVER_FROTA:
+                    
                     int id_seguro = ((ClientePJ)clien).atualizarFrota(codigo, 3);
                     
                     if (id_seguro == -1) {
@@ -531,6 +554,8 @@ class AppMain {
                     clien.atualizarValorSeguro();
                     System.out.println("Frota e seguro relacionado a ela removidos com sucesso");
                     break;
+                    
+                    
                 case VOLTAR2:
                     break;
                 default:
@@ -538,6 +563,9 @@ class AppMain {
                     break;
                 }
                 break;
+                
+                
+                
                 
                 
             case GERAR:
@@ -565,6 +593,9 @@ class AppMain {
                     break;
                 }
                 
+                
+                
+                
                 switch (comando2) {
                 
                 case GERAR_SINISTRO:
@@ -575,6 +606,7 @@ class AppMain {
                     Seguro segur = clien.getSeguro(Integer.parseInt(param.get(5)));
                     if (segur == null) {
                         System.out.println("Seguro nao existente ou nao pertence ao cliente");
+                        break;
                     }
                     
                     flag_sucesso = segur.gerarSinistro(LocalDate.parse(param.get(2)), param.get(3), param.get(4));
@@ -583,6 +615,7 @@ class AppMain {
                     else
                         System.out.println("Sinistro cadastrado");
                     break;
+                    
                     
                     
                     
@@ -598,6 +631,9 @@ class AppMain {
                     else
                         System.out.println("Seguro gerado");
                     break;
+                    
+                    
+                    
                 
                 case GERAR_SEGURO_PJ:
                     System.out.println("Digite a data de inicio e a data de fim do seguro, e o codigo da frota");
@@ -613,6 +649,8 @@ class AppMain {
                         System.out.println("Seguro gerado");
                     break;
                     
+                    
+                    
                 case VOLTAR3:
                     break;
                 default:
@@ -621,11 +659,97 @@ class AppMain {
                 }
                 break;
                 
+                
+                
+            
+                
+            case AUTORIZAR_DESAUT_CONDUTOR:
+                
+                System.out.println(subcomandos(4));
+                k = entrada.nextInt();
+                comando2 = MenuOperacoes.getOperacaoPorCodigo(10*i + k);
+                
+                if (comando2.equals(MenuOperacoes.VOLTAR3))
+                    break;
+                
+                System.out.println("Digite nessa ordem: o num. da seguradora, CPF/CNPJ do cliente, "
+                                 + "CPF do condutor e ID do seguro");
+                for (int j = 0; j < 4; j++)
+                    param.add(entrada.next());
+                
+                seg = getSeguradora(Integer.parseInt(param.get(0)));
+                if (seg == null) {
+                    System.out.println("Seguradora nao encontrada");
+                    break;
+                }
+                
+                clien = seg.getCliente(param.get(1));
+                if (clien == null) {
+                    System.out.println("Cliente nao existente ou CPF/CNPJ invalido");
+                    break;
+                }
+                
+                Seguro segur = clien.getSeguro(Integer.parseInt(param.get(3)));
+                if (segur == null) {
+                    System.out.println("Seguro nao existente ou nao pertence ao cliente");
+                    break;
+                }
+                
+                switch (comando2) {
+                
+                
+                
+                case AUTORIZAR_COND:
+                    System.out.println("Digite nessa sequencia as infos do condutor: nome, telefone, "
+                                     + "endereco, email e data de nascimento.");
+                    
+                    for (int j = 0; j < 5; j++)
+                        param.add(entrada.next());
+                    
+                    flag_sucesso = Validacao.validarCPF(param.get(2));
+                    if (!flag_sucesso) {
+                        System.out.println("CPF invalido");
+                        break;
+                    }
+                    flag_sucesso = segur.autorizarCondutor(param.get(2), param.get(4), param.get(5), 
+                                         param.get(6), param.get(7), LocalDate.parse(param.get(8)));
+                    if (!flag_sucesso)
+                        System.out.println("Condutor ja existente");
+                    else
+                        System.out.println("Condutor autorizado");
+                    break;
+                    
+                    
+                    
+                    
+                    
+                case DESAUTORIZAR_COND:
+                    System.out.println("Digite o CPF do condutor:");
+                    
+                    flag_sucesso = segur.desautorizarCondutor(entrada.next());
+                    if (!flag_sucesso)
+                        System.out.println("Condutor nao encontrado");
+                    else
+                        System.out.println("Condutor desautorizado");
+                    break;
+                    
+                    
+                    
+                case VOLTAR4:
+                    break;
+                default:
+                    System.out.println(subcomandos(9));
+                    break;
+                }
+                break;
 
+                
+                
                 
                 
             
             case LISTAR:
+                
                 System.out.println(subcomandos(5));
                 k = entrada.nextInt();
                 comando2 = MenuOperacoes.getOperacaoPorCodigo(10*i + k);
@@ -648,6 +772,7 @@ class AppMain {
                 }
                 
                 switch (comando2) {
+                
                 
                 
                 case LISTAR_INFOS_CLIENTE:
@@ -692,6 +817,7 @@ class AppMain {
                     
                     break;
                     
+                    
                 case VOLTAR5:
                     break;
                 default:
@@ -701,12 +827,50 @@ class AppMain {
                 break;
                 
                 
-            case EXCLUIR:
-                System.out.println(subcomandos(3));
+                
+                
+                
+                
+            case CANCELAR_SEGURO:
+                
+                System.out.println("Digite nessa ordem: o num. da seguradora, CPF/CNPJ do cliente "
+                                 + "e ID do seguro");
+                
+                for (int j = 0; j < 3; j++)
+                    param.add(entrada.next());
+
+                seg = getSeguradora(Integer.parseInt(param.get(0)));
+                if (seg == null) {
+                    System.out.println("Seguradora nao encontrada");
+                    break;
+                }
+
+                clien = seg.getCliente(param.get(1));
+                if (clien == null) {
+                    System.out.println("Cliente nao existente ou CPF/CNPJ invalido");
+                    break;
+                }
+                
+                
+                flag_sucesso = seg.cancelarSeguro(clien, Integer.parseInt(param.get(2)));
+                if (!flag_sucesso)
+                    System.out.println("Seguro nao encontrado ou nao pertence a esse cliente");
+                else
+                    System.out.println("Seguro cancelado com sucesso");
+                break;
+                
+                
+                
+
+                
+                
+            case REMOVER:
+                
+                System.out.println(subcomandos(7));
                 k = entrada.nextInt();
                 comando2 = MenuOperacoes.getOperacaoPorCodigo(10*i + k);
                 
-                if (comando2.equals(MenuOperacoes.VOLTAR3))
+                if (comando2.equals(MenuOperacoes.VOLTAR7))
                     break;
                 
                 System.out.println("Digite o num. da seguradora:");
@@ -721,7 +885,7 @@ class AppMain {
                 
                 
                 
-                case EXCLUIR_CLIENTE:
+                case REMOVER_CLIENTE:
                     
                     System.out.println("Digite o CPF/CNPJ do cliente");
                     flag_sucesso = seg.removerCliente(entrada.next());
@@ -735,7 +899,8 @@ class AppMain {
                     
                     
                     
-                case EXCLUIR_VEICULO:
+                    
+                case REMOVER_VEICULO:
                     System.out.println("Digite o CPF/CNPJ do cliente e placa do veiculo.");
                     
                     for (int j = 0; j < 2; j++)
@@ -748,87 +913,31 @@ class AppMain {
                         break;
                     }
                     
-                    flag_sucesso = clien.removerVeiculo(param.get(1));
-                    seg.atualizarPrecoClien(clien);
-                    if (!flag_sucesso)
-                        System.out.println("Veiculo nao existente");
-                    else
-                        System.out.println("Veiculo removido com sucesso");
-                    break;
+                    int n = ((ClientePF)clien).removerVeiculo(param.get(1));
                     
-                    
-                    
-                    
-                case EXCLUIR_SINISTRO:
-                    System.out.println("Digite o id do sinistro.");
-                    clien = seg.removerSinistro(Integer.parseInt(entrada.next()));
-                    seg.atualizarPrecoClien(clien);
-                    if (clien == null)
-                        System.out.println("Sinistro nao existente");
-                    else {
-                        System.out.println("Sinistro removido com sucesso");
-                        seg.atualizarPrecoClien(clien);
+                    if (n == -1) {
+                        System.out.println("Veiculo nao encontrado");
+                        break;
                     }
+                    
+                    seg.cancelarSeguro(clien, n);
+                    clien.atualizarValorSeguro();
+
+                    System.out.println("Veiculo removido com sucesso");
                     break;
                     
+
                     
+                case VOLTAR7:
+                    break;
                 default:
                     System.out.println(subcomandos(9));
                     break;
-                
-                }
-                break;
-                
-                
-            case GERAR_SINISTRO:
-                
-                System.out.println("Digite o num. da seguradora");
-                seg = getSeguradora(Integer.parseInt(entrada.next()));
-                if (seg == null) {
-                    System.out.println("Seguradora nao encontrada");
-                    break;
-                }
-                
-                System.out.println("Digite nessa sequencia: data, endereco, placa e CPF/CNPJ do cliente");
-                
-                for (int j = 0; j < 4; j++)
-                    param.add(entrada.next());
-                
-                flag_sucesso = seg.gerarSinistro(LocalDate.parse(param.get(0)),
-                        param.get(1), param.get(2), param.get(3));
-                
-                if (!flag_sucesso) {
-                    System.out.println("Cliente nao existente, ou CPF/CNPJ invalido, "
-                                     + "ou carro nao pertence a esse cliente");
-                } else {
-                    System.out.println("Sinistro gerado com sucesso");
-                    seg.atualizarPrecoClien(seg.getCliente(param.get(3)));
                 }
                 break;
                 
                 
                 
-            case TRANSFERIR_SEGURO:
-                System.out.println("Digite o num. da seguradora");
-                seg = getSeguradora(Integer.parseInt(entrada.next()));
-                if (seg == null) {
-                    System.out.println("Seguradora nao encontrada");
-                    break;
-                }
-                
-                System.out.println("Digite o CPF/CNPJ do cliente origem e do cliente destinatario, nesta ordem:");
-                for (int j = 0; j < 2; j++)
-                    param.add(entrada.next());
-                
-                flag_sucesso = seg.transferirSeguro(param.get(0), param.get(1));
-                if (!flag_sucesso) {
-                    System.out.println("Um dos clientes (ou ambos) nao existente, ou CPF/CNPJ invalido.");
-                } else {
-                    seg.atualizarPrecoClien(seg.getCliente(param.get(0)));
-                    seg.atualizarPrecoClien(seg.getCliente(param.get(1)));
-                    System.out.println("Transferencia realizada com sucesso");
-                }
-                break;
                 
                 
             case CALCULAR_RECEITA_SEGURADORA:
@@ -841,8 +950,12 @@ class AppMain {
                 System.out.println(String.format("A receita da seguradora eh de %f", seg.calcularReceita()));
                 break;
                 
+                
+                
             case SAIR:
                 break;
+                
+                
                 
             default:
                 System.out.println(subcomandos(9));

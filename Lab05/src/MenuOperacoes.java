@@ -45,8 +45,7 @@ public enum MenuOperacoes {
     
     REMOVER_CLIENTE(71),
     REMOVER_VEICULO(72),
-    REMOVER_SINISTRO(73),
-    VOLTAR7(44);
+    VOLTAR7(73);
     
     private final int codigo;
     private static final Map<Integer, MenuOperacoes> operacaoPorCodigo = new HashMap<>();

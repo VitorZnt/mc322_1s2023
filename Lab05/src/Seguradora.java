@@ -271,6 +271,7 @@ public class Seguradora {
         SeguroPF seg = new SeguroPF(dataInicio, dataFim, this, veic, (ClientePF)clien);
         clien.adicionarSeguro(seg);
         clien.atualizarValorSeguro();
+        listaSeguros.add(seg);
         return true;
     }
     
@@ -289,6 +290,7 @@ public class Seguradora {
         SeguroPJ seg = new SeguroPJ(dataInicio, dataFim, this, frota, (ClientePJ) clien);
         ((ClientePJ) clien).adicionarSeguro(seg);
         ((ClientePJ) clien).atualizarValorSeguro();
+        listaSeguros.add(seg);
         return true;
     }
     
@@ -361,7 +363,7 @@ public class Seguradora {
                     }
                 }
                 clien.removerSeguro(id);
-                listaSeguros.remove(id);
+                listaSeguros.remove(i);
                 return true;
             }
         }
