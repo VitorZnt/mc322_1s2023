@@ -66,6 +66,11 @@ public class ListagemFrotas {
         int i = buscarFrota(codigo);
         if (i == -1)
             return false;
+        
+        for (Frota f : listaFrotas)
+            if(f.getListaVeic().buscarVeiculo(veic.getPlaca()) != -1)
+                return false;
+        
         return getFrota(i).adicionaVeiculo(veic);
     }
     

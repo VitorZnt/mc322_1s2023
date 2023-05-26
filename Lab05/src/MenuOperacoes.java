@@ -4,6 +4,7 @@ import java.util.HashMap;
 public enum MenuOperacoes {
     
     //Operacoes principais
+    INVALIDO(-1),
     SAIR(0),
     CADASTRAR(1),
     ATUALIZAR_FROTA(2),
@@ -61,7 +62,11 @@ public enum MenuOperacoes {
     }
     
     public static MenuOperacoes getOperacaoPorCodigo(int i) {
-        return operacaoPorCodigo.get(i);
+        MenuOperacoes operac = operacaoPorCodigo.get(i);
+        if (operac == null)
+            return INVALIDO;
+        else
+            return operac;
     }
     
     
