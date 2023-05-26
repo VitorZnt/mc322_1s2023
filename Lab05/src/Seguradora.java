@@ -275,15 +275,15 @@ public class Seguradora {
     }
     
     // Gera um seguroPJ. Caso o cliente nao exista, ou a frota nao seja sua, retorna false e nao o gera.
-    public boolean gerarSeguroPJ(LocalDate dataInicio, LocalDate dataFim, String CNPJ, Frota frota) {
+    public boolean gerarSeguroPJ(LocalDate dataInicio, LocalDate dataFim, String CNPJ, String codigo) {
         
         Cliente clien = getCliente(CNPJ);
-        if (clien == null || clien instanceof ClientePF || frota == null)
+        if (clien == null || clien instanceof ClientePF)
             return false;
         
-        ListagemFrotas listaF = ((ClientePJ) clien).getListaFrotas();
-        int i = listaF.buscarFrota(frota.getCodigo());
-        if (i == -1)
+        Frota frota = ((ClientePJ) clien).getFrota(codigo);
+        
+        if (frota == null)
             return false;
         
         SeguroPJ seg = new SeguroPJ(dataInicio, dataFim, this, frota, (ClientePJ) clien);

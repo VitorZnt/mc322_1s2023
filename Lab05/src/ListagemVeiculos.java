@@ -11,8 +11,6 @@ public class ListagemVeiculos {
     }
     
     
-    
-    
     //Getters
     
     public int getQtdVeiculos() {

@@ -540,6 +540,88 @@ class AppMain {
                 break;
                 
                 
+            case GERAR:
+                System.out.println(subcomandos(3));
+                k = entrada.nextInt();
+                comando2 = MenuOperacoes.getOperacaoPorCodigo(10*i + k);
+                
+                if (comando2.equals(MenuOperacoes.VOLTAR3))
+                    break;
+                
+                System.out.println("Digite o num. da seguradora e CPF/CNPJ do cliente");
+                
+                for (int j = 0; j < 2; j++)
+                    param.add(entrada.next());
+                
+                seg = getSeguradora(Integer.parseInt(param.get(0)));
+                if (seg == null) {
+                    System.out.println("Seguradora nao encontrada");
+                    break;
+                }
+                
+                clien = seg.getCliente(param.get(1));
+                if (clien == null) {
+                    System.out.println("Cliente nao existente ou CPF/CNPJ invalido");
+                    break;
+                }
+                
+                switch (comando2) {
+                
+                case GERAR_SINISTRO:
+                    System.out.println("Digite a data e endereco de ocorrencia, CPF do condutor e ID do seguro");
+                    for (int j = 0; j < 4; j++)
+                        param.add(entrada.next());
+                    
+                    Seguro segur = clien.getSeguro(Integer.parseInt(param.get(5)));
+                    if (segur == null) {
+                        System.out.println("Seguro nao existente ou nao pertence ao cliente");
+                    }
+                    
+                    flag_sucesso = segur.gerarSinistro(LocalDate.parse(param.get(2)), param.get(3), param.get(4));
+                    if (!flag_sucesso)
+                        System.out.println("Condutor nao cadastrado ou CPF incorreto");
+                    else
+                        System.out.println("Sinistro cadastrado");
+                    break;
+                    
+                    
+                    
+                case GERAR_SEGURO_PF:
+                    System.out.println("Digite a data de inicio e a data de fim do seguro, e a placa do veiculo");
+                    for (int j = 0; j < 3; j++)
+                        param.add(entrada.next());
+                    flag_sucesso = seg.gerarSeguroPF(LocalDate.parse(param.get(2)),
+                                   LocalDate.parse(param.get(3)), param.get(1), param.get(4));
+                    
+                    if (!flag_sucesso)
+                        System.out.println("Veiculo nao encontrado");
+                    else
+                        System.out.println("Seguro gerado");
+                    break;
+                
+                case GERAR_SEGURO_PJ:
+                    System.out.println("Digite a data de inicio e a data de fim do seguro, e o codigo da frota");
+                    for (int j = 0; j < 3; j++)
+                        param.add(entrada.next());
+                    
+                    flag_sucesso = seg.gerarSeguroPJ(LocalDate.parse(param.get(2)),
+                                   LocalDate.parse(param.get(3)), param.get(1), param.get(4));
+                    
+                    if (!flag_sucesso)
+                        System.out.println("Frota nao encontrada");
+                    else
+                        System.out.println("Seguro gerado");
+                    break;
+                    
+                case VOLTAR3:
+                    break;
+                default:
+                    System.out.println(subcomandos(9));
+                    break;
+                }
+                break;
+                
+
                 
                 
             
@@ -548,7 +630,7 @@ class AppMain {
                 k = entrada.nextInt();
                 comando2 = MenuOperacoes.getOperacaoPorCodigo(10*i + k);
                 
-                if (comando2.equals(MenuOperacoes.VOLTAR2))
+                if (comando2.equals(MenuOperacoes.VOLTAR5))
                     break;
                 
                 System.out.println("Digite o num. da seguradora");
@@ -558,42 +640,56 @@ class AppMain {
                     break;
                 }
                 
+                System.out.println("Digite o CPF/CNPJ do cliente");
+                clien = seg.getCliente(entrada.next());
+                if (clien == null) {
+                    System.out.println("Cliente nao existente ou CPF/CNPJ invalido");
+                    break;
+                }
+                
                 switch (comando2) {
                 
                 
-                
                 case LISTAR_INFOS_CLIENTE:
+                    System.out.println(clien.toString());
                     break;
                     
                     
-                    
-                    
                 case LISTAR_SEGUROS:
+                    if (clien instanceof ClientePF)
+                        seg.listarSegurosCliente(((ClientePF) clien).getCPF());
+                    else
+                        seg.listarSegurosCliente(((ClientePJ) clien).getCNPJ());
                     break;
                     
                     
                     
                 case LISTAR_SINISTROS:
+                    if (clien instanceof ClientePF)
+                        seg.listarSinistrosCliente(((ClientePF) clien).getCPF());
+                    else
+                        seg.listarSinistrosCliente(((ClientePJ) clien).getCNPJ());
                     break;
                     
                     
                     
                     
                 case LISTAR_VEICULOS_PF:
-                    System.out.println("Digite o CPF/CNPJ do cliente");
-                    flag_sucesso = seg.visualizarSinistros(entrada.next());
+                    if (clien instanceof ClientePF)
+                        ((ClientePF) clien).getListaVeic().toString();
+                    else
+                        System.out.println("CPF invalido");
+                    
                     break;
                     
                     
                     
                 case LISTAR_FROTAS_PJ:
-                    System.out.println("Digite o CPF/CNPJ do cliente");
-                    clien = seg.getCliente(entrada.next());
-                    if (clien == null) {
-                        System.out.println("Cliente nao existente ou CPF/CNPJ invalido");
-                        break;
-                    }
-                    System.out.println(clien.listarVeiculos());
+                    if (clien instanceof ClientePJ)
+                        ((ClientePJ) clien).getListaFrotas().toString();
+                    else
+                        System.out.println("CNPJ invalido");
+                    
                     break;
                     
                 case VOLTAR5:

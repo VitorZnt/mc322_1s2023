@@ -67,6 +67,17 @@ public abstract class Cliente {
         return listaSeguros;
     }
     
+    //Retorna um seguro da lista conforme o id recebido. Retorna null se nao houver
+    public Seguro getSeguro(int id) {
+        
+        for (int i = 0; i < listaSeguros.size(); i++)
+            if (listaSeguros.get(i).getId() == id)
+                return listaSeguros.get(i);
+        
+        return null;
+        
+    }
+    
     public void adicionarSeguro(Seguro seguro) {
         listaSeguros.add(seguro);
     }
