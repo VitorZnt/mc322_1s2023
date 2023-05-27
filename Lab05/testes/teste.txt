@@ -1,0 +1,85 @@
+1
+5
+35.738.751/0001-94 seguradois 6556-9999 emails@em.com rua_boa
+
+1
+1
+2 vitao 5454-4545 rua_sim bom@bom.com 330.421.572-70 masculino mui_boa 2004-11-27
+
+1
+2
+2 empresao_minha 2222-3333 rua_tranquila legal@legal.com 28.458.851/0001-00 2000-12-01 20
+
+1
+3
+2 330.421.572-70 sdd8989 chevrolet cruze 2015
+
+1
+4
+2 28.458.851/0001-00
+frota_forte
+aaa2289 chevrolet onix 2015
+1
+asds4040 chevrolet prisma 2015
+2
+
+1
+4
+2 28.458.851/0001-00
+frota_fraca
+agag7878 chevrolet onix 2015
+1
+hjhj1212 chevrolet prisma 2015
+2
+
+3
+2
+2 330.421.572-70
+2020-12-12 2025-12-12 sdd8989
+
+3
+3
+2 28.458.851/0001-00
+2020-12-12 2025-12-12 frota_fraca
+
+4
+1
+2 330.421.572-70 929.202.452-36 4
+barbeiro 5656-5656 rua_rua sim@gmail.com 2002-02-02
+
+4
+1
+2 28.458.851/0001-00 633.611.256-00 5
+cabeleireiro 7878-7878 rua_avenida nao@gmail.com 2001-01-01
+
+4
+1
+2 28.458.851/0001-00 826.577.294-79 5
+cabeleireiro2 7878-7878 rua_avenida nao@gmail.com 2001-01-01
+
+3
+1
+2 330.421.572-70
+2020-11-12 rua_ruim 929.202.452-36 4
+
+6
+2 330.421.572-70 4
+
+7
+2
+2 330.421.572-70 sdd8989
+
+4
+2
+2 28.458.851/0001-00 633.611.256-00 5
+
+2
+2
+2 28.458.851/0001-00 frota_forte
+aaa2289
+
+2
+3
+2 28.458.851/0001-00 frota_fraca
+
+

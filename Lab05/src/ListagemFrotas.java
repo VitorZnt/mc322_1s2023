@@ -88,6 +88,10 @@ public class ListagemFrotas {
         int i = buscarFrota(codigo);
         if (i == -1)
             return false;
+        
+        if (veic == null)
+            return false;
+        
         return getFrota(i).removeVeiculo(veic.getPlaca());
     }
 
@@ -101,9 +105,7 @@ public class ListagemFrotas {
             ListagemVeiculos listaVeic = listaFrotas.get(i).getListaVeic();
             s += String.format("Frota %d, codigo %s:\n", i, listaFrotas.get(i).getCodigo());
             
-            for (int j = 0; j < listaVeic.getQtdVeiculos(); j++) {
-                s += listaVeic.toString();
-            }
+            s += listaVeic.toString();
         }
         return s;
     }

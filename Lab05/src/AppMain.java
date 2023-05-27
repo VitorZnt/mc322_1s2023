@@ -28,7 +28,7 @@ class AppMain {
     
     //Retorna a referencia a uma seguradora com base na sua posicao i (indice i - 1).
     private static Seguradora getSeguradora(int i) {
-        if (i > listaSeguradoras.size() || i < 0)
+        if (i > listaSeguradoras.size() || i <= 0)
             return null;
         return listaSeguradoras.get(i - 1);
     }
@@ -175,7 +175,7 @@ class AppMain {
         
         String comandos_principais = "Menu:\n1 - Cadastros\n2 - Atualizar frota\n3 - Gerar sinistro/seguro\n"
                 + "4 - Autorizar/desautorizar condutor\n5 - Listar infos\n6 - Cancelar seguro\n"
-                + "7 - Remover cliente, veiculo ou frota\n8 - Calcular receita seguradora\n0 - Sair\n";
+                + "7 - Remover cliente ou veiculo\n8 - Calcular receita seguradora\n0 - Sair\n";
         
         String subcomandos_1 = "Cadastrar:\n1 - Cliente PF\n2 - Cliente PJ\n3 - Veiculo para cliente PF\n"
                 + "4 - Frota para cliente PJ\n5 - Seguradora\n6 - Voltar";

@@ -67,6 +67,9 @@ public class ClientePJ extends Cliente {
     //Caso comando == 1, adiciona o veic. Caso seja 2, remove
     public boolean atualizarFrota(String codigo, Veiculo veic, int comando) {
         
+        if (veic == null)
+            return false;
+        
         if (comando == 1) {
             return listaFrotas.addVeiculoFrota(codigo, veic);
         } else if (comando == 2) {
@@ -105,7 +108,7 @@ public class ClientePJ extends Cliente {
     public String toString() {
         
         String str = super.toString() + String.format("CNPJ: %s\nData de fundacao: %s\n", CNPJ, dataFundacao.toString())
-                     + "Veiculos nas frotas:\n" + listaFrotas.toString();
+                     + "Veiculos nas frotas:\n\n" + listaFrotas.toString();
         return str;
     }
     
