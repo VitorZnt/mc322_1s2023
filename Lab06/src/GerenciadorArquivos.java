@@ -1,20 +1,22 @@
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class GerenciadorArquivos {
     
     private static ArrayList<Condutor> listaLeituraCond;
-    private static final String pathCond = "/src/lab06-seguradora_arquivos/condutores.csv";
-    private static final String pathClienPF = "/src/lab06-seguradora_arquivos/clientesPF.csv";
-    private static final String pathClienPJ = "/src/lab06-seguradora_arquivos/clientesPJ.csv";
-    private static final String pathVeic = "/src/lab06-seguradora_arquivos/veiculos.csv";
-    private static final String pathFrota = "/src/lab06-seguradora_arquivos/frotas.csv";
+    private static final String pathCond = "src/lab06-seguradora_arquivos/condutores.csv";
+    private static final String pathClienPF = "src/lab06-seguradora_arquivos/clientesPF.csv";
+    private static final String pathClienPJ = "src/lab06-seguradora_arquivos/clientesPJ.csv";
+    private static final String pathVeic = "src/lab06-seguradora_arquivos/veiculos.csv";
+    private static final String pathFrota = "src/lab06-seguradora_arquivos/frotas.csv";
+    private static final int qtdPadraoFuncionariosPJ = 50;
     
     
-    public GerenciadorArquivos() {
+     public GerenciadorArquivos() {
         listaLeituraCond = new ArrayList<>();
         lerCondutores();
     }
@@ -44,6 +46,8 @@ public class GerenciadorArquivos {
             System.out.println("Caminho para lista de condutores nao encontrado.");
         } catch (IndexOutOfBoundsException e) {
             System.out.println("Arquivo de condutores nao esta padronizado de acordo com a convencao.");
+        } catch (DateTimeParseException e) {
+            System.out.println("Arquivo de condutores nao esta padronizado de acordo com a convencao.");
         }
         
     }
@@ -55,9 +59,16 @@ public class GerenciadorArquivos {
         
         ListagemVeiculos listaVeic = lerVeic();
         ListagemFrotas listaFrotas = lerFrotas(listaVeic);
-        ArrayList<ClientePF> listaClienPF = new ArrayList<>();
-        ArrayList<ClientePJ> listaClienPJ = new ArrayList<>();
+        ArrayList<ClientePF> listaClienPF = lerClienPF(listaVeic);
+        ArrayList<ClientePJ> listaClienPJ = lerClienPJ(listaFrotas);
         
+        for (ClientePF clien : listaClienPF) {
+            seg.cadastrarCliente(clien);
+        }
+        for (ClientePJ clien : listaClienPJ) {
+            seg.cadastrarCliente(clien);
+        }
+        return;
     }
     
     //Retorna a lista lida de Veiculos
@@ -83,6 +94,8 @@ public class GerenciadorArquivos {
         } catch (IOException e) {
             System.out.println("Caminho para arquivo de veiculos nao encontrado.");
         } catch (IndexOutOfBoundsException e) {
+            System.out.println("Arquivo de veiculos nao esta padronizado de acordo com a convencao.");
+        } catch (NumberFormatException e) {
             System.out.println("Arquivo de veiculos nao esta padronizado de acordo com a convencao.");
         }
         
@@ -117,12 +130,95 @@ public class GerenciadorArquivos {
             }
             
         } catch (IOException e) {
-            System.out.println("Caminho para arquivo de veiculos nao encontrado.");
+            System.out.println("Caminho para arquivo de frotas nao encontrado.");
         } catch (IndexOutOfBoundsException e) {
-            System.out.println("Arquivo de veiculos nao esta padronizado de acordo com a convencao.");
+            System.out.println("Arquivo de frotas nao esta padronizado de acordo com a convencao.");
         }
         
         return listaFrotas;
     }
     
+    /* Retorna a lista de clienPF lida do arquivo, associando cada cliente ao seu
+     * Veiculo. Assume que a lista de veiculos recebida possua todos os veiculos
+     * necessarios e que cada cliente apenas possua 1 veiculo.
+     * */
+    private static ArrayList<ClientePF> lerClienPF(ListagemVeiculos listaVeic) {
+        
+        ArrayList<ClientePF> listaPF = new ArrayList<>();
+        
+        try (Scanner arqClienPF = new Scanner(new File(pathClienPF))) {
+            
+            String[] linha;
+            Veiculo veic1;
+            ClientePF clien;
+            
+            arqClienPF.nextLine(); //Descarta header
+            
+            while (arqClienPF.hasNextLine()) {
+                
+                linha = (arqClienPF.nextLine()).split(",");
+                
+                veic1 = listaVeic.getVeiculo(linha[8]);
+                
+                clien = new ClientePF(linha[1], linha[2], linha[3], linha[4], linha[0], 
+                                      linha[5], linha[6], LocalDate.parse(linha[7]));
+                clien.cadastrarVeiculo(veic1);
+                
+                listaPF.add(clien);
+                
+            }
+            
+        } catch (IOException e) {
+            System.out.println("Caminho para arquivo de clientesPF nao encontrado.");
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Arquivo de clientesPF nao esta padronizado de acordo com a convencao.");
+        } catch (DateTimeParseException e) {
+            System.out.println("Arquivo de clientesPF nao esta padronizado de acordo com a convencao.");
+        }
+        
+        return listaPF;
+    }
+    
+    
+    /* Retorna a lista de clienPJ lida do arquivo, associando cada cliente a sua
+     * Frota. Assume que a lista de frotas recebida possua todas as frotas
+     * necessarias e que cada cliente apenas possua 1 frota de 3 veiculos.
+     * */
+    private static ArrayList<ClientePJ> lerClienPJ(ListagemFrotas listaFrotas) {
+        
+        ArrayList<ClientePJ> listaPJ = new ArrayList<>();
+        
+        try (Scanner arqClienPJ = new Scanner(new File(pathClienPJ))) {
+            
+            String[] linha;
+            ArrayList<Veiculo> veicFrota;
+            ClientePJ clien;
+            
+            arqClienPJ.nextLine(); //Descarta header
+            
+            while (arqClienPJ.hasNextLine()) {
+                
+                linha = (arqClienPJ.nextLine()).split(",");
+                
+                clien = new ClientePJ(linha[1], linha[2], linha[3], linha[4], linha[0], 
+                        LocalDate.parse(linha[5]), qtdPadraoFuncionariosPJ);
+                
+                veicFrota = listaFrotas.getVeiculosPorFrota(linha[6]);
+                
+                clien.cadastrarFrota(linha[6], veicFrota.get(0), veicFrota.get(1), veicFrota.get(2));
+                
+                listaPJ.add(clien);
+                
+            }
+            
+        } catch (IOException e) {
+            System.out.println("Caminho para arquivo de clientesPJ nao encontrado.");
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Arquivo de clientesPJ nao esta padronizado de acordo com a convencao.");
+        } catch (DateTimeParseException e) {
+            System.out.println("Arquivo de clientesPJ nao esta padronizado de acordo com a convencao.");
+        }
+        
+        return listaPJ;
+    }
 }

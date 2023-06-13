@@ -1,7 +1,7 @@
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class Seguradora {
+public class Seguradora implements I_Arquivo{
     
     // Atributos de instancia
     private final String CNPJ;
@@ -384,8 +384,14 @@ public class Seguradora {
     /* Le os arquivos de ClienPF, ClienPJ, Frotas e Veiculos e adiciona-os na seguradora
      * que chamar essa funcao
      */
-    public void lerArquivosClientes() {
+    public void lerArquivo() {
         GerenciadorArquivos.lerArquivosClientes(this);
+    }
+    
+    public boolean gravarArquivo() {
+        //GerenciadorArquivos.gravarArquivosSegSini(this);
+        return true;
+        //TODO
     }
     
 

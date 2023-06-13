@@ -236,6 +236,8 @@ class AppMain {
         
         GerenciadorArquivos gerenArq = new GerenciadorArquivos();
         
+        (getSeguradora(1)).lerArquivo();
+        
         /*Informacoes usadas no loop do programa*/
 
         System.out.println();
