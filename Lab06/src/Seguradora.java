@@ -381,6 +381,13 @@ public class Seguradora {
     }
     
     
+    /* Le os arquivos de ClienPF, ClienPJ, Frotas e Veiculos e adiciona-os na seguradora
+     * que chamar essa funcao
+     */
+    public void lerArquivosClientes() {
+        GerenciadorArquivos.lerArquivosClientes(this);
+    }
+    
 
     @Override
     public String toString() {

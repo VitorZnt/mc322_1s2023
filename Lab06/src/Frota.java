@@ -3,7 +3,7 @@ public class Frota {
     private String codigo;
     private ListagemVeiculos listaVeic;
     
-    public Frota (String codigo, Veiculo[] listaV) {
+    public Frota (String codigo, Veiculo... listaV) {
         
         this.codigo = codigo;
         listaVeic = new ListagemVeiculos();
