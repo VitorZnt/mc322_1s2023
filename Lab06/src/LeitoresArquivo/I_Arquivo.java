@@ -1,3 +1,4 @@
+package LeitoresArquivo;
 
 public interface I_Arquivo {
     
