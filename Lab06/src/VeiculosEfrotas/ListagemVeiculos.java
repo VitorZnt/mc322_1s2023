@@ -1,3 +1,5 @@
+package VeiculosEfrotas;
+
 import java.util.ArrayList;
 
 //Classe auxiliar para funcoes de armazenagem de lista de veiculos

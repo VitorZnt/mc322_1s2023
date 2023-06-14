@@ -1,3 +1,5 @@
+package ClassesSeguradora;
+
 import java.util.ArrayList;
 
 public abstract class Cliente {

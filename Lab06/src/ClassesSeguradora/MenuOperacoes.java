@@ -1,3 +1,5 @@
+package ClassesSeguradora;
+
 import java.util.Map;
 import java.util.HashMap;
 

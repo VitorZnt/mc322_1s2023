@@ -1,3 +1,5 @@
+package VeiculosEfrotas;
+
 public class Frota {
     
     private String codigo;

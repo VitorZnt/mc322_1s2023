@@ -1,11 +1,23 @@
+package ClassesSeguradora;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import VeiculosEfrotas.*;
+import LeitoresArquivo.*;
+
 class AppMain {
     
     private static ArrayList<Seguradora> listaSeguradoras;
+    
+    //Para leitura de arquivos
+    private static ListagemVeiculos listaVeicArquivos;
+    private static ListagemFrotas listaFrotasArquivos;
+    private static ArrayList<ClientePF> listaClienPFArquivos;
+    private static ArrayList<ClientePJ> listaClienPJArquivos;
+    
     
     
     

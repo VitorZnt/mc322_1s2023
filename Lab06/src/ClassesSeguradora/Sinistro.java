@@ -1,3 +1,5 @@
+package ClassesSeguradora;
+
 import java.time.LocalDate;
 
 public class Sinistro {

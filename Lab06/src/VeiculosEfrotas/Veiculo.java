@@ -1,3 +1,5 @@
+package VeiculosEfrotas;
+
 public class Veiculo {
     // Atributos de instancia
     private String placa;

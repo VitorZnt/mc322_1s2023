@@ -1,7 +1,9 @@
+package ClassesSeguradora;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-import LeitoresArquivo.I_Arquivo;
+import VeiculosEfrotas.*;
 
 public class Seguradora {
     

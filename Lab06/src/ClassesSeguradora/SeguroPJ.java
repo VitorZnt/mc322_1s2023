@@ -1,30 +1,35 @@
+package ClassesSeguradora;
+
+import VeiculosEfrotas.*;
+
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
 
-public class SeguroPF extends Seguro {
+public class SeguroPJ extends Seguro {
     
-    private Veiculo veiculo;
-    private ClientePF cliente;
+    private Frota frota;
+    private ClientePJ cliente;
     
-    public SeguroPF(LocalDate dataInicio, LocalDate dataFim, Seguradora seguradora,
-                    Veiculo veiculo, ClientePF cliente) {
+    public SeguroPJ(LocalDate dataInicio, LocalDate dataFim, Seguradora seguradora,
+                    Frota frota, ClientePJ cliente) {
         
         super(dataInicio, dataFim, seguradora);
-        this.veiculo = veiculo;
+        this.frota = frota;
         this.cliente = cliente;
     }
 
-    public Veiculo getVeiculo() {
-        return veiculo;
+    public Frota getFrota() {
+        return frota;
     }
-    public void setVeiculo(Veiculo veiculo) {
-        this.veiculo = veiculo;
+    public void setFrota(Frota frota) {
+        this.frota = frota;
     }
 
-    public ClientePF getCliente() {
+    public ClientePJ getCliente() {
         return cliente;
     }
-    public void setCliente(ClientePF cliente) {
+    public void setCliente(ClientePJ cliente) {
         this.cliente = cliente;
     }
     
@@ -40,19 +45,20 @@ public class SeguroPF extends Seguro {
     
     public double calcularValor() {
         
-        int qtdVeiculos = cliente.getListaVeic().getQtdVeiculos();
+        int qtdFunc = cliente.getQtdFuncionarios();
         int qtdSinistrosClien = cliente.getQtdSinistros();
-        int qtdSinistrosCondut = 0;
+        int qtdVeiculos = frota.getListaVeic().getQtdVeiculos();
         double valorBase = CalcSeguro.VALOR_BASE.getValor();
-        double fatorIdade = CalcSeguro.fatorIdade(cliente.getDataNascimento());
+        int anosPosFundacao = Period.between(cliente.getDataFundacao(), LocalDate.now()).getYears();
         
+        int qtdSinistrosCondut = 0;
         ArrayList<Condutor> listaCondut = this.getListaCondutores();
         
         for (int i = 0; i < listaCondut.size(); i++) {
             i += listaCondut.get(i).getQtdSinistros();
         }
         
-        return valorBase * fatorIdade * (1 + 1/(qtdVeiculos + 2))
+        return valorBase * (10 + qtdFunc/10) * (1 + 1/(qtdVeiculos + 2)) * (1 + 1/(anosPosFundacao + 2))
                 * (2 + qtdSinistrosClien/10) * (5 + qtdSinistrosCondut/10);
     }
 }

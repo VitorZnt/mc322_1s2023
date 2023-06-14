@@ -1,15 +1,19 @@
 package LeitoresArquivo;
 
+import java.util.ArrayList;
+
+import ClassesSeguradora.ClientePF;
+
 public class ArquivoClientePF implements I_Arquivo {
     
     @Override
     public boolean gravarArquivo() {
-        // TODO Auto-generated method stub
+        // Implementacao deste metodo nesta classe nao faz parte do lab06
         return false;
     }
 
     @Override
-    public void lerArquivo() {
+    public ArrayList<ClientePF> lerArquivo() {
         // TODO Auto-generated method stub
 
     }

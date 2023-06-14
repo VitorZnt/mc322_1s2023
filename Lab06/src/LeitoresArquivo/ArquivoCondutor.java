@@ -1,15 +1,19 @@
 package LeitoresArquivo;
 
+import java.util.ArrayList;
+
+import ClassesSeguradora.Condutor;
+
 public class ArquivoCondutor implements I_Arquivo {
     
     @Override
     public boolean gravarArquivo() {
-        // TODO Auto-generated method stub
+        // Implementacao deste metodo nesta classe nao faz parte do lab06
         return false;
     }
 
     @Override
-    public void lerArquivo() {
+    public ArrayList<Condutor> lerArquivo() {
         // TODO Auto-generated method stub
 
     }

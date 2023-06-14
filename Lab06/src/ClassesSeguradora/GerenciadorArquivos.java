@@ -1,9 +1,13 @@
+package ClassesSeguradora;
+
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import VeiculosEfrotas.*;
 
 public class GerenciadorArquivos {
     

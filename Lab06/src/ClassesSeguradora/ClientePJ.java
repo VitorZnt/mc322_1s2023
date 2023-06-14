@@ -1,5 +1,9 @@
+package ClassesSeguradora;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
+
+import VeiculosEfrotas.*;
 
 public class ClientePJ extends Cliente {
     

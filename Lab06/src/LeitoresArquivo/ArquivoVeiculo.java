@@ -1,16 +1,18 @@
 package LeitoresArquivo;
 
-public class ArquivoVeiculo implements I_Arquivo {
+import VeiculosEfrotas.ListagemVeiculos;
+
+public class ArquivoVeiculo  implements I_Arquivo {
 
     @Override
     public boolean gravarArquivo() {
-        // TODO Auto-generated method stub
+        // Implementacao deste metodo nesta classe nao faz parte do lab06
         return false;
     }
 
     @Override
-    public void lerArquivo() {
-        // TODO Auto-generated method stub
+    public ListagemVeiculos lerArquivo() {
+        
 
     }
     
