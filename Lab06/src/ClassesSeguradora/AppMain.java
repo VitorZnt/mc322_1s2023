@@ -17,6 +17,7 @@ class AppMain {
     private static ListagemFrotas listaFrotasArquivos;
     private static ArrayList<ClientePF> listaClienPFArquivos;
     private static ArrayList<ClientePJ> listaClienPJArquivos;
+    private static ArrayList<Condutor> listaCondutorArquivos;
     
     
     
@@ -47,6 +48,14 @@ class AppMain {
     }
     
     
+    //Le e registra nas listas da AppMain as informacoes dos arquivos
+    private static void lerInfosArquivos() {
+        listaCondutorArquivos = (new ArquivoCondutor()).lerArquivo(Boolean.TRUE);
+        listaVeicArquivos = (new ArquivoVeiculo()).lerArquivo(Boolean.TRUE);
+        listaFrotasArquivos = (new ArquivoFrota()).lerArquivo(listaVeicArquivos);
+        listaClienPFArquivos = (new ArquivoClientePF()).lerArquivo(listaVeicArquivos);
+        listaClienPJArquivos = (new ArquivoClientePJ()).lerArquivo(listaFrotasArquivos);
+    }
     
     
     /*main com objetivo de teste das classes e seus metodos*/
@@ -58,6 +67,7 @@ class AppMain {
         
         Seguradora minhaSeg = new Seguradora("94.768.278/0001-57", "HiperSegura.com", "(11)91234-5678", 
                                              "hiper@seguros.com", "Av._Erico_Verissimo,50");
+        
         
         ClientePF clien1 = new ClientePF("Vitor", "65654-5465", "Rua_legal", "sim@gmail.com", "668.467.025-47",
                                          "Masculino", "Ensino_superior", LocalDate.parse("2004-01-01"));
@@ -133,6 +143,11 @@ class AppMain {
         clien1.atualizarValorSeguro();
         clien2.atualizarValorSeguro();
         clien3.atualizarValorSeguro();
+        
+        
+        //Adicionando dados dos arquivos:
+        minhaSeg.addDadosArquivos(listaClienPFArquivos, listaClienPJArquivos);
+        
         
         //Teste de metodos
         
@@ -242,14 +257,12 @@ class AppMain {
     /*main com objetivo de teste das classes e seus metodos*/
     public static void main(String[] args) {
         
+        lerInfosArquivos();
         
         TesteMain();
         
         Scanner entrada = new Scanner(System.in);
         
-        GerenciadorArquivos gerenArq = new GerenciadorArquivos();
-        
-        (getSeguradora(1)).lerArquivo();
         
         /*Informacoes usadas no loop do programa*/
 
@@ -761,6 +774,28 @@ class AppMain {
                     
                     
                     case AUTORIZAR_COND:
+                        
+                        //Recuperando informacoes do condutor caso ele ja exista nos arquivos
+                        Condutor condArquivos = null;
+                        for (Condutor cond : listaCondutorArquivos) {
+                            if (cond.getCPF().equals(param.get(2))) {
+                                condArquivos = cond;
+                                break;
+                            }
+                        }
+                        
+                        if (condArquivos != null ) {
+                            flag_sucesso = segur.autorizarCondutor(condArquivos);
+                           if (!flag_sucesso)
+                               System.out.println("Condutor ja existente");
+                           else
+                               System.out.println("Condutor autorizado");
+                           break;
+                        }
+                            
+                        
+                        //Condutor nao existe nos arquivos:
+                        
                         System.out.println("Digite nessa sequencia as infos do condutor: nome, telefone, "
                                          + "endereco, email e data de nascimento.");
                         

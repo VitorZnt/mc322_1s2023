@@ -384,6 +384,17 @@ public class Seguradora {
         return receita;
     }    
 
+    //Adiciona os clientes dos arquivos na seguradora
+    public void addDadosArquivos(ArrayList<ClientePF> listaClienPFArquivos, ArrayList<ClientePJ> listaClienPJArquivos) {
+        for (ClientePF clien : listaClienPFArquivos) {
+            cadastrarCliente(clien);
+        }
+        
+        for (ClientePJ clien : listaClienPJArquivos) {
+            cadastrarCliente(clien);
+        }
+    }
+    
     @Override
     public String toString() {
         
